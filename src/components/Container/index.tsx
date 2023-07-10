@@ -1,5 +1,10 @@
-export function Container() {
+import { PropsWithChildren } from "react";
+
+
+export function Container({children}: PropsWithChildren) {
   return (
-    <section></section>
+    <section className="bg-[#202024] p-4 rounded h-full">
+      {children}
+    </section>
   )
 }

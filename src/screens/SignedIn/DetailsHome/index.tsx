@@ -2,6 +2,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { productData, responsive } from "./data";
 import { ImageHome } from "../../../components/ImageHome";
+import { Container } from "../../../components/Container";
 
 export function DetailsHome() {
   const image = productData.map((item) => (
@@ -9,10 +10,10 @@ export function DetailsHome() {
   ));
 
   return (
-    <div>
+    <Container>
       <Carousel responsive={responsive}>
         {image}
       </Carousel>
-    </div>
+    </Container>
   );
 }
