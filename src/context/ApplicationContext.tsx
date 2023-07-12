@@ -6,6 +6,8 @@ interface ApplicationContextProviderPops {
 
 interface ApplicationContextProps {
   collapsed: boolean;
+  modalIsOpen: boolean;
+  setModalIsOpen: (value: boolean) => void;
   toogle: () => void;
 }
 
@@ -15,6 +17,7 @@ export function ApplicationContextProvider({
   children,
 }: ApplicationContextProviderPops) {
   const [collapsed, setCollapsed] = useState(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
 
   const toogle = () => {
@@ -25,7 +28,9 @@ export function ApplicationContextProvider({
     <ApplicationContext.Provider
       value={{
         toogle,
-        collapsed
+        collapsed,
+        modalIsOpen,
+        setModalIsOpen
       }}
     >
       {children}

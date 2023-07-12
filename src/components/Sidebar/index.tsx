@@ -16,6 +16,7 @@ export function Sidebar() {
         left: 0,
         top: 48,
         bottom: 0,
+   
       }}
     >
       <Menu>
