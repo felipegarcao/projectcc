@@ -8,12 +8,14 @@ export function Inquilinos() {
         Dados do Inquilino
       </h1>
 
-
       <div className="flex items-center justify-between border-b border-zinc-200 pb-5">
         <div className="space-y-1">
-          <h2 className="text-lg font-medium text-zinc-900">Listagem de Inquilinos</h2>
+          <h2 className="text-lg font-medium text-zinc-900">
+            Listagem de Inquilinos
+          </h2>
           <span className="text-sm text-zinc-500">
-            ao Clicar no botão voce sera redirecionado para a listagem de inquilinos
+            ao Clicar no botão voce sera redirecionado para a listagem de
+            inquilinos
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -91,13 +93,21 @@ export function Inquilinos() {
         </div>
 
         <div className="grid grid-cols-form gap-3 pt-5">
-          <label htmlFor="bio" className="text-sm font-medium text-zinc-700">
+          <label
+            htmlFor="message"
+            className="text-sm font-medium text-zinc-700"
+          >
             Observações:
             <span className="mt-0.5 block text-sm font-normal text-zinc-500">
               Write a short introduction.
             </span>
           </label>
-          <div></div>
+
+          <textarea
+            id="message"
+            rows={8}
+            className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
+          ></textarea>
         </div>
 
         <div className="flex items-center justify-end gap-2 pt-5">

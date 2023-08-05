@@ -102,15 +102,11 @@ export function Contrato() {
         >
           Observações
         </label>
-        <div className="grid grid-cols-2 gap-6 ">
-          {/* <Input.Root>
-            <Input.Control id="valor" />
-          </Input.Root>
-
-          <Input.Root>
-            <Input.Control />
-          </Input.Root> */}
-        </div>
+        <textarea
+            id="message"
+            rows={8}
+            className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
+          ></textarea>
       </div>
 
       <h1 className="text-3xl font-medium text-zinc-900">Documentos</h1>

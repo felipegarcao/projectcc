@@ -6,6 +6,7 @@ import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
 import { Contrato } from "../../screens/SignedIn/Contrato";
 import { ListInquilinos } from "../../screens/SignedIn/Inquilinos/ListInquilinos";
 import { Imoveis } from "../../screens/SignedIn/Imoveis";
+import { HomePage } from "../../screens/SignedIn/Home/HomePage";
 
 export function SettingsTabs() {
   const [currentTab, setCurrentTab] = useState("tab1");
@@ -45,7 +46,9 @@ export function SettingsTabs() {
         />
       </Tabs.List>
 
-      <Tabs.Content value="tab1"></Tabs.Content>
+      <Tabs.Content value="tab1">
+        <HomePage />
+      </Tabs.Content>
 
       {/* <Tabs.Content value="tab2">
         <MyProfile />
