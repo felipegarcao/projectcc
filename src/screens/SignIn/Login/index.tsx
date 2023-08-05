@@ -1,28 +1,86 @@
-// import { Button } from "../../../components/Button";
-// import { Input } from "../../../components/Input";
-import { HeaderFormAuth } from "../localComponents/HeaderFormAuth";
+import * as Input from "../../../components/Input";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { Logo } from "../../../components/Sidebar/Logo";
+import * as Tabs from "@radix-ui/react-tabs";
+import { TabItem } from "../../../components/SettingsTabs/TabItem";
+import { SignUp } from "../SignUp";
 
 export function Login() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [currentTab, setCurrentTab] = useState("tab1");
+
   return (
-    <div className="w-screen h-screen bg-[#121214] flex flex-col items-center justify-center text-gray-100">
-      <HeaderFormAuth message="Faça Login e comece a usar!" />
+    <div className="w-screen h-screen flex flex-col items-center justify-center ">
+      <Logo height={140} width={140} textVisible={false} />
 
-      <form className="flex flex-col items-stretch w-full max-w-[400px] mt-5 gap-4">
-        <label htmlFor="email" className="flex flex-col gap-2">
-          <p>Endereço de e-mail</p>
-          {/* <Input /> */}
-        </label>
-        <label htmlFor="email" className="flex flex-col gap-2">
-          <p>Sua Senha</p>
-          {/* <Input type="password" /> */}
-        </label>
+      <Tabs.Root
+        value={currentTab}
+        onValueChange={setCurrentTab}
+        className="w-2/4"
+      >
+        <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200">
+          <TabItem
+            value="tab1"
+            title="Entrar"
+            isSelected={currentTab === "tab1"}
+          />
+          <TabItem
+            value="tab2"
+            title="Cadastrar"
+            isSelected={currentTab === "tab2"}
+          />
+        </Tabs.List>
 
-        {/* <Button>Entrar na plataforma</Button> */}
-      </form>
+        <Tabs.Content value="tab1">
+          <form className="flex flex-col items-stretch   mt-5 gap-4">
+            <label
+              htmlFor="email"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              Endereço de e-mail
+              <Input.Root>
+                <Input.Prefix>
+                  <Mail className="h-5 w-5 text-zinc-500" />
+                </Input.Prefix>
+                <Input.Control id="email" type="email" />
+              </Input.Root>
+            </label>
 
-      <a href="" className="text-gray-400 underline text-gray-200 text-sm mt-4">
-        Não possui conta? Faça o Registro
-      </a>
+            <label
+              htmlFor="password"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              Sua senha
+              <Input.Root>
+                <Input.Prefix>
+                  <Lock className="h-5 w-5 text-zinc-500" />
+                </Input.Prefix>
+                <Input.Control
+                  id="password"
+                  type={passwordVisible ? "text" : "password"}
+                />
+                <Input.Prefix
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                >
+                  {passwordVisible ? (
+                    <Eye className="h-5 w-5 text-zinc-500" />
+                  ) : (
+                    <EyeOff className="h-5 w-5 text-zinc-500" />
+                  )}
+                </Input.Prefix>
+              </Input.Root>
+            </label>
+
+            <button className="bg-violet-600 p-2 rounded text-white">
+              Entrar
+            </button>
+          </form>
+        </Tabs.Content>
+        <Tabs.Content value="tab2">
+          <SignUp />
+        </Tabs.Content>
+      </Tabs.Root>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { MyProfile } from "../../screens/SignedIn/MyProfile";
 import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
 import { Contrato } from "../../screens/SignedIn/Contrato";
 import { ListInquilinos } from "../../screens/SignedIn/Inquilinos/ListInquilinos";
+import { Imoveis } from "../../screens/SignedIn/Imoveis";
 
 export function SettingsTabs() {
   const [currentTab, setCurrentTab] = useState("tab1");
@@ -14,15 +15,10 @@ export function SettingsTabs() {
       <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200">
         <TabItem
           value="tab1"
-          title="Imoveis Disp."
+          title="Home"
           isSelected={currentTab === "tab1"}
         />
 
-        <TabItem
-          value="tab2"
-          title="Profile"
-          isSelected={currentTab === "tab2"}
-        />
 
         <TabItem
           value="tab3"
@@ -41,13 +37,19 @@ export function SettingsTabs() {
           title="Contrato/Cadastrar"
           isSelected={currentTab === "tab5"}
         />
+
+        <TabItem
+          value="tab6"
+          title="Imoveis"
+          isSelected={currentTab === "tab6"}
+        />
       </Tabs.List>
 
       <Tabs.Content value="tab1"></Tabs.Content>
 
-      <Tabs.Content value="tab2">
+      {/* <Tabs.Content value="tab2">
         <MyProfile />
-      </Tabs.Content>
+      </Tabs.Content> */}
 
       <Tabs.Content value="tab3">
         <Inquilinos />
@@ -59,6 +61,10 @@ export function SettingsTabs() {
 
       <Tabs.Content value="tab5">
         <Contrato />
+      </Tabs.Content>
+
+      <Tabs.Content value="tab6">
+      <Imoveis />
       </Tabs.Content>
     </Tabs.Root>
   );

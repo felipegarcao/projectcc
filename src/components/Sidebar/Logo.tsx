@@ -1,9 +1,19 @@
-export function Logo() {
+interface LogoProps {
+  width?: number;
+  height?: number;
+  textVisible?: boolean;
+}
+
+export function Logo({
+  width = 38,
+  height = 38,
+  textVisible = true,
+}: LogoProps) {
   return (
     <strong className="mx-1 flex items-center gap-2 text-xl font-semibold text-zinc-900">
       <svg
-        width={38}
-        height={38}
+        width={width}
+        height={height}
         viewBox="0 0 38 38"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -204,7 +214,7 @@ export function Logo() {
         </defs>
       </svg>
 
-      <span>Service Silva</span>
+      {textVisible && <span>Service Silva</span>}
     </strong>
-  )
+  );
 }
