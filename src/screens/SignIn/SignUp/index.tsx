@@ -1,5 +1,6 @@
-import { Button } from "../../../components/Button";
-import { Input } from "../../../components/Input";
+// import { Button } from "../../../components/Button";
+// import { Input } from "../../../components/Input";
+
 import { HeaderFormAuth } from "../localComponents/HeaderFormAuth";
 
 export function SignUp() {
@@ -10,18 +11,18 @@ export function SignUp() {
       <form className="flex flex-col items-stretch w-full max-w-[400px] mt-5 gap-4">
         <label htmlFor="email" className="flex flex-col gap-2">
           <p>Nome Completo</p>
-          <Input />
+          {/* <Input /> */}
         </label>
         <label htmlFor="email" className="flex flex-col gap-2">
           <p>Endereço de e-mail</p>
-          <Input />
+          {/* <Input /> */}
         </label>
         <label htmlFor="email" className="flex flex-col gap-2">
           <p>Sua Senha</p>
-          <Input type="password" />
+          {/* <Input type="password" /> */}
         </label>
 
-        <Button>Entrar na plataforma</Button>
+        {/* <Button>Entrar na plataforma</Button> */}
       </form>
 
       <a href="" className="text-gray-400 underline text-gray-200 text-sm mt-4">Ja Possui Conta? Faça Login</a>

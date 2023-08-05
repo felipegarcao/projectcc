@@ -2,10 +2,9 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { productData, responsive } from "./data";
 import { ImageHome } from "../../../components/ImageHome";
-import { Container } from "../../../components/Container";
 import { Heading } from "../../../components/Heading";
 import { Text } from "../../../components/Text";
-import { Button } from "../../../components/Button";
+// import { Button } from "../../../components/Button";
 import { Modal } from "../../../components/Modal";
 import { useContext } from "react";
 import { ApplicationContext } from "../../../context/ApplicationContext";
@@ -19,7 +18,6 @@ export function DetailsHome() {
 
   return (
     <>
-      <Container>
         <Carousel responsive={responsive}>{image}</Carousel>
         <div className="flex flex-col">
           <Heading size="lg" className="mt-5">
@@ -38,10 +36,9 @@ export function DetailsHome() {
             type specimen book.
           </Text>
           <div className="flex items-center justify-center mt-10">
-            <Button onClick={() => setModalIsOpen(true)}>Solicitar Imóvel</Button>
+            {/* <Button onClick={() => setModalIsOpen(true)}>Solicitar Imóvel</Button> */}
           </div>
         </div>
-      </Container>
       {modalIsOpen && <Modal />}
     </>
   );

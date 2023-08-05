@@ -1,14 +1,12 @@
 import { Sidebar } from "./components/Sidebar";
-import { DetailsHome } from "./screens/SignedIn/DetailsHome";
-import { Home } from "./screens/SignedIn/Home";
-import { MyProfile } from "./screens/SignedIn/MyProfile";
+import { RouterApp } from "./routes";
 
 function App() {
   return (
-    <div className="flex h-screen min-h-[400px]">
+    <div className="grid min-h-screen grid-cols-app">
       <Sidebar />
-      <main className="p-2 pr-8 mt-14 w-full">
-        <Home />
+      <main className="px-8 pb-12 pt-8">
+        <RouterApp />
       </main>
     </div>
   );

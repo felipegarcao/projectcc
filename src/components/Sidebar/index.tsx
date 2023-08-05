@@ -1,28 +1,34 @@
-import { Sidebar as Aside, Menu, MenuItem, SubMenu,  } from "react-pro-sidebar";
-import { useContext } from "react";
-import { ApplicationContext } from "../../context/ApplicationContext";
+import { Cog, LifeBuoy, Search } from 'lucide-react'
+import * as Input from '../Input'
+import { Logo } from './Logo'
+import { MainNavigation } from './MainNavigation'
+import { NavItem } from './MainNavigation/NavItem'
+import { Profile } from './Profile'
 
 export function Sidebar() {
-
-
-
-  const { collapsed} = useContext(ApplicationContext)
-
   return (
-    <Aside
-    collapsed={collapsed}
-      rootStyles={{
-        position: "fixed",
-        left: 0,
-        top: 48,
-        bottom: 0,
-   
-      }}
-    >
-      <Menu>
-        <MenuItem> Documentation </MenuItem>
-        <MenuItem> Calendar </MenuItem>
-      </Menu>
-    </Aside>
-  );
+    <aside className="flex flex-col gap-4 border-r border-zinc-200 px-5 py-8 bg-white">
+      <Logo />
+
+      <Input.Root>
+        <Input.Prefix>
+          <Search className="h-5 w-5 text-zinc-500" />
+        </Input.Prefix>
+        <Input.Control placeholder="Search" />
+      </Input.Root>
+
+      <MainNavigation />
+
+      <div className="mt-auto flex flex-col gap-6">
+        <nav className="space-y-0.5">
+          <NavItem title="Support" icon={LifeBuoy} />
+          <NavItem title="Settings" icon={Cog} />
+        </nav>
+
+
+        <div className="h-px bg-zinc-200" />
+        <Profile />
+      </div>
+    </aside>
+  )
 }

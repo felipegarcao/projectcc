@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import ModalContainer from "react-modal";
 import { ApplicationContext } from "../../context/ApplicationContext";
-import { Button } from "../Button";
+// import { Button } from "../Button";
 import { Heading } from "../Heading";
 
 
@@ -48,7 +48,7 @@ export function Modal() {
               rows={8}
             ></textarea>
             <footer className="flex justify-end mt-3">
-              <Button>Enviar</Button>
+              {/* <Button>Enviar</Button> */}
             </footer>
           </form>
         </div>
