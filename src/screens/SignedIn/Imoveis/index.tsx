@@ -18,7 +18,7 @@ export function Imoveis() {
         Cadastrar novo imóvel
       </h1>
 
-      <form className="mt-6 flex w-full flex-col gap-5 space-y-7">
+      <form   className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200">
         <div className="grid grid-cols-form gap-3 pt-5">
           <label htmlFor="rua" className="text-sm font-medium text-zinc-700">
             Rua/Av - Nº
@@ -62,7 +62,7 @@ export function Imoveis() {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 ">
+        <div className="grid grid-cols-form gap-3 pt-5">
           <label
             htmlFor="firstName"
             className="text-sm font-medium text-zinc-700"
@@ -82,7 +82,7 @@ export function Imoveis() {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 ">
+        <div className="grid grid-cols-form gap-3 pt-5">
           <label
             htmlFor="message"
             className="text-sm font-medium text-zinc-700"

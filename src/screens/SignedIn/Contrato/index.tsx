@@ -12,7 +12,7 @@ export function Contrato() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-5">Dados do Contrato</h1>
 
 
-      <form className="mt-6 flex w-full flex-col gap-5 space-y-7">
+      <form  className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200">
       <div className="grid grid-cols-form gap-3 pt-5">
         <label htmlFor="country" className="text-sm font-medium text-zinc-700">
           Imovel
