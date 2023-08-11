@@ -4,5 +4,5 @@ export const api = axios.create()
 
 
 export const apiJson = axios.create({
-  baseURL: 'https://localhost:3333'
+  baseURL: 'http://localhost:3333'
 })

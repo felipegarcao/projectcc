@@ -1,9 +1,9 @@
-import { api } from "../api";
+import { apiJson } from "../api";
 
-export const ufResources = async () => {
+export const tenantsResource = async () => {
   try {
 
-    const {data} = await api.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados/')
+    const {data} = await apiJson.get('/tenants')
 
     return data;
 

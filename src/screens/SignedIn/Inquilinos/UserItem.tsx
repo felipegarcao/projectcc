@@ -1,18 +1,25 @@
 import { Edit, Trash2 } from "lucide-react";
-import { Avatar } from "../../../components/Avatar";
 
-export function UserItem() {
+import { Avatar } from "../../../components/Avatar";
+import { Tenants } from "../../../@types/tenants";
+
+export function UserItem({
+  avatarUrl,
+  name,
+  cpf,
+  profissao,
+}: Tenants) {
   return (
     <tr>
       <td className="p-3">
         <div className="flex items-center gap-3">
           <Avatar />
-          <span> Luis Felipe</span>
+          <span>{name}</span>
         </div>
       </td>
 
-      <td className="p-3">44657029819</td>
-      <td className="p-3">Desenvolvedor Front-End</td>
+      <td className="p-3">{cpf}</td>
+      <td className="p-3">{profissao}</td>
       <td className="p-3">
         <div className="flex justify-end">
           <button className="flex items-center gap-2 mx-1 text-sm bg-violet-700 text-white rounded-md p-2">

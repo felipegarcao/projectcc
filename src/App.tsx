@@ -11,9 +11,8 @@ function App() {
     <>
       {app ? (
         <div className="grid min-h-screen lg:grid-cols-app">
-          <div className="hidden lg:block min-h-screen">
             <Sidebar />
-          </div>
+        
           <div className="block lg:hidden">
             <Header />
           </div>
