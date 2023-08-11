@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
 import * as Input from "../../../components/Input";
-import { ufResources } from "../../../services/resources/properties";
-import { Ufs } from "../../../@types/Uf";
+
+import { useEffect, useState } from "react";
+
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
+import { Ufs } from "../../../@types/Uf";
+import { ufResources } from "../../../services/resources/properties";
 
 export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
@@ -18,12 +20,13 @@ export function Imoveis() {
         Cadastrar novo imóvel
       </h1>
 
-      <form   className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200">
-        <div className="grid grid-cols-form gap-3 pt-5">
+      <form className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200">
+
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label htmlFor="rua" className="text-sm font-medium text-zinc-700">
             Rua/Av - Nº
           </label>
-          <div className="grid grid-cols-[1fr_100px] gap-2">
+          <div className="grid lg:grid-cols-[1fr_100px] grid-cols-1 gap-2">
             <Input.Root>
               <Input.Control id="rua" />
             </Input.Root>
@@ -34,7 +37,7 @@ export function Imoveis() {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label htmlFor="role" className="text-sm font-medium text-zinc-700">
             CEP
           </label>
@@ -44,14 +47,14 @@ export function Imoveis() {
           </Input.Root>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="firstName"
             className="text-sm font-medium text-zinc-700"
           >
             Complemento & Bairro
           </label>
-          <div className="grid grid-cols-2 gap-6 ">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
             <Input.Root>
               <Input.Control />
             </Input.Root>
@@ -62,14 +65,14 @@ export function Imoveis() {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="firstName"
             className="text-sm font-medium text-zinc-700"
           >
             Cidade & Estado
           </label>
-          <div className="grid grid-cols-2 gap-6 ">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
             <Input.Root>
               <Input.Control />
             </Input.Root>
@@ -82,7 +85,7 @@ export function Imoveis() {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="message"
             className="text-sm font-medium text-zinc-700"

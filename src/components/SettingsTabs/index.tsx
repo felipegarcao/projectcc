@@ -1,19 +1,21 @@
 import * as Tabs from "@radix-ui/react-tabs";
-import { useState } from "react";
-import { TabItem } from "./TabItem";
-import { MyProfile } from "../../screens/SignedIn/MyProfile";
-import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
+
 import { Contrato } from "../../screens/SignedIn/Contrato";
-import { ListInquilinos } from "../../screens/SignedIn/Inquilinos/ListInquilinos";
-import { Imoveis } from "../../screens/SignedIn/Imoveis";
 import { HomePage } from "../../screens/SignedIn/Home/HomePage";
+import { Imoveis } from "../../screens/SignedIn/Imoveis";
+import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
+import { ListInquilinos } from "../../screens/SignedIn/Inquilinos/ListInquilinos";
+import { Select } from "../Form/Select";
+import { SelectItem } from "../Form/Select/SelectItem";
+import { TabItem } from "./TabItem";
+import { useState } from "react";
 
 export function SettingsTabs() {
   const [currentTab, setCurrentTab] = useState("tab1");
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
-      <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200">
+      <Tabs.List className="mt-6 lg:flex hidden w-full items-center gap-4 border-b border-zinc-200 flex-wrap">
         <TabItem
           value="tab1"
           title="Home"
@@ -46,13 +48,19 @@ export function SettingsTabs() {
         />
       </Tabs.List>
 
+     <div className="block lg:hidden">
+     <Select placeholder="Selecione" defaultValue={currentTab} onValueChange={setCurrentTab}> 
+          <SelectItem value="tab1" text="Home" />
+          <SelectItem value="tab3" text="Inquilinos/Cadastrar" />
+          <SelectItem value="tab4" text="Inquilinos/Listagem" />
+          <SelectItem value="tab5" text="Contrato/Cadastrado" />
+          <SelectItem value="tab6" text="Imoveis" />
+        </Select>
+     </div>
+
       <Tabs.Content value="tab1">
         <HomePage />
       </Tabs.Content>
-
-      {/* <Tabs.Content value="tab2">
-        <MyProfile />
-      </Tabs.Content> */}
 
       <Tabs.Content value="tab3">
         <Inquilinos />

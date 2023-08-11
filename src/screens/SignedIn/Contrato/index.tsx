@@ -1,9 +1,8 @@
+import * as FileInput from "../../../components/Form/FileInput";
+import * as Input from "../../../components/Input";
+
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
-import * as Input from "../../../components/Input";
-import * as FileInput from "../../../components/Form/FileInput";
-
-
 
 export function Contrato() {
   return (
@@ -12,8 +11,8 @@ export function Contrato() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-5">Dados do Contrato</h1>
 
 
-      <form  className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200">
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <form  className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200">
+      <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
         <label htmlFor="country" className="text-sm font-medium text-zinc-700">
           Imovel
         </label>
@@ -24,7 +23,7 @@ export function Contrato() {
         </Select>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
         <label htmlFor="country" className="text-sm font-medium text-zinc-700">
           Inquilinos
         </label>
@@ -35,14 +34,14 @@ export function Contrato() {
         </Select>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
         <label
           htmlFor="datainicio"
           className="text-sm font-medium text-zinc-700"
         >
           Data de Inicio de vigência & Duração (meses)
         </label>
-        <div className="grid grid-cols-2 gap-6 ">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
           <Input.Root>
             <Input.Control id="datainicio" />
           </Input.Root>
@@ -53,14 +52,14 @@ export function Contrato() {
         </div>
       </div>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
         <label
           htmlFor="finalidade"
           className="text-sm font-medium text-zinc-700"
         >
         Finalidade & Dia do Vencimento
         </label>
-        <div className="grid grid-cols-2 gap-6 ">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
 
         <Select placeholder="Selecione....">
           <SelectItem value="residencial" text="Residencial" />
@@ -76,14 +75,14 @@ export function Contrato() {
 
       <h1 className="text-3xl font-medium text-zinc-900">Valores e Taxas</h1>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
         <label
           htmlFor="valor"
           className="text-sm font-medium text-zinc-700"
         >
           Valor do Aluguel & Juros por atraso
         </label>
-        <div className="grid grid-cols-2 gap-6 ">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
           <Input.Root>
             <Input.Control id="valor" />
           </Input.Root>
@@ -95,7 +94,7 @@ export function Contrato() {
       </div>
 
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
         <label
           htmlFor="valor"
           className="text-sm font-medium text-zinc-700"
@@ -109,9 +108,8 @@ export function Contrato() {
           ></textarea>
       </div>
 
-      <h1 className="text-3xl font-medium text-zinc-900">Documentos</h1>
 
-      <div className="grid grid-cols-form gap-3 pt-5">
+      <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="projects"
             className="text-sm font-medium text-zinc-700"

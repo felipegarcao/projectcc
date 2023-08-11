@@ -1,5 +1,6 @@
-import { List, Mail } from "lucide-react";
 import * as Input from "../../../components/Input";
+
+import { List, Mail } from "lucide-react";
 
 export function Inquilinos() {
   return (
@@ -31,16 +32,16 @@ export function Inquilinos() {
 
       <form
         id="settings"
-        className="mt-6 flex w-full flex-col gap-5 divide-y divide-zinc-200"
+        className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200"
       >
-        <div className="grid grid-cols-form gap-3 ">
+        <div className="grid lg:grid-cols-form gap-3 ">
           <label
             htmlFor="firstName"
             className="text-sm font-medium text-zinc-700"
           >
             Nome & Sobrenome
           </label>
-          <div className="grid grid-cols-2 gap-6 ">
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
             <Input.Root>
               <Input.Control defaultValue="Luis" id="firstName" />
             </Input.Root>
@@ -51,7 +52,7 @@ export function Inquilinos() {
           </div>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label htmlFor="email" className="text-sm font-medium text-zinc-700">
             Email
           </label>
@@ -68,7 +69,7 @@ export function Inquilinos() {
           </Input.Root>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form gap-3 pt-5">
           <label htmlFor="photo" className="text-sm font-medium text-zinc-700">
             Your photo
             <span className="mt-0.5 block text-sm font-normal text-zinc-500">
@@ -82,7 +83,7 @@ export function Inquilinos() {
         </FileInput.Root> */}
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label htmlFor="role" className="text-sm font-medium text-zinc-700">
             Profissão
           </label>
@@ -92,7 +93,7 @@ export function Inquilinos() {
           </Input.Root>
         </div>
 
-        <div className="grid grid-cols-form gap-3 pt-5">
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="message"
             className="text-sm font-medium text-zinc-700"

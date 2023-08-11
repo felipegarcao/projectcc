@@ -1,12 +1,13 @@
-import { Search } from 'lucide-react'
 import * as Input from '../Input'
+
 import { Logo } from './Logo'
 import { MainNavigation } from './MainNavigation'
 import { Profile } from './Profile'
+import { Search } from 'lucide-react'
 
 export function Sidebar() {
   return (
-    <aside className="flex flex-col gap-4 border-r border-zinc-200 px-5 py-8 bg-white">
+    <aside className="flex flex-col gap-4 border-r border-zinc-200 px-5 py-8 bg-white min-h-screen">
       <Logo />
 
       <Input.Root>

@@ -7,7 +7,7 @@ export function ListInquilinos() {
         Listagem de Inquilino
       </h1>
 
-      <div className="p-2 shadow-md rounded-md">
+      <div className="p-2 shadow-md rounded-md hidden lg:block">
         <table className="w-full text-left border-separate">
           <thead>
             <tr>
@@ -23,6 +23,10 @@ export function ListInquilinos() {
             <UserItem />
           </tbody>
         </table>
+      </div>
+
+      <div className="block lg:hidden">
+        {/* <CardUsers /> */}
       </div>
     </div>
   );

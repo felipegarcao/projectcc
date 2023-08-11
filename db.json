@@ -1,0 +1,32 @@
+{
+  "tenants": [
+    { 
+    "id": 1, 
+    "name": "Luis felipe Garção Silva", 
+    "cpf": "44657029819",
+    "profissao": "Desenvolvedor Front-End",
+    "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg"
+   },
+   { 
+    "id": 2, 
+    "name": "Zeareondîr", 
+    "cpf": "012.181.450-56",
+    "profissao": "Pedreiro",
+    "avatarUrl": "https://avatars.dicebear.com/v2/female/429b345d93ae431b42896b0788e937f0.svg"
+   },
+   { 
+    "id": 3, 
+    "name": "Durwu", 
+    "cpf": "254.636.430-83",
+    "profissao": "Padeiro",
+    "avatarUrl": "https://avatars.dicebear.com/v2/female/a30080b8f57151eb81995a02d2ef8cb8.svg"
+   },
+   { 
+    "id": 4, 
+    "name": "Galion", 
+    "cpf": "934.629.030-71",
+    "profissao": "Camioneiro",
+    "avatarUrl": "https://avatars.dicebear.com/v2/female/0a8d14fdd83f8eb6debbf961cb749f30.svg"
+   }
+  ]
+}

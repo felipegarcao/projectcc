@@ -2,7 +2,7 @@ import { CardItem } from "./CardItem";
 
 export function CardsReport() {
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="lg:grid lg:grid-cols-3 gap-3 flex flex-col justify-center items-center mt-4">
       <CardItem
         counter={20}
         redirect="/teste1"

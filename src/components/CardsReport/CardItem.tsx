@@ -15,7 +15,7 @@ export function CardItem({
   const navigate = useNavigate()
 
   return (
-    <div className="max-w-md py-4 px-8 bg-white shadow-lg rounded-lg my-20">
+    <div className="lg:max-w-md py-4 px-8 bg-white shadow-lg rounded-lg w-full ">
     
     <div>
       <h2 className="text-gray-800 text-3xl font-semibold">{counter}</h2>
