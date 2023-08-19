@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 
 interface CardItemProps {
   redirect: string;
@@ -12,7 +11,6 @@ export function CardItem({
   text
 }: CardItemProps) {
 
-  const navigate = useNavigate()
 
   return (
     <div className="lg:max-w-md py-4 px-8 bg-white shadow-lg rounded-lg w-full ">

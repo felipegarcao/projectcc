@@ -1,18 +1,56 @@
 import * as Input from "../../../components/Input";
 
 import { useEffect, useState } from "react";
+import * as z from "zod";
 
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { Ufs } from "../../../@types/Uf";
 import { ufResources } from "../../../services/resources/properties";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
 
+  const imoveilSchema = z.object({
+    rua: z.string(),
+    number: z.string(),
+    cep: z.string(),
+    complemento: z.string(),
+    bairro: z.string(),
+    cidade: z.string(),
+    state: z.string(),
+    observation: z.string(),
+  });
+
+  type handleSubmittedTypes = z.infer<typeof imoveilSchema>;
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<handleSubmittedTypes>({
+    resolver: zodResolver(imoveilSchema),
+    defaultValues: {
+      rua: "",
+      number: "",
+      cep: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      state: "",
+      observation: "",
+    },
+  });
+
   useEffect(() => {
     ufResources().then((x) => setUfs(x));
   }, []);
+
+  const onSubmit = (data: handleSubmittedTypes) => {
+    console.log(data)
+  }
 
   return (
     <div className="space-y-7">
@@ -20,20 +58,31 @@ export function Imoveis() {
         Cadastrar novo imóvel
       </h1>
 
-      <form className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200">
-
+      <form className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label htmlFor="rua" className="text-sm font-medium text-zinc-700">
             Rua/Av - Nº
           </label>
           <div className="grid lg:grid-cols-[1fr_100px] grid-cols-1 gap-2">
-            <Input.Root>
-              <Input.Control id="rua" />
-            </Input.Root>
+            <Controller
+              name="rua"
+              control={control}
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
 
-            <Input.Root>
-              <Input.Control type="number" />
-            </Input.Root>
+            <Controller
+              name="number"
+              control={control}
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
           </div>
         </div>
 
@@ -42,9 +91,15 @@ export function Imoveis() {
             CEP
           </label>
 
-          <Input.Root>
-            <Input.Control />
-          </Input.Root>
+          <Controller
+            name="cep"
+            control={control}
+            render={({ field }) => (
+              <Input.Root>
+                <Input.Control {...field} />
+              </Input.Root>
+            )}
+          />
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -55,13 +110,25 @@ export function Imoveis() {
             Complemento & Bairro
           </label>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Input.Root>
-              <Input.Control />
-            </Input.Root>
+            <Controller
+              name="complemento"
+              control={control}
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
 
-            <Input.Root>
-              <Input.Control />
-            </Input.Root>
+            <Controller
+              name="bairro"
+              control={control}
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
           </div>
         </div>
 
@@ -73,15 +140,35 @@ export function Imoveis() {
             Cidade & Estado
           </label>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Input.Root>
-              <Input.Control />
-            </Input.Root>
+            <Controller
+              name="cidade"
+              control={control}
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
 
-            <Select placeholder="Selecione o Estado....">
-              {ufs.map((item) => (
-                <SelectItem key={item.id} value={item.sigla} text={item.nome} />
-              ))}
-            </Select>
+            <Controller
+              name="state"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  placeholder="Selecione o Estado..."
+                  onValueChange={field.onChange}
+                  {...field}
+                >
+                  {ufs.map((item) => (
+                    <SelectItem
+                      key={item.id}
+                      value={item.sigla}
+                      text={item.nome}
+                    />
+                  ))}
+                </Select>
+              )}
+            />
           </div>
         </div>
 
@@ -92,11 +179,18 @@ export function Imoveis() {
           >
             Observações:
           </label>
-          <textarea
-            id="message"
-            rows={8}
-            className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
-          ></textarea>
+          <Controller
+            name="observation"
+            control={control}
+            render={({ field }) => (
+              <textarea
+                id="message"
+                rows={8}
+                {...field}
+                className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
+              ></textarea>
+            )}
+          />
         </div>
 
         <div className="flex items-center justify-end gap-2 pt-5">

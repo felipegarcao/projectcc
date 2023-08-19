@@ -4,7 +4,6 @@ import { Contrato } from "../../screens/SignedIn/Contrato";
 import { HomePage } from "../../screens/SignedIn/Home/HomePage";
 import { Imoveis } from "../../screens/SignedIn/Imoveis";
 import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
-import { ListInquilinos } from "../../screens/SignedIn/Inquilinos/ListInquilinos";
 import { Select } from "../Form/Select";
 import { SelectItem } from "../Form/Select/SelectItem";
 import { TabItem } from "./TabItem";
@@ -25,15 +24,11 @@ export function SettingsTabs() {
 
         <TabItem
           value="tab3"
-          title="Inquilinos/Cadastrar"
+          title="Inquilinos"
           isSelected={currentTab === "tab3"}
         />
 
-        <TabItem
-          value="tab4"
-          title="Inquilinos/Listagem"
-          isSelected={currentTab === "tab4"}
-        />
+    
 
         <TabItem
           value="tab5"
@@ -51,8 +46,8 @@ export function SettingsTabs() {
      <div className="block lg:hidden">
      <Select placeholder="Selecione" defaultValue={currentTab} onValueChange={setCurrentTab}> 
           <SelectItem value="tab1" text="Home" />
-          <SelectItem value="tab3" text="Inquilinos/Cadastrar" />
-          <SelectItem value="tab4" text="Inquilinos/Listagem" />
+          <SelectItem value="tab3" text="Inquilinos" />
+
           <SelectItem value="tab5" text="Contrato/Cadastrado" />
           <SelectItem value="tab6" text="Imoveis" />
         </Select>
@@ -66,9 +61,7 @@ export function SettingsTabs() {
         <Inquilinos />
       </Tabs.Content>
 
-      <Tabs.Content value="tab4">
-        <ListInquilinos />
-      </Tabs.Content>
+  
 
       <Tabs.Content value="tab5">
         <Contrato />
