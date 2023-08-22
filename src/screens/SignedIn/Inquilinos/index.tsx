@@ -1,4 +1,5 @@
 import * as Input from "../../../components/Input";
+import * as FileInput from "../../../components/Form/FileInput";
 
 import { List, Mail } from "lucide-react";
 import { ListInquilinos } from "./ListInquilinos";
@@ -59,10 +60,7 @@ export function Inquilinos() {
             <h2 className="text-lg font-medium text-zinc-900">
               Listagem de Inquilinos
             </h2>
-            <span className="text-sm text-zinc-500">
-              ao Clicar no botão voce sera redirecionado para a listagem de
-              inquilinos
-            </span>
+         
           </div>
           <div className="flex items-center gap-2">
             <a
@@ -185,16 +183,16 @@ export function Inquilinos() {
               htmlFor="photo"
               className="text-sm font-medium text-zinc-700"
             >
-              Your photo
+             Foto
               <span className="mt-0.5 block text-sm font-normal text-zinc-500">
-                This will be displayed on your profile.
+                Adicione uma foto.
               </span>
             </label>
-            {/* <FileInput.Root className="flex items-start gap-5">
+            <FileInput.Root className="flex items-start gap-5">
           <FileInput.ImagePreview />
           <FileInput.Trigger />
           <FileInput.Control />
-        </FileInput.Root> */}
+        </FileInput.Root>
           </div>
 
           <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -219,9 +217,7 @@ export function Inquilinos() {
               className="text-sm font-medium text-zinc-700"
             >
               Observações:
-              <span className="mt-0.5 block text-sm font-normal text-zinc-500">
-                Write a short introduction.
-              </span>
+              
             </label>
 
             <Controller
@@ -243,14 +239,14 @@ export function Inquilinos() {
               type="button"
               className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50"
             >
-              Cancel
+              Cancelar
             </button>
 
             <button
               type="submit"
               className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
             >
-              Save
+              Salvar
             </button>
           </div>
         </form>

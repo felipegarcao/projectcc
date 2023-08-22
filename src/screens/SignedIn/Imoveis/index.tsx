@@ -9,6 +9,7 @@ import { Ufs } from "../../../@types/Uf";
 import { ufResources } from "../../../services/resources/properties";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import * as FileInput from '../../../components/Form/FileInput'
 
 export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
@@ -174,6 +175,24 @@ export function Imoveis() {
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
+            htmlFor="projects"
+            className="text-sm font-medium text-zinc-700"
+          >
+            Arquivos:
+            <span className="mt-0.5 block text-sm font-normal text-zinc-500">
+              Anexar documento(s) (Extensões válidas: .zip, .rar, .pdf, .png,
+              .jpg | Limite: 10 arquivos com máximo de 30MB cada):
+            </span>
+          </label>
+          <FileInput.Root>
+            <FileInput.Trigger />
+            <FileInput.FileList />
+            <FileInput.Control multiple />
+          </FileInput.Root>
+        </div>
+
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
+          <label
             htmlFor="message"
             className="text-sm font-medium text-zinc-700"
           >
@@ -198,14 +217,14 @@ export function Imoveis() {
             type="button"
             className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50"
           >
-            Cancel
+            Cancelar
           </button>
 
           <button
             type="submit"
             className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
           >
-            Save
+            Salvar
           </button>
         </div>
       </form>

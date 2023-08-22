@@ -6,6 +6,7 @@ import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { useEffect, useState } from "react";
 import { Tenants } from "../../../@types/tenants";
 import { tenantsResource } from "../../../services/resources/tenants";
+import { generatePdf } from "../../../services/pdfMake";
 
 export function Contrato() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
@@ -33,7 +34,7 @@ export function Contrato() {
             Imovel
           </label>
 
-          <Select placeholder="Select a country....">
+          <Select placeholder="Selecione o Imóvel">
             <SelectItem value="br" text="Brazil" />
             <SelectItem value="us" text="United States" />
           </Select>
@@ -47,7 +48,11 @@ export function Contrato() {
             Inquilinos
           </label>
 
-          <Select placeholder="Selecione o Inquilino...">
+          <Select
+            placeholder="Selecione o Inquilino..."
+            items={tenants}
+            propertyFilter="name"
+          >
             {tenants.map((tenant) => (
               <SelectItem
                 key={tenant.cpf}
@@ -96,20 +101,27 @@ export function Contrato() {
           </div>
         </div>
 
-        <h1 className="text-3xl font-medium text-zinc-900">Valores e Taxas</h1>
+        <div>
+          <h1 className="text-3xl font-medium text-zinc-900 mt-3">
+            Valores e Taxas
+          </h1>
 
-        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
-          <label htmlFor="valor" className="text-sm font-medium text-zinc-700">
-            Valor do Aluguel & Juros por atraso
-          </label>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Input.Root>
-              <Input.Control id="valor" />
-            </Input.Root>
+          <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
+            <label
+              htmlFor="valor"
+              className="text-sm font-medium text-zinc-700"
+            >
+              Valor do Aluguel & Juros por atraso
+            </label>
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
+              <Input.Root>
+                <Input.Control id="valor" />
+              </Input.Root>
 
-            <Input.Root>
-              <Input.Control />
-            </Input.Root>
+              <Input.Root>
+                <Input.Control />
+              </Input.Root>
+            </div>
           </div>
         </div>
 
@@ -124,38 +136,24 @@ export function Contrato() {
           ></textarea>
         </div>
 
-        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
-          <label
-            htmlFor="projects"
-            className="text-sm font-medium text-zinc-700"
-          >
-            Arquivos:
-            <span className="mt-0.5 block text-sm font-normal text-zinc-500">
-              Anexar documento(s) (Extensões válidas: .zip, .rar, .pdf, .png,
-              .jpg | Limite: 10 arquivos com máximo de 30MB cada):
-            </span>
-          </label>
-          <FileInput.Root>
-            <FileInput.Trigger />
-            <FileInput.FileList />
-            <FileInput.Control multiple />
-          </FileInput.Root>
-        </div>
-
         <div className="flex items-center justify-end gap-2 pt-5">
+          
           <button
             type="button"
-            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50"
+            className="rounded-lg border border-violet-700 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm hover:bg-violet-700 hover:text-white"
+              onClick={generatePdf}
           >
-            Cancel
+            Preview
           </button>
 
           <button
             type="submit"
             className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
           >
-            Save
+            Salvar
           </button>
+
+        
         </div>
       </form>
     </div>
