@@ -19,6 +19,10 @@ export function Contrato() {
     });
   }, []);
 
+  function onSubmit() {
+    
+  }
+
   return (
     <div className="space-y-7">
       <h1 className="text-3xl font-medium text-zinc-900 mt-5">
