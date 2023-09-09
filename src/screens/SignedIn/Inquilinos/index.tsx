@@ -9,6 +9,7 @@ import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
+import {createTenantsResource} from '../../../services/resources/tenants'
 
 export function Inquilinos() {
   const [openList, setOpenList] = useState(false);
@@ -45,7 +46,7 @@ export function Inquilinos() {
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    createTenantsResource(data)
   };
 
   return (

@@ -3,16 +3,19 @@ import { Header } from "./components/Header";
 import { Login } from "./screens/SignIn/Login";
 import { RouterApp } from "./routes";
 import { Sidebar } from "./components/Sidebar";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const app = true;
 
   return (
     <>
+      <ToastContainer theme="colored" position="top-right"></ToastContainer>
       {app ? (
         <div className="grid min-h-screen lg:grid-cols-app">
-            <Sidebar />
-        
+          <Sidebar />
+
           <div className="block lg:hidden">
             <Header />
           </div>

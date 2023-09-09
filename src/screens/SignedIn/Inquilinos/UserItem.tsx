@@ -5,21 +5,21 @@ import { Tenants } from "../../../@types/tenants";
 
 export function UserItem({
   avatarUrl,
-  name,
+  firstName,
   cpf,
-  profissao,
+  profission,
 }: Tenants) {
   return (
     <tr>
       <td className="p-3">
         <div className="flex items-center gap-3">
           <Avatar />
-          <span>{name}</span>
+          <span>{firstName}</span>
         </div>
       </td>
 
       <td className="p-3">{cpf}</td>
-      <td className="p-3">{profissao}</td>
+      <td className="p-3">{profission}</td>
       <td className="p-3">
         <div className="flex justify-end">
           <button className="flex items-center gap-2 mx-1 text-sm bg-violet-700 text-white rounded-md p-2">

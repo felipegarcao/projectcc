@@ -42,8 +42,8 @@ export function ListInquilinos() {
                   <UserItem
                     avatarUrl={tenant.avatarUrl}
                     cpf={tenant.cpf}
-                    name={tenant.name}
-                    profissao={tenant.profissao}
+                    firstName={tenant.firstName}
+                    profission={tenant.profission}
                     key={tenant.id}
                     id={tenant.id}
                   />
@@ -57,8 +57,8 @@ export function ListInquilinos() {
               <CardUsers
                 avatarUrl={_.avatarUrl}
                 cpf={_.cpf}
-                name={_.name}
-                profissao={_.profissao}
+                firstName={_.firstName}
+                profission={_.profission}
                 key={_.id}
                 id={_.id}
               />

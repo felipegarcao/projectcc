@@ -1,4 +1,3 @@
-import * as FileInput from "../../../components/Form/FileInput";
 import * as Input from "../../../components/Input";
 
 import { Select } from "../../../components/Form/Select";
@@ -6,22 +5,72 @@ import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { useEffect, useState } from "react";
 import { Tenants } from "../../../@types/tenants";
 import { tenantsResource } from "../../../services/resources/tenants";
-import { generatePdf } from "../../../services/pdfMake";
+import {listImoveis} from "../../../services/resources/properties"
+import {  generatePdf } from "../../../services/pdfMake";
+import * as zod from "zod";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { House } from "../../../@types/Imoveis";
 
 export function Contrato() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
+  const [imoveis, setImoveis] = useState<House[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    carregarDados()
+  }, []);
+
+
+  async function carregarDados() {
     tenantsResource().then((result) => {
       setTenants(result);
       setLoading(false);
     });
-  }, []);
 
-  function onSubmit() {
-    
+    listImoveis().then((result) => {
+      setImoveis(result)
+    })
   }
+
+  const contratoSchema = zod.object({
+    imovel: zod.string(),
+    inquilino: zod.string(),
+    dataInicio: zod.string(),
+    duracao: zod.string(),
+    finalidade: zod.string(),
+    dataVencimento: zod.string(),
+    valorAluguel: zod.string(),
+    juros: zod.string(),
+    observacao: zod.string(),
+  });
+
+  type handleSubmittedTypes = zod.infer<typeof contratoSchema>;
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<handleSubmittedTypes>({
+    resolver: zodResolver(contratoSchema),
+    defaultValues: {
+      imovel: "",
+      inquilino: "",
+      dataInicio: "",
+      duracao: "",
+      finalidade: "",
+      dataVencimento: "",
+      valorAluguel: "",
+      juros: "",
+      observacao: "",
+    },
+  });
+
+  function onSubmit(data: any) {
+    console.log(data)
+  }
+
+ 
 
   return (
     <div className="space-y-7">
@@ -29,19 +78,32 @@ export function Contrato() {
         Dados do Contrato
       </h1>
 
-      <form className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200">
+      <form className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="country"
             className="text-sm font-medium text-zinc-700"
           >
-            Imovel
+            Imóvel
           </label>
 
-          <Select placeholder="Selecione o Imóvel">
-            <SelectItem value="br" text="Brazil" />
-            <SelectItem value="us" text="United States" />
-          </Select>
+          <Controller
+            name="imovel"
+            control={control}
+            render={({ field }) => (
+              <Select
+                placeholder="Selecione o Imóvel"
+                onValueChange={field.onChange}
+                {...field}
+              >
+                {
+                  imoveis.map((item) => (
+                    <SelectItem value={item.id} text={item.rua  + ', ' + item.numero  + ' - ' + item.cep}/>
+                  ))
+                }
+              </Select>
+            )}
+          />
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -52,19 +114,27 @@ export function Contrato() {
             Inquilinos
           </label>
 
-          <Select
-            placeholder="Selecione o Inquilino..."
-            items={tenants}
-            propertyFilter="name"
-          >
-            {tenants.map((tenant) => (
-              <SelectItem
-                key={tenant.cpf}
-                value={String(tenant.id)}
-                text={tenant.name}
-              />
-            ))}
-          </Select>
+          <Controller
+            control={control}
+            name="inquilino"
+            render={({ field }) => (
+              <Select
+                placeholder="Selecione o Inquilino..."
+                items={tenants}
+                propertyFilter="name"
+                onValueChange={field.onChange}
+                {...field}
+              >
+                {tenants.map((tenant) => (
+                  <SelectItem
+                    key={tenant.cpf}
+                    value={String(tenant.id)}
+                    text={tenant.firstName}
+                  />
+                ))}
+              </Select>
+            )}
+          />
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -75,13 +145,25 @@ export function Contrato() {
             Data de Inicio de vigência & Duração (meses)
           </label>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Input.Root>
-              <Input.Control id="datainicio" />
-            </Input.Root>
+            <Controller
+              control={control}
+              name="dataInicio"
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
 
-            <Input.Root>
-              <Input.Control type="number" />
-            </Input.Root>
+            <Controller
+              control={control}
+              name="duracao"
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
           </div>
         </div>
 
@@ -90,18 +172,34 @@ export function Contrato() {
             htmlFor="finalidade"
             className="text-sm font-medium text-zinc-700"
           >
-            Finalidade & Dia do Vencimento
+            Finalidade & Data do Vencimento
           </label>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Select placeholder="Selecione....">
-              <SelectItem value="residencial" text="Residencial" />
-              <SelectItem value="comercial" text="Comercial" />
-              <SelectItem value="outros" text="Outros" />
-            </Select>
+            <Controller
+              name="finalidade"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  placeholder="Selecione...."
+                  onValueChange={field.onChange}
+                  {...field}
+                >
+                  <SelectItem value="residencial" text="Residencial" />
+                  <SelectItem value="comercial" text="Comercial" />
+                  <SelectItem value="outros" text="Outros" />
+                </Select>
+              )}
+            />
 
-            <Input.Root>
-              <Input.Control type="number" />
-            </Input.Root>
+            <Controller
+              name="dataVencimento"
+              control={control}
+              render={({ field }) => (
+                <Input.Root>
+                  <Input.Control {...field} />
+                </Input.Root>
+              )}
+            />
           </div>
         </div>
 
@@ -118,13 +216,25 @@ export function Contrato() {
               Valor do Aluguel & Juros por atraso
             </label>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-              <Input.Root>
-                <Input.Control id="valor" />
-              </Input.Root>
+              <Controller
+                name="valorAluguel"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
 
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="juros"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
         </div>
@@ -133,19 +243,25 @@ export function Contrato() {
           <label htmlFor="valor" className="text-sm font-medium text-zinc-700">
             Observações
           </label>
-          <textarea
-            id="message"
-            rows={8}
-            className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
-          ></textarea>
+
+          <Controller
+            control={control}
+            name="observacao"
+            render={({ field }) => (
+              <textarea
+                {...field}
+                rows={8}
+                className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
+              ></textarea>
+            )}
+          />
         </div>
 
         <div className="flex items-center justify-end gap-2 pt-5">
-          
           <button
             type="button"
             className="rounded-lg border border-violet-700 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm hover:bg-violet-700 hover:text-white"
-              onClick={generatePdf}
+            onClick={generatePdf}
           >
             Preview
           </button>
@@ -156,8 +272,6 @@ export function Contrato() {
           >
             Salvar
           </button>
-
-        
         </div>
       </form>
     </div>

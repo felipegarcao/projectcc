@@ -5,7 +5,7 @@ import * as z from "zod";
 
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
-import { Ufs } from "../../../@types/Uf";
+import { Ufs } from "../../../@types/Imoveis";
 import { ufResources } from "../../../services/resources/properties";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,14 +15,14 @@ export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
 
   const imoveilSchema = z.object({
-    rua: z.string(),
-    number: z.string(),
     cep: z.string(),
+    rua: z.string(),
+    numero: z.string(),
     complemento: z.string(),
     bairro: z.string(),
     cidade: z.string(),
-    state: z.string(),
-    observation: z.string(),
+    estado: z.string(),
+    observacao: z.string(),
   });
 
   type handleSubmittedTypes = z.infer<typeof imoveilSchema>;
@@ -35,13 +35,13 @@ export function Imoveis() {
     resolver: zodResolver(imoveilSchema),
     defaultValues: {
       rua: "",
-      number: "",
+      numero: "",
       cep: "",
       complemento: "",
       bairro: "",
       cidade: "",
-      state: "",
-      observation: "",
+      estado: "",
+      observacao: "",
     },
   });
 
@@ -76,7 +76,7 @@ export function Imoveis() {
             />
 
             <Controller
-              name="number"
+              name="numero"
               control={control}
               render={({ field }) => (
                 <Input.Root>
@@ -152,7 +152,7 @@ export function Imoveis() {
             />
 
             <Controller
-              name="state"
+              name="estado"
               control={control}
               render={({ field }) => (
                 <Select
@@ -199,7 +199,7 @@ export function Imoveis() {
             Observações:
           </label>
           <Controller
-            name="observation"
+            name="observacao"
             control={control}
             render={({ field }) => (
               <textarea

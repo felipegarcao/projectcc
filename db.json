@@ -1,32 +1,127 @@
 {
   "tenants": [
-    { 
-    "id": 1, 
-    "name": "Luis felipe Garção Silva", 
-    "cpf": "446.570.298-19",
-    "profissao": "Desenvolvedor Front-End",
-    "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg"
-   },
-   { 
-    "id": 2, 
-    "name": "Zeareondîr", 
-    "cpf": "012.181.450-56",
-    "profissao": "Pedreiro",
-    "avatarUrl": "https://avatars.dicebear.com/v2/female/429b345d93ae431b42896b0788e937f0.svg"
-   },
-   { 
-    "id": 3, 
-    "name": "Durwu", 
-    "cpf": "254.636.430-83",
-    "profissao": "Padeiro",
-    "avatarUrl": "https://avatars.dicebear.com/v2/female/a30080b8f57151eb81995a02d2ef8cb8.svg"
-   },
-   { 
-    "id": 4, 
-    "name": "Galion", 
-    "cpf": "934.629.030-71",
-    "profissao": "Camioneiro",
-    "avatarUrl": "https://avatars.dicebear.com/v2/female/0a8d14fdd83f8eb6debbf961cb749f30.svg"
-   }
+    {
+      "id": 1,
+      "firstName": "Luis felipe ",
+      "lastName": "Garção Silva",
+      "cpf": "446.570.298-19",
+      "rg": "255.255.255.0",
+      "civilStatus": "Solteiro",
+      "email": "felipe-mara2003@hotmail.com",
+      "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
+      "profissao": "Desenvolvedor Front-End",
+      "observation": ""
+    },
+    {
+      "id": 2,
+      "firstName": "Zeareondîr",
+      "lastName": "Garção Silva",
+      "cpf": "446.570.298-19",
+      "rg": "255.255.255.0",
+      "civilStatus": "Solteiro",
+      "email": "felipe-mara2003@hotmail.com",
+      "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
+      "profission": "Desenvolvedor Front-End",
+      "observation": ""
+    },
+    {
+      "id": 3,
+      "firstName": "tesdas d2",
+      "lastName": "Garção Silva",
+      "cpf": "446.570.298-19",
+      "rg": "255.255.255.0",
+      "civilStatus": "Solteiro",
+      "email": "felipe-mara2003@hotmail.com",
+      "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
+      "profission": "Desenvolvedor Front-End",
+      "observation": ""
+    },
+    {
+      "id": 4,
+      "firstName": "tete 4",
+      "lastName": "Garção Silva",
+      "cpf": "446.570.298-19",
+      "rg": "255.255.255.0",
+      "civilStatus": "Solteiro",
+      "email": "felipe-mara2003@hotmail.com",
+      "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
+      "profission": "Desenvolvedor Front-End",
+      "observation": ""
+    },
+    {
+      "firstName": "Luis",
+      "lastName": "Silva",
+      "rg": "dsa",
+      "cpf": "44657029819",
+      "email": "felipe-mara2003@hotmail.com",
+      "civilStatus": "solteiro",
+      "profission": "dasda",
+      "observasation": "dsadsad",
+      "id": 5
+    }
+  ],
+  "imoveis": [
+    {
+      "id": "1",
+      "cep": "19110-133",
+      "rua": "Maria do espirito santo",
+      "numero": "59",
+      "complemento": "casa",
+      "bairro": "Residencial Daiane",
+      "status": "D",
+      "cidade": "Presidente Prudente",
+      "estado": "SP",
+      "arquivo": "",
+      "observacao": "Casa muito boa"
+    },
+    {
+      "id": "2",
+      "cep": "19110-133",
+      "rua": "Maria do espirito santo",
+      "numero": "59",
+      "complemento": "casa",
+      "bairro": "Residencial Daiane",
+      "status": "D",
+      "cidade": "Presidente Prudente",
+      "estado": "SP",
+      "arquivo": "",
+      "observacao": "Casa muito boa"
+    },
+    {
+      "id": "3",
+      "cep": "19110-133",
+      "rua": "Maria do espirito santo",
+      "numero": "59",
+      "complemento": "casa",
+      "bairro": "Residencial Daiane",
+      "status": "D",
+      "cidade": "Presidente Prudente",
+      "estado": "SP",
+      "arquivo": "",
+      "observacao": "Casa muito boa"
+    },
+    {
+      "id": "4",
+      "cep": "19110-133",
+      "rua": "Maria do espirito santo",
+      "numero": "59",
+      "complemento": "casa",
+      "bairro": "Residencial Daiane",
+      "status": "D",
+      "cidade": "Presidente Prudente",
+      "estado": "SP",
+      "arquivo": "",
+      "observacao": "Casa muito boa"
+    }
+  ],
+  "user": [
+    {
+      "id": "adminuser",
+      "name": "Luis felipe Garção Silva",
+      "password": "admin",
+      "email": "felipe-mara2003@hotmail.com",
+      "role": "admin",
+      "avatar_url": "https://github.com/felipegarcao.png"
+    }
   ]
 }
