@@ -8,24 +8,12 @@ import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
-import {createTenantsResource} from '../../../services/resources/tenants'
+import { createTenantsResource } from "../../../services/resources/tenants";
+import { handleSubmittedTypes } from "./types";
+import { inquilinosSchema } from "./validation";
 
 export function Inquilinos() {
   const [openList, setOpenList] = useState(false);
-
-  const inquilinosSchema = zod.object({
-    firstName: zod.string(),
-    lastName: zod.string(),
-    rg: zod.string(),
-    cpf: zod.string(),
-    email: zod.string().email(),
-    civilStatus: zod.string(),
-    profission: zod.string(),
-    observasation: zod.string(),
-  });
-
-  type handleSubmittedTypes = zod.infer<typeof inquilinosSchema>;
 
   const {
     handleSubmit,
@@ -46,7 +34,7 @@ export function Inquilinos() {
   });
 
   const onSubmit = (data: any) => {
-    createTenantsResource(data)
+    createTenantsResource(data);
   };
 
   return (
@@ -61,13 +49,28 @@ export function Inquilinos() {
             <h2 className="text-lg font-medium text-zinc-900">
               Listagem de Inquilinos
             </h2>
-         
           </div>
           <div className="flex items-center gap-2">
             <a
               href="#down"
               className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
               onClick={() => setOpenList(!openList)}
+            >
+              <List />
+            </a>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between border-b border-zinc-200 pb-5">
+          <div className="space-y-1">
+            <h2 className="text-lg font-medium text-zinc-900">
+              Listagem de Inquilinos (Desativados)
+            </h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href="#down"
+              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
             >
               <List />
             </a>
@@ -86,25 +89,35 @@ export function Inquilinos() {
               Nome & Sobrenome
             </label>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-              <Controller
-                name="firstName"
-                control={control}
-                render={({ field }) => (
-                  <Input.Root>
-                    <Input.Control {...field} />
-                  </Input.Root>
-                )}
-              />
+              <div className="flex flex-col">
+                <Controller
+                  name="firstName"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control {...field} />
+                    </Input.Root>
+                  )}
+                />
+                <span className="text-red-600 text-sm ml-2">
+                  {errors?.firstName?.message}
+                </span>
+              </div>
 
-              <Controller
-                name="lastName"
-                control={control}
-                render={({ field }) => (
-                  <Input.Root>
-                    <Input.Control {...field} />
-                  </Input.Root>
-                )}
-              />
+              <div className="flex flex-col">
+                <Controller
+                  name="lastName"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control {...field} />
+                    </Input.Root>
+                  )}
+                />
+                <span className="text-red-600 text-sm ml-2">
+                  {errors?.lastName?.message}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -113,25 +126,35 @@ export function Inquilinos() {
               CPF & RG
             </label>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-              <Controller
-                name="cpf"
-                control={control}
-                render={({ field }) => (
-                  <Input.Root>
-                    <Input.Control {...field} />
-                  </Input.Root>
-                )}
-              />
+              <div className="flex flex-col">
+                <Controller
+                  name="cpf"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control {...field} />
+                    </Input.Root>
+                  )}
+                />
+                <span className="text-red-600 text-sm ml-2">
+                  {errors?.cpf?.message}
+                </span>
+              </div>
 
-              <Controller
-                name="rg"
-                control={control}
-                render={({ field }) => (
-                  <Input.Root>
-                    <Input.Control {...field} />
-                  </Input.Root>
-                )}
-              />
+              <div className="flex flex-col">
+                <Controller
+                  name="rg"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control {...field} />
+                    </Input.Root>
+                  )}
+                />
+                <span className="text-red-600 text-sm ml-2">
+                  {errors?.rg?.message}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -140,21 +163,26 @@ export function Inquilinos() {
               Estado Civil
             </label>
 
-            <Controller
-              name="civilStatus"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  placeholder="Selecione o seu Estado Civil...."
-                  onValueChange={field.onChange}
-                  {...field}
-                >
-                  <SelectItem value="solteiro" text="Solteiro" />
-                  <SelectItem value="casado" text="Casado" />
-                  <SelectItem value="viuvo(a)" text="Viúvo(a)" />
-                </Select>
-              )}
-            />
+            <div className="flex flex-col">
+              <Controller
+                name="civilStatus"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione o seu Estado Civil...."
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    <SelectItem value="solteiro" text="Solteiro" />
+                    <SelectItem value="casado" text="Casado" />
+                    <SelectItem value="viuvo(a)" text="Viúvo(a)" />
+                  </Select>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.civilStatus?.message}
+              </span>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -165,18 +193,23 @@ export function Inquilinos() {
               Email
             </label>
 
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Prefix>
-                    <Mail className="h-5 w-5 text-zinc-500" />
-                  </Input.Prefix>
-                  <Input.Control type="email" {...field} />
-                </Input.Root>
-              )}
-            />
+            <div className="flex flex-col">
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Prefix>
+                      <Mail className="h-5 w-5 text-zinc-500" />
+                    </Input.Prefix>
+                    <Input.Control type="email" {...field} />
+                  </Input.Root>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.email?.message}
+              </span>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-form gap-3 pt-5">
@@ -184,16 +217,16 @@ export function Inquilinos() {
               htmlFor="photo"
               className="text-sm font-medium text-zinc-700"
             >
-             Foto
+              Foto
               <span className="mt-0.5 block text-sm font-normal text-zinc-500">
                 Adicione uma foto.
               </span>
             </label>
             <FileInput.Root className="flex items-start gap-5">
-          <FileInput.ImagePreview />
-          <FileInput.Trigger />
-          <FileInput.Control />
-        </FileInput.Root>
+              <FileInput.ImagePreview />
+              <FileInput.Trigger />
+              <FileInput.Control />
+            </FileInput.Root>
           </div>
 
           <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -201,15 +234,20 @@ export function Inquilinos() {
               Profissão
             </label>
 
-            <Controller
-              name="profission"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+            <div className="flex flex-col">
+              <Controller
+                name="profission"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.profission?.message}
+              </span>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -218,7 +256,6 @@ export function Inquilinos() {
               className="text-sm font-medium text-zinc-700"
             >
               Observações:
-              
             </label>
 
             <Controller

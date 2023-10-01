@@ -1,7 +1,6 @@
 import * as Input from "../../../components/Input";
 
 import { useEffect, useState } from "react";
-import * as z from "zod";
 
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
@@ -9,23 +8,12 @@ import { Ufs } from "../../../@types/Imoveis";
 import { ufResources } from "../../../services/resources/properties";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as FileInput from '../../../components/Form/FileInput'
+import * as FileInput from "../../../components/Form/FileInput";
+import { handleSubmittedTypes } from "./types";
+import { imoveilSchema } from "./validation";
 
 export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
-
-  const imoveilSchema = z.object({
-    cep: z.string(),
-    rua: z.string(),
-    numero: z.string(),
-    complemento: z.string(),
-    bairro: z.string(),
-    cidade: z.string(),
-    estado: z.string(),
-    observacao: z.string(),
-  });
-
-  type handleSubmittedTypes = z.infer<typeof imoveilSchema>;
 
   const {
     handleSubmit,
@@ -50,8 +38,8 @@ export function Imoveis() {
   }, []);
 
   const onSubmit = (data: handleSubmittedTypes) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
   return (
     <div className="space-y-7">
@@ -59,31 +47,44 @@ export function Imoveis() {
         Cadastrar novo imóvel
       </h1>
 
-      <form className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label htmlFor="rua" className="text-sm font-medium text-zinc-700">
             Rua/Av - Nº
           </label>
           <div className="grid lg:grid-cols-[1fr_100px] grid-cols-1 gap-2">
-            <Controller
-              name="rua"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+            <div className="fle flex-col">
+              <Controller
+                name="rua"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.rua?.message}
+              </span>
+            </div>
 
-            <Controller
-              name="numero"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+            <div className="flex flex-col">
+              <Controller
+                name="numero"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.numero?.message}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -111,65 +112,83 @@ export function Imoveis() {
             Complemento & Bairro
           </label>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Controller
-              name="complemento"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+            <div className="flex flex-col">
+              <Controller
+                name="complemento"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.complemento?.message}
+              </span>
+            </div>
 
-            <Controller
-              name="bairro"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+            <div className="flex flex-col">
+              <Controller
+                name="bairro"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.bairro?.message}
+              </span>
+            </div>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
-          <label
-            htmlFor="firstName"
-            className="text-sm font-medium text-zinc-700"
-          >
+          <label htmlFor="city" className="text-sm font-medium text-zinc-700">
             Cidade & Estado
           </label>
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Controller
-              name="cidade"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+            <div className="flex flex-col">
+              <Controller
+                name="cidade"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
 
-            <Controller
-              name="estado"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  placeholder="Selecione o Estado..."
-                  onValueChange={field.onChange}
-                  {...field}
-                >
-                  {ufs.map((item) => (
-                    <SelectItem
-                      key={item.id}
-                      value={item.sigla}
-                      text={item.nome}
-                    />
-                  ))}
-                </Select>
-              )}
-            />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.cidade?.message}
+              </span>
+            </div>
+
+            <div className="flex flex-col">
+              <Controller
+                name="estado"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione o Estado..."
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    {ufs.map((item) => (
+                      <SelectItem
+                        key={item.id}
+                        value={item.sigla}
+                        text={item.nome}
+                      />
+                    ))}
+                  </Select>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.estado?.message}
+              </span>
+            </div>
           </div>
         </div>
 

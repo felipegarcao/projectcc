@@ -19,14 +19,6 @@ export const Control = React.forwardRef<HTMLInputElement, InputControlProps>((pr
   );
 });
 
-// export function Control(props: InputControlProps) {
-//   return (
-//     <input
-//       className="flex-1 border-0 bg-transparent p-0 text-zinc-900 placeholder-zinc-600"
-//       {...props}
-//     />
-//   )
-// }
 
 export type InputRootProps = ComponentProps<"div">;
 

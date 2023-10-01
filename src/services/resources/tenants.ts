@@ -12,6 +12,22 @@ export const tenantsResource = async () => {
   }
 };
 
+
+export const tenantsIdResource = async (id: string): Promise<any> => {
+  try {
+
+    const {data} = await apiJson.get(`/tenants/${id}`)
+
+    return data;
+
+
+  } catch(e: any) {
+    toast.error("Error")
+  }
+
+  
+}
+
 export const createTenantsResource = async (data: Tenants) => {
   try {
     await apiJson.post("/tenants", {
@@ -20,5 +36,13 @@ export const createTenantsResource = async (data: Tenants) => {
     toast.success("Inquilino criado com sucesso !");
   } catch (e: any) {
     toast.error("Error: " + e.message);
+  }
+};
+
+export const deleteTenantsResouce = async (id: number) => {
+  try {
+
+  } catch (e: any) {
+    
   }
 };

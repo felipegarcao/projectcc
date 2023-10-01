@@ -15,20 +15,13 @@ export function SettingsTabs() {
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
       <Tabs.List className="mt-6 lg:flex hidden w-full items-center gap-4 border-b border-zinc-200 flex-wrap">
-        <TabItem
-          value="tab1"
-          title="Home"
-          isSelected={currentTab === "tab1"}
-        />
-
+        <TabItem value="tab1" title="Home" isSelected={currentTab === "tab1"} />
 
         <TabItem
           value="tab3"
           title="Inquilinos"
           isSelected={currentTab === "tab3"}
         />
-
-    
 
         <TabItem
           value="tab5"
@@ -41,17 +34,27 @@ export function SettingsTabs() {
           title="Imoveis"
           isSelected={currentTab === "tab6"}
         />
+
+        <TabItem
+          value="tab7"
+          title="Solicitação"
+          isSelected={currentTab === "tab7"}
+        />
       </Tabs.List>
 
-     <div className="block lg:hidden">
-     <Select placeholder="Selecione" defaultValue={currentTab} onValueChange={setCurrentTab}> 
+      <div className="block lg:hidden">
+        <Select
+          placeholder="Selecione"
+          defaultValue={currentTab}
+          onValueChange={setCurrentTab}
+        >
           <SelectItem value="tab1" text="Home" />
           <SelectItem value="tab3" text="Inquilinos" />
 
           <SelectItem value="tab5" text="Contrato/Cadastrado" />
           <SelectItem value="tab6" text="Imoveis" />
         </Select>
-     </div>
+      </div>
 
       <Tabs.Content value="tab1">
         <HomePage />
@@ -61,14 +64,12 @@ export function SettingsTabs() {
         <Inquilinos />
       </Tabs.Content>
 
-  
-
       <Tabs.Content value="tab5">
         <Contrato />
       </Tabs.Content>
 
       <Tabs.Content value="tab6">
-      <Imoveis />
+        <Imoveis />
       </Tabs.Content>
     </Tabs.Root>
   );

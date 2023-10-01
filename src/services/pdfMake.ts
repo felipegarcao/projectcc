@@ -1,10 +1,26 @@
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { Tenants } from "../@types/tenants";
+import { House } from "../@types/Imoveis";
+import { handleSubmittedTypes } from "../screens/SignedIn/Contrato/types";
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
-export function generatePdf() {
+interface generatePdfProps {
+  inquilino: Tenants;
+  imovel: House;
+  contrato: handleSubmittedTypes
+}
+
+export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
   // let base64;
+
+
+  const currencyFormatted = new Intl.NumberFormat('pt-BR', {
+    style: "currency",
+    currency: 'BRL',
+    minimumFractionDigits: 2
+  })
 
   var dd = {
     content: [
@@ -25,10 +41,10 @@ export function generatePdf() {
         text: "Locatário:",
         style: "subheader",
       },
-      "Nome: Luis Felipe Garção Silva",
-      "Endereço: Maria do Espirito Santo - 59",
-      "Telefone: (18) 99794-3842",
-      "Email: felipe-mara2003@hotmail.com\n\n",
+      `Nome: ${inquilino.firstName} ${inquilino.lastName}`,
+      `Endereço: ${imovel.rua} - ${imovel.numero}`,
+      `Telefone: (18) 99794-3842`,
+      `Email: ${inquilino.email}\n\n`,
       {
         text: "1. Descrição do Imóvel",
         style: "defaultTextBold",
@@ -38,7 +54,7 @@ export function generatePdf() {
         style: "defaultText",
       },
       {
-        text: "Endereço: Rua maria do espirito santo - 59",
+        text: `Endereço: ${imovel.rua} - ${imovel.numero}`,
       },
       {
         text: "Descrição: Vazamento\n\n",
@@ -51,7 +67,7 @@ export function generatePdf() {
         style: "defaultTextBold",
       },
       {
-        text: "O período de locação terá início em [data de início] e terá uma duração de [número de meses ou anos], encerrando-se em [data de término].\n\n",
+        text: `O período de locação terá início em ${contrato.dataInicio} e terá uma duração de ${contrato.duracao} meses, encerrando-se em ${contrato.dataVencimento}.\n\n`,
         style: "defaultText",
       },
 
@@ -62,7 +78,7 @@ export function generatePdf() {
         style: "defaultTextBold",
       },
       {
-        text: "O valor do aluguel mensal será de [valor em moeda local], devido até o dia [data de vencimento] de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de [método de pagamento, por exemplo, depósito bancário].\n\n",
+        text: `O valor do aluguel mensal será de ${currencyFormatted}, devido até o dia ${contrato.dataVencimento} de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de depósito bancário, Pix e outros.\n\n`,
         style: "defaultText",
       },
 
@@ -73,7 +89,7 @@ export function generatePdf() {
         style: "defaultTextBold",
       },
       {
-        text: "O Locatário concorda em fornecer um depósito de segurança no valor de [valor do depósito] no momento da assinatura deste contrato. Esse depósito será mantido pelo Locador como garantia contra danos ao imóvel ou inadimplência no pagamento do aluguel.\n\n",
+        text: `O Locatário concorda em fornecer um depósito de segurança no valor de ${currencyFormatted} no momento da assinatura deste contrato. Esse depósito será mantido pelo Locador como garantia contra danos ao imóvel ou inadimplência no pagamento do aluguel.\n\n`,
         style: "defaultText",
       },
 

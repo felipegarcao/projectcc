@@ -24,3 +24,16 @@ export const listImoveis = async () => {
     console.log(e)
   }
 }
+
+
+export const listIdImoveis = async (id: string) => {
+  try {
+
+    const {data} = await apiJson.get(`/imoveis/${id}`)
+
+    return data;
+
+  } catch (e) {
+    console.log(e)
+  }
+}

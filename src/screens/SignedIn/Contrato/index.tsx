@@ -4,13 +4,20 @@ import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { useEffect, useState } from "react";
 import { Tenants } from "../../../@types/tenants";
-import { tenantsResource } from "../../../services/resources/tenants";
-import {listImoveis} from "../../../services/resources/properties"
-import {  generatePdf } from "../../../services/pdfMake";
-import * as zod from "zod";
+import {
+  tenantsIdResource,
+  tenantsResource,
+} from "../../../services/resources/tenants";
+import {
+  listIdImoveis,
+  listImoveis,
+} from "../../../services/resources/properties";
+import { generatePdf } from "../../../services/pdfMake";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { House } from "../../../@types/Imoveis";
+import { contratoSchema } from "./validation";
+import { handleSubmittedTypes } from "./types";
 
 export function Contrato() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
@@ -18,9 +25,8 @@ export function Contrato() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    carregarDados()
+    carregarDados();
   }, []);
-
 
   async function carregarDados() {
     tenantsResource().then((result) => {
@@ -29,28 +35,14 @@ export function Contrato() {
     });
 
     listImoveis().then((result) => {
-      setImoveis(result)
-    })
+      setImoveis(result);
+    });
   }
-
-  const contratoSchema = zod.object({
-    imovel: zod.string(),
-    inquilino: zod.string(),
-    dataInicio: zod.string(),
-    duracao: zod.string(),
-    finalidade: zod.string(),
-    dataVencimento: zod.string(),
-    valorAluguel: zod.string(),
-    juros: zod.string(),
-    observacao: zod.string(),
-  });
-
-  type handleSubmittedTypes = zod.infer<typeof contratoSchema>;
 
   const {
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(contratoSchema),
     defaultValues: {
@@ -66,11 +58,16 @@ export function Contrato() {
     },
   });
 
-  function onSubmit(data: any) {
-    console.log(data)
-  }
+  async function onSubmit(data: handleSubmittedTypes) {
+    const inquilino = await tenantsIdResource(data.imovel);
+    const imovel = await listIdImoveis(data.imovel);
 
- 
+    generatePdf({
+      inquilino,
+      imovel,
+      contrato: data,
+    });
+  }
 
   return (
     <div className="space-y-7">
@@ -78,7 +75,10 @@ export function Contrato() {
         Dados do Contrato
       </h1>
 
-      <form className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="country"
@@ -87,23 +87,31 @@ export function Contrato() {
             Imóvel
           </label>
 
-          <Controller
-            name="imovel"
-            control={control}
-            render={({ field }) => (
-              <Select
-                placeholder="Selecione o Imóvel"
-                onValueChange={field.onChange}
-                {...field}
-              >
-                {
-                  imoveis.map((item) => (
-                    <SelectItem value={item.id} text={item.rua  + ', ' + item.numero  + ' - ' + item.cep}/>
-                  ))
-                }
-              </Select>
-            )}
-          />
+          <div className="flex flex-col">
+            <Controller
+              name="imovel"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  placeholder="Selecione o Imóvel"
+                  onValueChange={field.onChange}
+                  {...field}
+                >
+                  {imoveis.map((item) => (
+                    <SelectItem
+                      value={item.id}
+                      text={item.rua + ", " + item.numero + " - " + item.cep}
+                    />
+                  ))}
+                </Select>
+              )}
+            />
+
+            <span className="text-red-600 text-sm ml-2">
+              {" "}
+              {errors?.imovel?.message}
+            </span>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -114,27 +122,33 @@ export function Contrato() {
             Inquilinos
           </label>
 
-          <Controller
-            control={control}
-            name="inquilino"
-            render={({ field }) => (
-              <Select
-                placeholder="Selecione o Inquilino..."
-                items={tenants}
-                propertyFilter="name"
-                onValueChange={field.onChange}
-                {...field}
-              >
-                {tenants.map((tenant) => (
-                  <SelectItem
-                    key={tenant.cpf}
-                    value={String(tenant.id)}
-                    text={tenant.firstName}
-                  />
-                ))}
-              </Select>
-            )}
-          />
+          <div className="flex flex-col">
+            <Controller
+              control={control}
+              name="inquilino"
+              render={({ field }) => (
+                <Select
+                  placeholder="Selecione o Inquilino..."
+                  items={tenants}
+                  propertyFilter="name"
+                  onValueChange={field.onChange}
+                  {...field}
+                >
+                  {tenants.map((tenant) => (
+                    <SelectItem
+                      key={tenant.cpf}
+                      value={String(tenant.id)}
+                      text={tenant.firstName}
+                    />
+                  ))}
+                </Select>
+              )}
+            />
+            <span className="text-red-600 text-sm ml-2">
+              {" "}
+              {errors?.inquilino?.message}
+            </span>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -144,26 +158,32 @@ export function Contrato() {
           >
             Data de Inicio de vigência & Duração (meses)
           </label>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Controller
-              control={control}
-              name="dataInicio"
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+          <div className="flex flex-col">
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
+              <Controller
+                control={control}
+                name="dataInicio"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
 
-            <Controller
-              control={control}
-              name="duracao"
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+              <Controller
+                control={control}
+                name="duracao"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+            </div>
+            <span className="text-red-600 text-sm ml-2">
+              {" "}
+              {errors?.dataInicio?.message} - {errors?.duracao?.message}
+            </span>
           </div>
         </div>
 
@@ -174,32 +194,39 @@ export function Contrato() {
           >
             Finalidade & Data do Vencimento
           </label>
-          <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-            <Controller
-              name="finalidade"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  placeholder="Selecione...."
-                  onValueChange={field.onChange}
-                  {...field}
-                >
-                  <SelectItem value="residencial" text="Residencial" />
-                  <SelectItem value="comercial" text="Comercial" />
-                  <SelectItem value="outros" text="Outros" />
-                </Select>
-              )}
-            />
 
-            <Controller
-              name="dataVencimento"
-              control={control}
-              render={({ field }) => (
-                <Input.Root>
-                  <Input.Control {...field} />
-                </Input.Root>
-              )}
-            />
+          <div className="flex flex-col">
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
+              <Controller
+                name="finalidade"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione...."
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    <SelectItem value="residencial" text="Residencial" />
+                    <SelectItem value="comercial" text="Comercial" />
+                    <SelectItem value="outros" text="Outros" />
+                  </Select>
+                )}
+              />
+
+              <Controller
+                name="dataVencimento"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+            </div>
+            <span className="text-red-600 text-sm ml-2">
+              {" "}
+              {errors?.finalidade?.message} - {errors?.dataVencimento?.message}
+            </span>
           </div>
         </div>
 
@@ -213,28 +240,34 @@ export function Contrato() {
               htmlFor="valor"
               className="text-sm font-medium text-zinc-700"
             >
-              Valor do Aluguel & Juros por atraso
+              Valor Aluguel (R$) & Juros por atraso (%)
             </label>
-            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
-              <Controller
-                name="valorAluguel"
-                control={control}
-                render={({ field }) => (
-                  <Input.Root>
-                    <Input.Control {...field} />
-                  </Input.Root>
-                )}
-              />
+            <div className="flex flex-col">
+              <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
+                <Controller
+                  name="valorAluguel"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control {...field} />
+                    </Input.Root>
+                  )}
+                />
 
-              <Controller
-                name="juros"
-                control={control}
-                render={({ field }) => (
-                  <Input.Root>
-                    <Input.Control {...field} />
-                  </Input.Root>
-                )}
-              />
+                <Controller
+                  name="juros"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control {...field} />
+                    </Input.Root>
+                  )}
+                />
+              </div>
+
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.valorAluguel?.message} - {errors?.juros?.message}
+              </span>
             </div>
           </div>
         </div>
@@ -261,7 +294,7 @@ export function Contrato() {
           <button
             type="button"
             className="rounded-lg border border-violet-700 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm hover:bg-violet-700 hover:text-white"
-            onClick={generatePdf}
+            // onClick={() => generat}
           >
             Preview
           </button>
@@ -269,6 +302,7 @@ export function Contrato() {
           <button
             type="submit"
             className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
+            // disabled={!isValid}
           >
             Salvar
           </button>
