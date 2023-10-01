@@ -9,6 +9,7 @@ import { tenantsResource } from "../../../services/resources/tenants";
 export function ListInquilinos() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
   const [loading, setLoading] = useState(true);
+  const [statusTenants, setStatusTenants] = useState(true)
 
   useEffect(() => {
     tenantsResource().then((result) => {
@@ -20,7 +21,7 @@ export function ListInquilinos() {
   return (
     <div className="space-y-7">
       <h1 className="text-3xl font-medium text-zinc-900 mt-5">
-        Listagem de Inquilino
+        Listagem de Inquilino {!statusTenants && '(Desativados)'}
       </h1>
 
       {loading ? (
@@ -40,6 +41,7 @@ export function ListInquilinos() {
               <tbody>
                 {tenants.map((tenant) => (
                   <UserItem
+                    status={tenant.status}
                     avatarUrl={tenant.avatarUrl}
                     cpf={tenant.cpf}
                     firstName={tenant.firstName}

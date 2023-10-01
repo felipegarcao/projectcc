@@ -8,6 +8,7 @@ export function UserItem({
   firstName,
   cpf,
   profission,
+  status,
 }: Tenants) {
   return (
     <tr>
@@ -22,18 +23,27 @@ export function UserItem({
       <td className="p-3">{profission}</td>
       <td className="p-3">
         <div className="flex justify-end">
-          <button className="flex items-center gap-2 mx-1 text-sm bg-violet-700 text-white rounded-md p-2">
-            <Edit size={16} />
-            Editar
-          </button>
-          <button className="flex items-center gap-2 mx-1 text-sm bg-red-700 text-white rounded-md p-2">
-            <Trash2 size={16} />
-            Deletar
-          </button>
-          <button className="flex items-center gap-2 mx-1 text-sm bg-green-700 text-white rounded-md p-2">
-            <Trash2 size={16} />
-            Histórico
-          </button>
+          {status === "on" ? (
+            <>
+              <button className="flex items-center gap-2 mx-1 text-sm bg-violet-700 text-white rounded-md p-2">
+                <Edit size={16} />
+                Editar
+              </button>
+              <button className="flex items-center gap-2 mx-1 text-sm bg-red-700 text-white rounded-md p-2">
+                <Trash2 size={16} />
+                Deletar
+              </button>
+              <button className="flex items-center gap-2 mx-1 text-sm bg-green-700 text-white rounded-md p-2">
+                <Trash2 size={16} />
+                Histórico
+              </button>
+            </>
+          ) : (
+            <button className="flex items-center gap-2 mx-1 text-sm bg-green-700 text-white rounded-md p-2">
+              <Trash2 size={16} />
+              Histórico
+            </button>
+          )}
         </div>
       </td>
     </tr>

@@ -8,6 +8,7 @@ import { Select } from "../Form/Select";
 import { SelectItem } from "../Form/Select/SelectItem";
 import { TabItem } from "./TabItem";
 import { useState } from "react";
+import { Requests } from "../../screens/SignedIn/Requests";
 
 export function SettingsTabs() {
   const [currentTab, setCurrentTab] = useState("tab1");
@@ -53,6 +54,7 @@ export function SettingsTabs() {
 
           <SelectItem value="tab5" text="Contrato/Cadastrado" />
           <SelectItem value="tab6" text="Imoveis" />
+          <SelectItem value="tab7" text="Solicitação" />
         </Select>
       </div>
 
@@ -70,6 +72,11 @@ export function SettingsTabs() {
 
       <Tabs.Content value="tab6">
         <Imoveis />
+      </Tabs.Content>
+
+      
+      <Tabs.Content value="tab7">
+        <Requests />
       </Tabs.Content>
     </Tabs.Root>
   );

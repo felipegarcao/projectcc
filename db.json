@@ -10,7 +10,8 @@
       "email": "felipe-mara2003@hotmail.com",
       "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
       "profissao": "Desenvolvedor Front-End",
-      "observation": ""
+      "observation": "",
+      "status": "on"
     },
     {
       "id": 2,
@@ -22,7 +23,8 @@
       "email": "felipe-mara2003@hotmail.com",
       "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
       "profission": "Desenvolvedor Front-End",
-      "observation": ""
+      "observation": "",
+      "status": "off"
     },
     {
       "id": 3,
@@ -58,6 +60,17 @@
       "profission": "dasda",
       "observasation": "dsadsad",
       "id": 5
+    },
+    {
+      "firstName": "Luis",
+      "lastName": "Silva",
+      "rg": "1231231",
+      "cpf": "44657029819",
+      "email": "felipe-mara2003@hotmail.com",
+      "civilStatus": "solteiro",
+      "profission": "Programador",
+      "observasation": "",
+      "id": 6
     }
   ],
   "imoveis": [
