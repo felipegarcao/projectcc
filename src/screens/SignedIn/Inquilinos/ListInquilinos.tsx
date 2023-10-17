@@ -13,7 +13,8 @@ export function ListInquilinos() {
 
   useEffect(() => {
     tenantsResource().then((result) => {
-      setTenants(result)
+
+
       setLoading(false)
     });
   }, []);
@@ -39,13 +40,13 @@ export function ListInquilinos() {
                 </tr>
               </thead>
               <tbody>
-                {tenants.map((tenant) => (
+                {tenants?.map((tenant) => (
                   <UserItem
                     status={tenant.status}
                     avatarUrl={tenant.avatarUrl}
                     cpf={tenant.cpf}
                     firstName={tenant.firstName}
-                    profission={tenant.profission}
+                    profissao={tenant.profissao}
                     key={tenant.id}
                     id={tenant.id}
                   />
@@ -55,12 +56,12 @@ export function ListInquilinos() {
           </div>
 
           <div className="sm:flex sm:justify-center sm:items-center md:grid md:justify-between md:grid-cols-2  lg:hidden">
-            {tenants.map((_) => (
+            {tenants?.map((_) => (
               <CardUsers
                 avatarUrl={_.avatarUrl}
                 cpf={_.cpf}
                 firstName={_.firstName}
-                profission={_.profission}
+                profissao={_.profissao}
                 key={_.id}
                 id={_.id}
               />

@@ -16,7 +16,7 @@ export const ufResources = async () => {
 export const listImoveis = async () => {
   try {
 
-    const {data} = await apiJson.get('/imoveis')
+    const {data} = await apiJson.get('/house')
 
     return data;
 
@@ -29,7 +29,7 @@ export const listImoveis = async () => {
 export const listIdImoveis = async (id: string) => {
   try {
 
-    const {data} = await apiJson.get(`/imoveis/${id}`)
+    const {data} = await apiJson.get(`/house/${id}`)
 
     return data;
 

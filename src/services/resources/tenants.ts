@@ -29,9 +29,11 @@ export const tenantsIdResource = async (id: string): Promise<any> => {
 }
 
 export const createTenantsResource = async (data: Tenants) => {
+
+
   try {
     await apiJson.post("/tenants", {
-      ...data,
+      ...data
     });
     toast.success("Inquilino criado com sucesso !");
   } catch (e: any) {

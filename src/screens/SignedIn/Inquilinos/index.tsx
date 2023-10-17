@@ -18,6 +18,7 @@ export function Inquilinos() {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(inquilinosSchema),
@@ -27,14 +28,22 @@ export function Inquilinos() {
       civilStatus: "solteiro",
       cpf: "",
       email: "",
-      observasation: "",
-      profission: "",
+      observation: "",
+      profissao: "",
       rg: "",
     },
   });
 
-  const onSubmit = (data: any) => {
-    createTenantsResource(data);
+  const onSubmit = async (data: any) => {
+    const newData = {
+      ...data,
+      avatarUrl: "",
+      status: "on",
+    };
+
+    await createTenantsResource(newData);
+
+    reset();
   };
 
   return (
@@ -236,7 +245,7 @@ export function Inquilinos() {
 
             <div className="flex flex-col">
               <Controller
-                name="profission"
+                name="profissao"
                 control={control}
                 render={({ field }) => (
                   <Input.Root>
@@ -245,7 +254,7 @@ export function Inquilinos() {
                 )}
               />
               <span className="text-red-600 text-sm ml-2">
-                {errors?.profission?.message}
+                {errors?.profissao?.message}
               </span>
             </div>
           </div>
@@ -259,7 +268,7 @@ export function Inquilinos() {
             </label>
 
             <Controller
-              name="observasation"
+              name="observation"
               control={control}
               render={({ field }) => (
                 <textarea

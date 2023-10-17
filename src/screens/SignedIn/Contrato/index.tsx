@@ -18,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { House } from "../../../@types/Imoveis";
 import { contratoSchema } from "./validation";
 import { handleSubmittedTypes } from "./types";
+import { Spinner } from "../../../components/Spinner";
 
 export function Contrato() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
@@ -25,17 +26,16 @@ export function Contrato() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    carregarDados();
+    carregarDados().then(() => setLoading(false));
   }, []);
 
   async function carregarDados() {
     tenantsResource().then((result) => {
-      setTenants(result);
-      setLoading(false);
+      setTenants(result?.tenants);
     });
 
     listImoveis().then((result) => {
-      setImoveis(result);
+      setImoveis(result?.house);
     });
   }
 
@@ -88,24 +88,29 @@ export function Contrato() {
           </label>
 
           <div className="flex flex-col">
-            <Controller
-              name="imovel"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  placeholder="Selecione o Imóvel"
-                  onValueChange={field.onChange}
-                  {...field}
-                >
-                  {imoveis.map((item) => (
-                    <SelectItem
-                      value={item.id}
-                      text={item.rua + ", " + item.numero + " - " + item.cep}
-                    />
-                  ))}
-                </Select>
-              )}
-            />
+            {loading ? (
+              <Spinner />
+            ) : (
+              <Controller
+                name="imovel"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione o Imóvel"
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    {imoveis?.map((item) => (
+                      <SelectItem
+                        key={item.id}
+                        value={item.id}
+                        text={item.rua + ", " + item.numero + " - " + item.cep}
+                      />
+                    ))}
+                  </Select>
+                )}
+              />
+            )}
 
             <span className="text-red-600 text-sm ml-2">
               {" "}
@@ -123,27 +128,32 @@ export function Contrato() {
           </label>
 
           <div className="flex flex-col">
-            <Controller
-              control={control}
-              name="inquilino"
-              render={({ field }) => (
-                <Select
-                  placeholder="Selecione o Inquilino..."
-                  items={tenants}
-                  propertyFilter="name"
-                  onValueChange={field.onChange}
-                  {...field}
-                >
-                  {tenants.map((tenant) => (
-                    <SelectItem
-                      key={tenant.cpf}
-                      value={String(tenant.id)}
-                      text={tenant.firstName}
-                    />
-                  ))}
-                </Select>
-              )}
-            />
+            {
+              loading ? (
+                <Spinner />
+              ) : (
+                <Controller
+                control={control}
+                name="inquilino"
+                render={({ field }) => (
+                  <Select
+                  placeholder="Selecione o Inquilino"
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    {tenants?.map((tenant) => (
+                      <SelectItem
+                        key={tenant.id}
+                        value={String(tenant.id)}
+                        text={tenant.firstName + " -  " + tenant.cpf}
+                      />
+                    ))}
+                  </Select>
+                )}
+              />
+              )
+            }
+         
             <span className="text-red-600 text-sm ml-2">
               {" "}
               {errors?.inquilino?.message}

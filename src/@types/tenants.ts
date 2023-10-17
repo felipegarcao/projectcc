@@ -8,6 +8,6 @@ export interface Tenants {
   civilStatus?: string,
   email?: string,
   avatarUrl?: string;
-  profission?: string,
+  profissao?: string,
   observation?: string;
 }

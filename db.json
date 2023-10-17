@@ -22,7 +22,7 @@
       "civilStatus": "Solteiro",
       "email": "felipe-mara2003@hotmail.com",
       "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
-      "profission": "Desenvolvedor Front-End",
+      "profissao": "Desenvolvedor Front-End",
       "observation": "",
       "status": "off"
     },
@@ -35,7 +35,7 @@
       "civilStatus": "Solteiro",
       "email": "felipe-mara2003@hotmail.com",
       "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
-      "profission": "Desenvolvedor Front-End",
+      "profissao": "Desenvolvedor Front-End",
       "observation": ""
     },
     {
@@ -47,7 +47,7 @@
       "civilStatus": "Solteiro",
       "email": "felipe-mara2003@hotmail.com",
       "avatarUrl": "https://avatars.dicebear.com/v2/female/2a8d4a72994b87f83b98434130efda0c.svg",
-      "profission": "Desenvolvedor Front-End",
+      "profissao": "Desenvolvedor Front-End",
       "observation": ""
     },
     {
@@ -57,8 +57,8 @@
       "cpf": "44657029819",
       "email": "felipe-mara2003@hotmail.com",
       "civilStatus": "solteiro",
-      "profission": "dasda",
-      "observasation": "dsadsad",
+      "profissao": "dasda",
+      "observation": "dsadsad",
       "id": 5
     },
     {
@@ -68,8 +68,8 @@
       "cpf": "44657029819",
       "email": "felipe-mara2003@hotmail.com",
       "civilStatus": "solteiro",
-      "profission": "Programador",
-      "observasation": "",
+      "profissao": "Programador",
+      "observation": "",
       "id": 6
     }
   ],

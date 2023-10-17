@@ -7,7 +7,7 @@ export function UserItem({
   avatarUrl,
   firstName,
   cpf,
-  profission,
+  profissao,
   status,
 }: Tenants) {
   return (
@@ -20,7 +20,7 @@ export function UserItem({
       </td>
 
       <td className="p-3">{cpf}</td>
-      <td className="p-3">{profission}</td>
+      <td className="p-3">{profissao}</td>
       <td className="p-3">
         <div className="flex justify-end">
           {status === "on" ? (
