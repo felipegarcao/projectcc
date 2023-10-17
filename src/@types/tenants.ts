@@ -1,5 +1,5 @@
 export interface Tenants {
-  id: 2, 
+  id: number, 
   firstName: string, 
   lastName?: string,
   cpf?: string,

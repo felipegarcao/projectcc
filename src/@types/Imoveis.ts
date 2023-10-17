@@ -12,7 +12,7 @@ export interface Ufs {
 
 
 export interface House {
-  id: string,
+  id: number,
   cep: string,
   rua: string,
   numero: number,

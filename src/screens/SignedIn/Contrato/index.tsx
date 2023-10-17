@@ -103,7 +103,7 @@ export function Contrato() {
                     {imoveis?.map((item) => (
                       <SelectItem
                         key={item.id}
-                        value={item.id}
+                        value={String(item.id)}
                         text={item.rua + ", " + item.numero + " - " + item.cep}
                       />
                     ))}

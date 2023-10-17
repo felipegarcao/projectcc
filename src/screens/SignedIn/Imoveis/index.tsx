@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { Ufs } from "../../../@types/Imoveis";
-import { ufResources } from "../../../services/resources/properties";
+import {
+  createHouse,
+  ufResources,
+} from "../../../services/resources/properties";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as FileInput from "../../../components/Form/FileInput";
@@ -37,8 +40,12 @@ export function Imoveis() {
     ufResources().then((x) => setUfs(x));
   }, []);
 
-  const onSubmit = (data: handleSubmittedTypes) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    await createHouse({
+      ...data,
+      adm_id: 1,
+      arquivo: "",
+    });
   };
 
   return (

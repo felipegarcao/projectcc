@@ -7,6 +7,6 @@ export const imoveilSchema = z.object({
   complemento: z.string(),
   bairro: z.string().min(1, "Informe o nome do bairro"),
   cidade: z.string().min(1, "Informe o nome do cidade"),
-  estado: z.string().min(3, "Informe o nome do estado"),
+  estado: z.string().min(2, "Informe o nome do estado"),
   observacao: z.string(),
 });

@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+import { House } from "../../@types/Imoveis";
 import { api, apiJson } from "../api"
 
 export const ufResources = async () => {
@@ -12,6 +14,16 @@ export const ufResources = async () => {
   }
 }
 
+export const createHouse = async (data: House) => {
+  try {
+    await apiJson.post("/house", {
+      ...data,
+    });
+    toast.success("Casa cadastrada com sucesso !");
+  } catch (e: any) {
+    toast.error("Error: " + e.message);
+  }
+}
 
 export const listImoveis = async () => {
   try {
