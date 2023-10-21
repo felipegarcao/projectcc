@@ -15,16 +15,11 @@ export function CardItem({
   return (
     <div className="lg:max-w-md py-4 px-8 bg-white shadow-lg rounded-lg w-full ">
     
-    <div>
+    <div className="flex items-center justify-center flex-col">
       <h2 className="text-gray-800 text-3xl font-semibold">{counter}</h2>
-      <p className="mt-2 text-gray-600">
+      <p className="mt-2 text-gray-600 text-center">
       {text}
       </p>
-    </div>
-    <div className="flex justify-end mt-4">
-      <a href={redirect} className="text-xl font-medium text-indigo-500">
-        Visualizar
-      </a>
     </div>
   </div>
   )

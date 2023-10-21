@@ -9,15 +9,18 @@ interface ApplicationContextProps {
   modalIsOpen: boolean;
   setModalIsOpen: (value: boolean) => void;
   toogle: () => void;
+  currentTab: string;
+  setCurrentTab: (value: string) => void;
 }
 
-export const ApplicationContext = createContext({} as ApplicationContextProps);
+export const applicationContext = createContext({} as ApplicationContextProps);
 
 export function ApplicationContextProvider({
   children,
 }: ApplicationContextProviderPops) {
   const [collapsed, setCollapsed] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentTab, setCurrentTab] = useState("tab1");
 
 
   const toogle = () => {
@@ -25,15 +28,17 @@ export function ApplicationContextProvider({
   }
   
   return (
-    <ApplicationContext.Provider
+    <applicationContext.Provider
       value={{
         toogle,
         collapsed,
         modalIsOpen,
-        setModalIsOpen
+        setModalIsOpen,
+        setCurrentTab,
+        currentTab
       }}
     >
       {children}
-    </ApplicationContext.Provider>
+    </applicationContext.Provider>
   );
 }

@@ -7,11 +7,14 @@ import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
 import { Select } from "../Form/Select";
 import { SelectItem } from "../Form/Select/SelectItem";
 import { TabItem } from "./TabItem";
-import { useState } from "react";
+import { useContext } from "react";
 import { Requests } from "../../screens/SignedIn/Requests";
+import { applicationContext } from "../../context/ApplicationContext";
 
 export function SettingsTabs() {
-  const [currentTab, setCurrentTab] = useState("tab1");
+
+  const {currentTab, setCurrentTab} = useContext(applicationContext)
+
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>

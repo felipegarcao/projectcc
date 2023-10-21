@@ -6,17 +6,17 @@ export function CardsReport() {
       <CardItem
         counter={20}
         redirect="/teste1"
-        text="Faturar com pagamento em atraso"
+        text="Contratos Gerados"
       />
       <CardItem
         counter={20}
         redirect="/teste2"
-        text="Faturar com pagamento em atraso"
+        text="Inquilinos"
       />
       <CardItem
         counter={20}
         redirect="/teste3"
-        text="Faturar com pagamento em atraso"
+        text="Casas Alugadas"
       />
     </div>
   );

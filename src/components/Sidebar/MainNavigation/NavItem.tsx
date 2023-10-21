@@ -1,21 +1,29 @@
-import { ElementType } from 'react'
+import clsx from 'clsx';
+import { ElementType, useContext } from 'react'
+import { applicationContext } from '../../../context/ApplicationContext';
 
 interface NavItemProps {
   title: string
   icon: ElementType
-  redirect?: string;
+  active: boolean;
+  tab: string;
 }
 
-export function NavItem({ title, icon: Icon, redirect = "/" }: NavItemProps) {
+export function NavItem({ title, icon: Icon, active, tab }: NavItemProps) {
+  const {setCurrentTab} = useContext(applicationContext)
+
+
   return (
-    <a
-      href={redirect}
-      className="group flex items-center gap-3 rounded px-3 py-2 hover:bg-violet-50"
+    <button
+      className={clsx('group flex items-center gap-3 rounded px-3 py-2 cursor-pointer w-full', {
+        'bg-violet-200': active
+      })}
+      onClick={() => setCurrentTab(tab)}
     >
       <Icon className="h-5 w-5 text-zinc-500" />
       <span className="font-medium text-zinc-700 group-hover:text-violet-500">
         {title}
       </span>
-    </a>
+    </button>
   )
 }
