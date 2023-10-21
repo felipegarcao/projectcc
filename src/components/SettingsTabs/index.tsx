@@ -10,11 +10,10 @@ import { TabItem } from "./TabItem";
 import { useContext } from "react";
 import { Requests } from "../../screens/SignedIn/Requests";
 import { applicationContext } from "../../context/ApplicationContext";
+import { MyProfile } from "../../screens/SignedIn/MyProfile";
 
 export function SettingsTabs() {
-
-  const {currentTab, setCurrentTab} = useContext(applicationContext)
-
+  const { currentTab, setCurrentTab } = useContext(applicationContext);
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
@@ -44,6 +43,12 @@ export function SettingsTabs() {
           title="Solicitação"
           isSelected={currentTab === "tab7"}
         />
+
+        <TabItem
+          value="tab2"
+          title="Perfil"
+          isSelected={currentTab === "tab2"}
+        />
       </Tabs.List>
 
       <div className="block lg:hidden">
@@ -54,6 +59,7 @@ export function SettingsTabs() {
         >
           <SelectItem value="tab1" text="Home" />
           <SelectItem value="tab3" text="Inquilinos" />
+          <SelectItem value="tab2" text="Perfil" />
 
           <SelectItem value="tab5" text="Contrato/Cadastrado" />
           <SelectItem value="tab6" text="Imoveis" />
@@ -63,6 +69,11 @@ export function SettingsTabs() {
 
       <Tabs.Content value="tab1">
         <HomePage />
+      </Tabs.Content>
+
+      
+      <Tabs.Content value="tab2">
+        <MyProfile />
       </Tabs.Content>
 
       <Tabs.Content value="tab3">
@@ -77,7 +88,6 @@ export function SettingsTabs() {
         <Imoveis />
       </Tabs.Content>
 
-      
       <Tabs.Content value="tab7">
         <Requests />
       </Tabs.Content>

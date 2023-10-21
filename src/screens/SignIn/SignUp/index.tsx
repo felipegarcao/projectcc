@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Phone, User2, Users, User } from "lucide-react";
 import * as Input from "../../../components/Input";
 import { useState } from "react";
 
@@ -14,7 +14,36 @@ export function SignUp() {
       >
         Nome Completo
         <Input.Root>
-          <Input.Control id="name" />
+          <Input.Prefix>
+            <User className="h-5 w-5 text-zinc-500" />
+          </Input.Prefix>
+          <Input.Control id="email" type="email" />
+        </Input.Root>
+      </label>
+
+      <label
+        htmlFor="email"
+        className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+      >
+        CPF
+        <Input.Root>
+          <Input.Prefix>
+            <Users className="h-5 w-5 text-zinc-500" />
+          </Input.Prefix>
+          <Input.Control id="email" type="email" />
+        </Input.Root>
+      </label>
+
+      <label
+        htmlFor="email"
+        className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+      >
+        Telefone
+        <Input.Root>
+          <Input.Prefix>
+            <Phone className="h-5 w-5 text-zinc-500" />
+          </Input.Prefix>
+          <Input.Control id="email" type="email" />
         </Input.Root>
       </label>
 
