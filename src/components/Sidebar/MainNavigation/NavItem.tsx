@@ -16,12 +16,19 @@ export function NavItem({ title, icon: Icon, active, tab }: NavItemProps) {
   return (
     <button
       className={clsx('group flex items-center gap-3 rounded px-3 py-2 cursor-pointer w-full', {
-        'bg-violet-200': active
+        'bg-violet-200': active,
+        
       })}
       onClick={() => setCurrentTab(tab)}
     >
       <Icon className="h-5 w-5 text-zinc-500" />
-      <span className="font-medium text-zinc-700 group-hover:text-violet-500">
+      <span 
+      
+        className={clsx('font-medium ', {
+          'text-white': active,
+          'text-zinc-700': !active
+        })}>
+
         {title}
       </span>
     </button>

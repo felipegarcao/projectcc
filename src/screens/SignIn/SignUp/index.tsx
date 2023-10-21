@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Mail, Lock, Phone, User2, Users, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Phone, Users, User } from "lucide-react";
 import * as Input from "../../../components/Input";
 import { useState } from "react";
 

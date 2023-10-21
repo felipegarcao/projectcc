@@ -95,9 +95,9 @@ export function Inquilinos() {
               htmlFor="firstName"
               className="text-sm font-medium text-zinc-700"
             >
-              Nome & Sobrenome
+              Nome 
             </label>
-            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
+            <div className="grid lg:grid-cols-1 grid-cols-1 gap-6 ">
               <div className="flex flex-col">
                 <Controller
                   name="firstName"
@@ -113,20 +113,6 @@ export function Inquilinos() {
                 </span>
               </div>
 
-              <div className="flex flex-col">
-                <Controller
-                  name="lastName"
-                  control={control}
-                  render={({ field }) => (
-                    <Input.Root>
-                      <Input.Control {...field} />
-                    </Input.Root>
-                  )}
-                />
-                <span className="text-red-600 text-sm ml-2">
-                  {errors?.lastName?.message}
-                </span>
-              </div>
             </div>
           </div>
 
