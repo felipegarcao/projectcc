@@ -200,6 +200,63 @@ export function Imoveis() {
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
+          <label htmlFor="role" className="text-sm font-medium text-zinc-700">
+            Dormitórios | Suítes | Vagas de garagem
+          </label>
+
+          <div className="grid grid-cols-3 gap-3">
+            <Controller
+              name="cep"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  placeholder="Dormitórios"
+                  onValueChange={field.onChange}
+                  {...field}
+                >
+                  <SelectItem value="1" text="1" />
+                  <SelectItem  value="2" text="2"/>
+                  <SelectItem value="3" text="3" />
+                </Select>
+               
+              )}
+            />
+
+            <Controller
+              name="cep"
+              control={control}
+              render={({ field }) => (
+                <Select
+                placeholder="Suítes"
+                onValueChange={field.onChange}
+                {...field}
+              >
+                <SelectItem value="1" text="1" />
+                <SelectItem  value="2" text="2"/>
+                <SelectItem value="3" text="3" />
+              </Select>
+              )}
+            />
+
+            <Controller
+              name="cep"
+              control={control}
+              render={({ field }) => (
+                <Select
+                placeholder="Vagas na garagem"
+                onValueChange={field.onChange}
+                {...field}
+              >
+                <SelectItem value="1" text="1" />
+                <SelectItem  value="2" text="2"/>
+                <SelectItem value="3" text="3" />
+              </Select>
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="projects"
             className="text-sm font-medium text-zinc-700"
