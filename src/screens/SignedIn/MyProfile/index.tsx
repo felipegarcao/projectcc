@@ -1,36 +1,126 @@
-import { MapPin } from "lucide-react";
+import { Key, User2Icon, UserCircle } from "lucide-react";
+import * as Input from "../../../components/Input";
 
 export function MyProfile() {
   return (
-    <div className="grid grid-cols-[280px_1fr] gap-5 mt-5">
-      <div className="shadow p-5">
-        <div className="flex flex-col gap-3 items-center justify-center">
-          <img
-            src="https://github.com/felipegarcao.png"
-            className="rounded-full w-1/2 h-1/2"
-            alt=""
-          />
-          <h2>Luis Felipe Garção Silva</h2>
-
-          <span>Desenvolvedor Front-End</span>
-
-          <span className="flex items-center text-xs gap-2">
-            <MapPin size={20} />
-            Presidente Prudente, SP, Brasil
-          </span>
-
-          <div className="border-t p-3 w-full flex justify-center">
-            <span className="text-xs font-bold">
-              Conta Criada em: MARÇO, 2021
-            </span>
+    <form className="space-y-10 mt-5">
+      <div className="shadow-md p-4 rounded-lg">
+        <header className="flex items-center gap-2  border-b my-3 pb-3">
+          <UserCircle className="text-violet-500" />
+          Dados do Perfil
+        </header>
+        <section className="grid grid-cols-[150px_1fr] gap-5">
+          <div className="flex flex-col items-center gap-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/552/552721.png" alt="" />
+            <button className="bg-violet-500 p-2 rounded-md text-white">Remover</button>
           </div>
-        </div>
+          <div className="grid grid-cols-3 gap-4">
+            <label
+              htmlFor="email"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              Nome Completo
+              <Input.Root>
+                <Input.Control id="email" type="email" />
+              </Input.Root>
+            </label>
+
+            <label
+              htmlFor="email"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              Nome Completo
+              <Input.Root>
+                <Input.Control id="email" type="email" />
+              </Input.Root>
+            </label>
+
+            <label
+              htmlFor="email"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              Nome Completo
+              <input type="radio" />
+              <input type="radio" />
+            </label>
+
+            <label
+              htmlFor="email"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              CPF
+              <Input.Root>
+                <Input.Control id="email" type="email" />
+              </Input.Root>
+            </label>
+
+            <label
+              htmlFor="email"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              RG
+              <Input.Root>
+                <Input.Control id="email" type="email" />
+              </Input.Root>
+            </label>
+
+            <label
+              htmlFor="email"
+              className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+            >
+              Telefone
+              <Input.Root>
+                <Input.Control id="email" type="email" />
+              </Input.Root>
+            </label>
+          </div>
+        </section>
       </div>
-      <div className="shadow p-5">
-        <div>
-          <h2>Teste</h2>
-        </div>
+
+      <div className="shadow-md p-4 rounded-lg">
+        <header className="flex items-center gap-2 border-b my-3 pb-3">
+          <User2Icon className="text-violet-500" />
+          Profissional
+        </header>
+        <section className="grid grid-cols-[400px]">
+          <label className="flex flex-col gap-2 text-sm font-medium text-zinc-700">
+            Cargo
+            <Input.Root>
+              <Input.Control />
+            </Input.Root>
+          </label>
+        </section>
       </div>
-    </div>
+
+      <div className="shadow-md p-4 rounded-lg">
+        <header className="flex items-center gap-2 border-b my-3 pb-3">
+          <Key  className="text-violet-500" />
+          Redefinir senha
+        </header>
+        <section className="grid grid-cols-[300px_300px] gap-5">
+          <label
+          
+            className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+          >
+            Senha Atual
+            <Input.Root>
+              <Input.Control />
+            </Input.Root>
+          </label>
+          <label
+
+            className="flex flex-col gap-2 text-sm font-medium text-zinc-700"
+          >
+            Nova senha
+            <Input.Root>
+              <Input.Control />
+            </Input.Root>
+          </label>
+        </section>
+        <footer className="flex justify-end mt-3">
+          <button className="bg-violet-500 p-2 rounded-md text-white">Salvar</button>
+        </footer>
+      </div>
+    </form>
   );
 }

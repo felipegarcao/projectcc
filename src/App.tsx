@@ -12,7 +12,7 @@ function App() {
   return (
     <>
       <ToastContainer theme="colored" position="top-right"></ToastContainer>
-      {false ? (
+      {app ? (
         <div className="grid min-h-screen lg:grid-cols-app">
           <Sidebar />
 
