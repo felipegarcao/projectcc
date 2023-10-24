@@ -4,8 +4,6 @@ import { Contrato } from "../../screens/SignedIn/Contrato";
 import { HomePage } from "../../screens/SignedIn/Home/HomePage";
 import { Imoveis } from "../../screens/SignedIn/Imoveis";
 import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
-import { Select } from "../Form/Select";
-import { SelectItem } from "../Form/Select/SelectItem";
 import { TabItem } from "./TabItem";
 import { useContext } from "react";
 import { Requests } from "../../screens/SignedIn/Requests";
@@ -51,21 +49,6 @@ export function SettingsTabs() {
         />
       </Tabs.List>
 
-      <div className="block lg:hidden">
-        <Select
-          placeholder="Selecione"
-          defaultValue={currentTab}
-          onValueChange={setCurrentTab}
-        >
-          <SelectItem value="tab1" text="Home" />
-          <SelectItem value="tab3" text="Inquilinos" />
-          <SelectItem value="tab2" text="Perfil" />
-
-          <SelectItem value="tab5" text="Contrato/Cadastrado" />
-          <SelectItem value="tab6" text="Imoveis" />
-          <SelectItem value="tab7" text="Solicitação" />
-        </Select>
-      </div>
 
       <Tabs.Content value="tab1">
         <HomePage />

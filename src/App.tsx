@@ -1,5 +1,4 @@
 
-import { Header } from "./components/Header";
 import { Login } from "./screens/SignIn/Login";
 import { RouterApp } from "./routes";
 import { Sidebar } from "./components/Sidebar";
@@ -16,10 +15,8 @@ function App() {
         <div className="grid min-h-screen lg:grid-cols-app">
           <Sidebar />
 
-          <div className="block lg:hidden">
-            <Header />
-          </div>
-          <main className="px-8 pb-12 pt-8">
+  
+          <main className="px-4 pb-12 pt-24 lg:col-start-2 lg:px-8 lg:pb-12 lg:pt-8">
             <RouterApp />
           </main>
         </div>
