@@ -204,7 +204,7 @@ export function Imoveis() {
             Dormitórios | Suítes | Vagas de garagem
           </label>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid lg:grid-cols-3 grid-cols-1 gap-3">
             <Controller
               name="cep"
               control={control}

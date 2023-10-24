@@ -9,7 +9,7 @@ export function Requests() {
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
-      <Tabs.List className="mt-6 lg:flex hidden w-full items-center gap-4 border-b border-zinc-200 flex-wrap">
+      <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200 ">
         <TabItem
           value="acesso"
           title="Acesso"
@@ -22,7 +22,7 @@ export function Requests() {
         />
       </Tabs.List>
       <Tabs.Content value="acesso">
-        <div className="grid grid-cols-3 gap-4 mt-5">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
           <div className="shadow p-3">
             <section className="flex flex-col text-sm">
               <h2>Luis Felipe Garção Silva</h2>

@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
 import { Home } from '../screens/SignedIn/Home'
-import { Historico } from '../screens/SignedIn/Inquilinos/Historico'
 import { DetailsHome } from '../screens/SignedIn/DetailsHome'
 
 export function RouterApp() {
