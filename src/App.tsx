@@ -1,4 +1,4 @@
-import { ButtonContato } from "./components/ButtonContato";
+
 import { Header } from "./components/Header";
 import { Login } from "./screens/SignIn/Login";
 import { RouterApp } from "./routes";
@@ -21,7 +21,6 @@ function App() {
           </div>
           <main className="px-8 pb-12 pt-8">
             <RouterApp />
-            <ButtonContato />
           </main>
         </div>
       ) : (
