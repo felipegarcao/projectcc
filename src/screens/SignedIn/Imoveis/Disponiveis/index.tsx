@@ -1,4 +1,4 @@
-import { ArrowRight, MapPin } from "lucide-react";
+
 
 export function ImoveisDisponiveis() {
   return (

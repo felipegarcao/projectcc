@@ -9,11 +9,11 @@ import { tenantsResource } from "../../../services/resources/tenants";
 export function ListInquilinos() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
   const [loading, setLoading] = useState(true);
-  const [statusTenants, setStatusTenants] = useState(true)
 
   useEffect(() => {
     tenantsResource().then((result) => {
 
+      setTenants(result.user)
 
       setLoading(false)
     });
@@ -22,7 +22,7 @@ export function ListInquilinos() {
   return (
     <div className="space-y-7">
       <h1 className="text-3xl font-medium text-zinc-900 mt-5">
-        Listagem de Inquilino {!statusTenants && '(Desativados)'}
+        Listagem de Inquilino
       </h1>
 
       {loading ? (
@@ -45,7 +45,7 @@ export function ListInquilinos() {
                     status={tenant.status}
                     avatarUrl={tenant.avatarUrl}
                     cpf={tenant.cpf}
-                    firstName={tenant.firstName}
+                   name={tenant.name}
                     profissao={tenant.profissao}
                     key={tenant.id}
                     id={tenant.id}
@@ -60,7 +60,7 @@ export function ListInquilinos() {
               <CardUsers
                 avatarUrl={_.avatarUrl}
                 cpf={_.cpf}
-                firstName={_.firstName}
+                name={_.name}
                 profissao={_.profissao}
                 key={_.id}
                 id={_.id}

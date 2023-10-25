@@ -33,6 +33,9 @@ export function Imoveis() {
       cidade: "",
       estado: "",
       observacao: "",
+      dormitorios: "",
+      suites: "",
+      vagas_garagem: ""
     },
   });
 

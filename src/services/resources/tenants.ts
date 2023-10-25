@@ -1,10 +1,10 @@
 import { Tenants } from "../../@types/tenants";
-import { apiJson } from "../api";
+import { api } from "../api";
 import { toast } from "react-toastify";
 
 export const tenantsResource = async () => {
   try {
-    const { data } = await apiJson.get("/tenants");
+    const { data } = await api.get("/user/tenant/on");
 
     return data;
   } catch (e: any) {
@@ -14,7 +14,7 @@ export const tenantsResource = async () => {
 
 export const tenantsIdResource = async (id: string): Promise<any> => {
   try {
-    const { data } = await apiJson.get(`/tenants/${id}`);
+    const { data } = await api.get(`/tenants/${id}`);
     return data;
   } catch (e: any) {
     toast.error("Error");
@@ -23,7 +23,7 @@ export const tenantsIdResource = async (id: string): Promise<any> => {
 
 export const createTenantsResource = async (data: Tenants) => {
   try {
-    await apiJson.post("/tenants", {
+    await api.post("/user/register/tenant", {
       ...data,
     });
     toast.success("Inquilino criado com sucesso !");

@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
 import { House } from "../../@types/Imoveis";
-import { api, apiJson } from "../api"
+import { apiNotBaseUrl, api } from "../api"
 
 export const ufResources = async () => {
   try {
 
-    const {data} = await api.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados/')
+    const {data} = await apiNotBaseUrl.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados/')
 
     return data;
 
@@ -16,7 +16,7 @@ export const ufResources = async () => {
 
 export const createHouse = async (data: House) => {
   try {
-    await apiJson.post("/house", {
+    await api.post("/house", {
       ...data,
     });
     toast.success("Casa cadastrada com sucesso !");
@@ -28,7 +28,7 @@ export const createHouse = async (data: House) => {
 export const listImoveis = async () => {
   try {
 
-    const {data} = await apiJson.get('/house')
+    const {data} = await api.get('/house')
 
     return data;
 
@@ -41,7 +41,7 @@ export const listImoveis = async () => {
 export const listIdImoveis = async (id: string) => {
   try {
 
-    const {data} = await apiJson.get(`/house/${id}`)
+    const {data} = await api.get(`/house/${id}`)
 
     return data;
 

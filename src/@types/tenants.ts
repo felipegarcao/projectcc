@@ -1,7 +1,6 @@
 export interface Tenants {
   id: number, 
-  firstName: string, 
-  lastName?: string,
+ name: string;
   cpf?: string,
   rg?: string,
   status?: "on" | "off" ;

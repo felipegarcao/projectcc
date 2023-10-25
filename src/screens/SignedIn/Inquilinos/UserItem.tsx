@@ -4,8 +4,7 @@ import { Avatar } from "../../../components/Avatar";
 import { Tenants } from "../../../@types/tenants";
 
 export function UserItem({
-  avatarUrl,
-  firstName,
+  name,
   cpf,
   profissao,
   status,
@@ -15,7 +14,7 @@ export function UserItem({
       <td className="p-3">
         <div className="flex items-center gap-3">
           <Avatar />
-          <span>{firstName}</span>
+          <span>{name}</span>
         </div>
       </td>
 

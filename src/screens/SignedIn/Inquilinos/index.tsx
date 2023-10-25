@@ -1,6 +1,4 @@
 import * as Input from "../../../components/Input";
-import * as FileInput from "../../../components/Form/FileInput";
-
 import { List, Mail } from "lucide-react";
 import { ListInquilinos } from "./ListInquilinos";
 import { useState } from "react";
@@ -11,6 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createTenantsResource } from "../../../services/resources/tenants";
 import { handleSubmittedTypes } from "./types";
 import { inquilinosSchema } from "./validation";
+import { RadioButtonGroup } from "../../../components/Form/RadioButton";
+import { RadioItem } from "../../../components/Form/RadioButton/RadioItem";
 
 export function Inquilinos() {
   const [openList, setOpenList] = useState(false);
@@ -19,29 +19,26 @@ export function Inquilinos() {
     handleSubmit,
     control,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(inquilinosSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      civilStatus: "solteiro",
-      cpf: "",
+      name: "",
       email: "",
-      observation: "",
-      profissao: "",
+      cpf: "",
       rg: "",
+      profissao: "",
+      estado_civil: "solteiro",
+      observacao: "",
+      password: "",
+      phone: "",
+      sexo: "",
     },
   });
 
   const onSubmit = async (data: any) => {
-    const newData = {
-      ...data,
-      avatarUrl: "",
-      status: "on",
-    };
 
-    await createTenantsResource(newData);
+    await createTenantsResource(data);
 
     reset();
   };
@@ -91,16 +88,13 @@ export function Inquilinos() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="grid lg:grid-cols-form gap-3 ">
-            <label
-              htmlFor="firstName"
-              className="text-sm font-medium text-zinc-700"
-            >
-              Nome 
+            <label htmlFor="name" className="text-sm font-medium text-zinc-700">
+              Nome
             </label>
             <div className="grid lg:grid-cols-1 grid-cols-1 gap-6 ">
               <div className="flex flex-col">
                 <Controller
-                  name="firstName"
+                  name="name"
                   control={control}
                   render={({ field }) => (
                     <Input.Root>
@@ -109,10 +103,9 @@ export function Inquilinos() {
                   )}
                 />
                 <span className="text-red-600 text-sm ml-2">
-                  {errors?.firstName?.message}
+                  {errors?.name?.message}
                 </span>
               </div>
-
             </div>
           </div>
 
@@ -153,6 +146,45 @@ export function Inquilinos() {
             </div>
           </div>
 
+          <div className="grid lg:grid-cols-form gap-3 pt-5">
+            <label htmlFor="cpf" className="text-sm font-medium text-zinc-700">
+              Telefone & Sexo
+            </label>
+            <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
+              <div className="flex flex-col">
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control {...field} />
+                    </Input.Root>
+                  )}
+                />
+                <span className="text-red-600 text-sm ml-2">
+                  {errors?.phone?.message}
+                </span>
+              </div>
+
+              <div className="flex flex-col">
+                <Controller
+                  name="sexo"
+                  control={control}
+                  render={({ field }) => (
+                    <RadioButtonGroup onValueChange={field.onChange}>
+                      <RadioItem text="Masculino" value="M" />
+                      <RadioItem text="Feminino" value="F" />
+                    </RadioButtonGroup>
+                  )}
+                />
+
+                <span className="text-red-600 text-sm ml-2">
+                  {errors?.rg?.message}
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
             <label htmlFor="role" className="text-sm font-medium text-zinc-700">
               Estado Civil
@@ -160,7 +192,7 @@ export function Inquilinos() {
 
             <div className="flex flex-col">
               <Controller
-                name="civilStatus"
+                name="estado_civil"
                 control={control}
                 render={({ field }) => (
                   <Select
@@ -175,7 +207,7 @@ export function Inquilinos() {
                 )}
               />
               <span className="text-red-600 text-sm ml-2">
-                {errors?.civilStatus?.message}
+                {errors?.estado_civil?.message}
               </span>
             </div>
           </div>
@@ -205,23 +237,6 @@ export function Inquilinos() {
                 {errors?.email?.message}
               </span>
             </div>
-          </div>
-
-          <div className="grid lg:grid-cols-form gap-3 pt-5">
-            <label
-              htmlFor="photo"
-              className="text-sm font-medium text-zinc-700"
-            >
-              Foto
-              <span className="mt-0.5 block text-sm font-normal text-zinc-500">
-                Adicione uma foto.
-              </span>
-            </label>
-            <FileInput.Root className="flex items-start gap-5">
-              <FileInput.ImagePreview />
-              <FileInput.Trigger />
-              <FileInput.Control />
-            </FileInput.Root>
           </div>
 
           <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
@@ -254,7 +269,7 @@ export function Inquilinos() {
             </label>
 
             <Controller
-              name="observation"
+              name="observacao"
               control={control}
               render={({ field }) => (
                 <textarea

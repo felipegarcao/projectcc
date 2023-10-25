@@ -41,7 +41,7 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
         text: "Locatário:",
         style: "subheader",
       },
-      `Nome: ${inquilino.firstName} ${inquilino.lastName}`,
+      `Nome: ${inquilino.name}`,
       `Endereço: ${imovel.rua} - ${imovel.numero}`,
       `Telefone: (18) 99794-3842`,
       `Email: ${inquilino.email}\n\n`,

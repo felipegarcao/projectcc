@@ -31,7 +31,8 @@ export function Contrato() {
 
   async function carregarDados() {
     tenantsResource().then((result) => {
-      setTenants(result?.tenants);
+      setTenants(result?.user);
+     
     });
 
     listImoveis().then((result) => {
@@ -145,7 +146,7 @@ export function Contrato() {
                       <SelectItem
                         key={tenant.id}
                         value={String(tenant.id)}
-                        text={tenant.firstName + " -  " + tenant.cpf}
+                        text={tenant.name + " -  " + tenant.cpf}
                       />
                     ))}
                   </Select>
