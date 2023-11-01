@@ -7,7 +7,7 @@ import { Tenants } from "../../../@types/tenants";
 import {
   tenantsIdResource,
   tenantsResource,
-} from "../../../services/resources/tenants";
+} from "../../../services/resources/user";
 import {
   listIdImoveis,
   listImoveis,

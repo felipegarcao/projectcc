@@ -12,6 +12,16 @@ export const tenantsResource = async () => {
   }
 };
 
+export const tenantsPendingResource = async () => {
+  try {
+    const { data } = await api.get("/user/tenant/on");
+
+    return data;
+  } catch (e: any) {
+    toast.error("Error: " + e.message);
+  }
+}
+
 export const tenantsIdResource = async (id: string): Promise<any> => {
   try {
     const { data } = await api.get(`/tenants/${id}`);

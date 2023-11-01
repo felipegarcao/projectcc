@@ -1,18 +1,18 @@
 import { toast } from "react-toastify";
 import { House } from "../../@types/Imoveis";
-import { apiNotBaseUrl, api } from "../api"
+import { apiNotBaseUrl, api } from "../api";
 
 export const ufResources = async () => {
   try {
-
-    const {data} = await apiNotBaseUrl.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados/')
+    const { data } = await apiNotBaseUrl.get(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados/"
+    );
 
     return data;
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
-}
+};
 
 export const createHouse = async (data: House) => {
   try {
@@ -23,29 +23,24 @@ export const createHouse = async (data: House) => {
   } catch (e: any) {
     toast.error("Error: " + e.message);
   }
-}
+};
 
 export const listImoveis = async () => {
   try {
-
-    const {data} = await api.get('/house')
+    const { data } = await api.get("/house");
 
     return data;
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
-}
-
+};
 
 export const listIdImoveis = async (id: string) => {
   try {
-
-    const {data} = await api.get(`/house/${id}`)
+    const { data } = await api.get(`/house/${id}`);
 
     return data;
-
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
-}
+};

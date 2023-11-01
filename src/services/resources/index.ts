@@ -1,4 +1,3 @@
-import { QuantidadeProps } from "../../screens/SignedIn/Home/types";
 import { api } from "../api";
 
 export const quantidadesCounts = async () => {

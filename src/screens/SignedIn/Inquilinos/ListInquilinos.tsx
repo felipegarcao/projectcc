@@ -4,7 +4,7 @@ import { CardUsers } from "./Historico/CardUsers";
 import { Spinner } from "../../../components/Spinner";
 import { Tenants } from "../../../@types/tenants";
 import { UserItem } from "./UserItem";
-import { tenantsResource } from "../../../services/resources/tenants";
+import { tenantsResource } from "../../../services/resources/user";
 
 export function ListInquilinos() {
   const [tenants, setTenants] = useState<Tenants[]>([]);

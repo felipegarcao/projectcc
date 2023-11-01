@@ -6,7 +6,7 @@ import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createTenantsResource } from "../../../services/resources/tenants";
+import { createTenantsResource } from "../../../services/resources/user";
 import { handleSubmittedTypes } from "./types";
 import { inquilinosSchema } from "./validation";
 import { RadioButtonGroup } from "../../../components/Form/RadioButton";

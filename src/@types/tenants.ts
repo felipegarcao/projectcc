@@ -8,5 +8,6 @@ export interface Tenants {
   email?: string,
   avatarUrl?: string;
   profissao?: string,
+  phone?: string;
   observation?: string;
 }

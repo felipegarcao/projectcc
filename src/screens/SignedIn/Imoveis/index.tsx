@@ -246,7 +246,7 @@ export function Imoveis() {
               control={control}
               render={({ field }) => (
                 <Select
-                placeholder="Vagas na garagem"
+                placeholder="Vagas"
                 onValueChange={field.onChange}
                 {...field}
               >
