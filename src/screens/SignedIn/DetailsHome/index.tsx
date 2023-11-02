@@ -76,7 +76,36 @@ export function DetailsHome() {
             Encontre mais imóveis similares
           </h2>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-3 gap-3">
+            <div className="max-w-sm rounded overflow-hidden shadow-lg">
+              <img
+                className="w-full h-[200px]"
+                src="https://github.com/felipegarcao.png"
+                alt="Sunset in the mountains"
+              />
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2">R$ 1.150</div>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="flex items-center gap-2">
+                    <strong>120</strong> m²
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <strong>3</strong> Quartos
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <strong>1</strong> Banheiro
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <strong>2</strong> Vagas
+                  </span>
+                </div>
+                <p className="text-gray-700 text-sm text-justify mt-3">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Voluptatibus quia, nulla! Maiores et perferendis eaque,
+                  exercitationem praesentium nihil.
+                </p>
+              </div>
+            </div>
             <div className="max-w-sm rounded overflow-hidden shadow-lg">
               <img
                 className="w-full h-[200px]"
@@ -164,10 +193,10 @@ export function DetailsHome() {
               />
             </div>
 
-            {/* https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es */}
-            <button className="bg-green-400 p-3 text-white rounded-md">
+
+            <a target="_blank" href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es " className="bg-green-400 p-3 text-white rounded-md text-center" rel="noreferrer">
               Contato por WhatsApp
-            </button>
+            </a>
             <button className="border-2 border-yellow-500 text-yellow-500 p-3 rounded-md">
               Quero Visitar
             </button>

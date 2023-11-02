@@ -11,3 +11,16 @@ export interface Tenants {
   phone?: string;
   observation?: string;
 }
+
+
+export interface ParamsEditProfile  {
+  name: string;
+  cpf: string;
+  rg: string;
+  civilStatus: string;
+  email: string;
+  phone: string;
+  profissao: string;
+  new_password: string;
+  password: string;
+}

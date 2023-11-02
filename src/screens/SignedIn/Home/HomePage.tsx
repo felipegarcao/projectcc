@@ -78,7 +78,7 @@ export function HomePage() {
         Casas Disponíveis
       </h1>
 
-      <div className="mt-5 grid lg:grid-cols-1 md:grid-cols-2 grid-cols-1 gap-3">
+      <div className="mt-5 grid grid-cols-1 gap-3">
         <ImoveisDisponiveis />
         <ImoveisDisponiveis />
         <ImoveisDisponiveis />

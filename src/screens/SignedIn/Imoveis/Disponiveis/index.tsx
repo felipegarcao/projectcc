@@ -3,9 +3,9 @@
 export function ImoveisDisponiveis() {
   return (
     <div className="border border-gray-200 rounded-lg shadow">
-      <div className="flex">
+      <div className="grid lg:grid-cols-[360px_1fr] md:grid-cols-[250px_1fr] grid-cols-1">
         <img
-          className=" w-[360px] h-[240px]"
+          className=" h-[240px] w-full"
           src="https://www.plantapronta.com.br/projetos/161/01.jpg"
           alt=""
         />

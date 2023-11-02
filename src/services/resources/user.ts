@@ -1,4 +1,4 @@
-import { Tenants } from "../../@types/tenants";
+import { ParamsEditProfile, Tenants } from "../../@types/tenants";
 import { api } from "../api";
 import { toast } from "react-toastify";
 
@@ -14,13 +14,34 @@ export const tenantsResource = async () => {
 
 export const tenantsPendingResource = async () => {
   try {
-    const { data } = await api.get("/user/tenant/on");
+    const { data } = await api.get("/user/pending");
 
     return data;
   } catch (e: any) {
     toast.error("Error: " + e.message);
   }
-}
+};
+
+export const editProfileResource = async (params: ParamsEditProfile) => {
+  try {
+    await api.put("/user/editar-perfil", {
+      ...params,
+    });
+    toast.success("Perfil alterado com sucesso !");
+  } catch (error: any) {
+    toast.error("Error: " + error.message);
+  }
+};
+
+export const acceptedUserResource = async (id: number) => {
+  try {
+    await api
+      .put(`/user/accept/${id}`)
+      .then((response) => toast.success(response.data.message));
+  } catch (error: any) {
+    toast.error("Error: " + error.message);
+  }
+};
 
 export const tenantsIdResource = async (id: string): Promise<any> => {
   try {
