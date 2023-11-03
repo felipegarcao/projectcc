@@ -4,8 +4,9 @@ import { Select } from "../../../../../components/Form/Select";
 import { SelectItem } from "../../../../../components/Form/Select/SelectItem";
 import { useParams } from "react-router-dom";
 import { solicitarVisitaResource } from "../../../../../services/resources/user";
+import { Props } from "./types";
 
-export function RightContent() {
+export function RightContent({preco}: Props) {
   const [requestVisit, setRequestVisit] = useState(false);
 
   const dias = [
@@ -46,7 +47,7 @@ export function RightContent() {
         <div className="bg-gray-200 p-4 flex flex-col border rounded-md">
           <span>ALUGUEL</span>
           <span>
-            <strong>R$ 800</strong>/mês
+            <strong>R$ {preco}</strong>/mês
           </span>
         </div>
       </div>

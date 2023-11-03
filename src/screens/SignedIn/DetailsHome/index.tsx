@@ -2,8 +2,26 @@ import { Armchair, Copy, ShowerHead, Car } from "lucide-react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { RightContent } from "./local-components/right-content";
+import { useEffect, useState } from "react";
+import { listIdImoveis } from "../../../services/resources/properties";
+import { useParams } from "react-router-dom";
+import { DetailsHouse, House } from "../../../@types/Imoveis";
+import { Similares } from "./local-components/similares";
 
 export function DetailsHome() {
+  const { id } = useParams();
+  const [data, setData] = useState({} as DetailsHouse)
+
+  useEffect(() => {
+    carregarDados();
+  }, []);
+
+  async function carregarDados() {
+    if (id) {
+      await listIdImoveis(id).then((x) => setData(x.house));
+    }
+  }
+
   return (
     <div>
       <Carousel
@@ -15,46 +33,61 @@ export function DetailsHome() {
         centerSlidePercentage={33.3}
       >
         <div>
-          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="" />
+          <img
+            src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
+            alt=""
+          />
         </div>
         <div>
-          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="" />
+          <img
+            src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
+            alt=""
+          />
         </div>
         <div>
-          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="Image 3" />
+          <img
+            src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
+            alt="Image 3"
+          />
         </div>
         <div>
-          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="Image 3" />
+          <img
+            src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
+            alt="Image 3"
+          />
         </div>
         <div>
-          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="Image 3" />
+          <img
+            src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
+            alt="Image 3"
+          />
         </div>
       </Carousel>
       <div className="grid grid-cols-[1fr_300px] gap-6">
         <div>
           <h2>
-            Casa com 3 Quartos e 1 banheiro para Alugar, 135 m² por R$ 800/Mês
+            Casa com {data.dormitorios} Quartos e {data.suites} banheiro para Alugar, {data.tamanho} m² por R$ {data.preco}/Mês
           </h2>
-          <span>Brasil Novo, Presidente Prudente - SP</span>
+          <span>{data.bairro},  {data.cidade} - {data.estado}</span>
           <div className="grid grid-cols-4 gap-4">
             <div className="flex items-center gap-4">
               <Copy />
-              <span>135m²</span>
+              <span>{data.tamanho}m²</span>
             </div>
             <div className="flex items-center gap-4">
               <Armchair />
-              <span> 3 quartos</span>
+              <span> {data.suites ? data.suites : 0} quartos</span>
             </div>
             <div className="flex items-center gap-4">
               <ShowerHead />
               <div className="flex flex-col">
-                <span> 1 banheiro </span>
-                <span>1 suíte</span>
+                <span> {data.suites ? data.suites : 0} banheiro </span>
+                <span>{data.suites ? data.suites : 0} suíte</span>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <Car />
-              <span>2 vagas</span>
+              <span>{data.vagas_garagem ? data.vagas_garagem : 0} vagas</span>
             </div>
           </div>
 
@@ -73,110 +106,18 @@ export function DetailsHome() {
             <span>7 avaliações</span>
           </div>
 
-          <h2 className="text-3xl text-center my-10">
-            Encontre mais imóveis similares
-          </h2>
+          <p className="text-sm text-gray-700 leading-relaxed mt-3 text-justify">
+            {data.observacao}
+          </p>
 
-          <div className="grid grid-cols-3 gap-3">
-        
-            <div className="max-w-sm rounded overflow-hidden shadow-lg">
-              <img
-                className="w-full h-[200px]"
-                src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
-                alt="Sunset in the mountains"
-              />
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">R$ 1.150</div>
-                <div className="flex items-center gap-2 flex-wrap  text-sm">
-                  <span className="flex items-center gap-1">
-                    <strong>120</strong> m²
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>3</strong> Quartos
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>1</strong> Banheiro
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>2</strong> Vagas
-                  </span>
-                </div>
-                <p className="text-gray-700 text-sm text-justify mt-3">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Voluptatibus quia, nulla! Maiores et perferendis eaque,
-                  exercitationem praesentium nihil.
-                </p>
-              </div>
-            </div>
-            <div className="max-w-sm rounded overflow-hidden shadow-lg">
-              <img
-                className="w-full h-[200px]"
-                src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
-                alt="Sunset in the mountains"
-              />
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">R$ 1.150</div>
-                <div className="flex items-center gap-2 flex-wrap  text-sm">
-                  <span className="flex items-center gap-1">
-                    <strong>120</strong> m²
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>3</strong> Quartos
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>1</strong> Banheiro
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>2</strong> Vagas
-                  </span>
-                </div>
-                <p className="text-gray-700 text-sm text-justify mt-3">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Voluptatibus quia, nulla! Maiores et perferendis eaque,
-                  exercitationem praesentium nihil.
-                </p>
-              </div>
-            </div>
-            <div className="max-w-sm rounded overflow-hidden shadow-lg">
-              <img
-                className="w-full h-[200px]"
-                src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
-                alt="Sunset in the mountains"
-              />
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">R$ 1.150</div>
-                <div className="flex items-center gap-2 flex-wrap  text-sm">
-                  <span className="flex items-center gap-1">
-                    <strong>120</strong> m²
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>3</strong> Quartos
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>1</strong> Banheiro
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <strong>2</strong> Vagas
-                  </span>
-                </div>
-                <p className="text-gray-700 text-sm text-justify mt-3">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Voluptatibus quia, nulla! Maiores et perferendis eaque,
-                  exercitationem praesentium nihil.
-                </p>
-              </div>
-            </div>
-           
-          </div>
+          <Similares />
 
           <a href="/" className="text-center mt-4 text-violet-500 block">
             Ver mais casas disponiveis
           </a>
         </div>
 
-
-        <RightContent />
-       
+        <RightContent preco={data.preco} />
       </div>
     </div>
   );
