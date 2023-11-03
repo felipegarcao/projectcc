@@ -263,6 +263,45 @@ export function Imoveis() {
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
+          <label htmlFor="city" className="text-sm font-medium text-zinc-700">
+            Preço & Tamanho m²
+          </label>
+          <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
+            <div className="flex flex-col">
+              <Controller
+                name="preco"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} type="number" />
+                  </Input.Root>
+                )}
+              />
+
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.preco?.message}
+              </span>
+            </div>
+
+            <div className="flex flex-col">
+              <Controller
+                name="tamanho"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                  <Input.Control {...field} type="number" />
+                </Input.Root>
+                )}
+              />
+              <span className="text-red-600 text-sm ml-2">
+                {errors?.tamanho?.message}
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
             htmlFor="projects"
             className="text-sm font-medium text-zinc-700"

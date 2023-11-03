@@ -305,7 +305,7 @@ export function Contrato() {
           <button
             type="button"
             className="rounded-lg border border-violet-700 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm hover:bg-violet-700 hover:text-white"
-            // onClick={() => generat}
+            // onClick={() => generatePdf()}
           >
             Preview
           </button>

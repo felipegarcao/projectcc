@@ -13,7 +13,7 @@ interface generatePdfProps {
 }
 
 export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
-  // let base64;
+  let base64;
 
 
   const currencyFormatted = new Intl.NumberFormat('pt-BR', {
@@ -187,11 +187,11 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
       },
     },
   };
-  // pdfMake.createPdf(dd).getBase64((data) => {
-  //   // base64 = `data:application/pdf;base64, ${data}`;
+  pdfMake.createPdf(dd).getBase64((data) => {
+    base64 = `data:application/pdf;base64, ${data}`;
 
-  //   console.log(data)
-  // })
+    console.log(data)
+  })
 
   pdfMake.createPdf(dd).open();
 }

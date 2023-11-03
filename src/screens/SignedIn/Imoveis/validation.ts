@@ -12,5 +12,6 @@ export const imoveilSchema = z.object({
   numero: z.string().min(1, "Informe o numero do endereço"),
   observacao: z.string(),
   rua: z.string().min(2, "Informe o nome da rua"),
-  
+  preco: z.string().min(3, 'Informe o preço corretamente'),
+  tamanho: z.string()
 });
