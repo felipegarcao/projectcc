@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { ElementType, useContext } from 'react'
 import { applicationContext } from '../../../context/ApplicationContext';
+import { useNavigate } from 'react-router-dom';
 
 interface NavItemProps {
   title: string
@@ -12,6 +13,13 @@ interface NavItemProps {
 export function NavItem({ title, icon: Icon, active, tab }: NavItemProps) {
   const {setCurrentTab} = useContext(applicationContext)
 
+  const navigate = useNavigate()
+
+  function handleNavigation(tab: string) {
+    setCurrentTab(tab)
+    navigate('/')
+  }
+
 
   return (
     <button
@@ -19,7 +27,7 @@ export function NavItem({ title, icon: Icon, active, tab }: NavItemProps) {
         'bg-violet-200': active,
         
       })}
-      onClick={() => setCurrentTab(tab)}
+      onClick={() => handleNavigation(tab)}
     >
       <Icon className="h-5 w-5 text-zinc-500" />
       <span 

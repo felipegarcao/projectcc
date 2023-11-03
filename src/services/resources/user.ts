@@ -63,6 +63,18 @@ export const createTenantsResource = async (data: Tenants) => {
   }
 };
 
+export const solicitarVisitaResource = async (data: any) => {
+  try {
+    await api.post("/visita", {
+      ...data,
+    });
+
+    toast.success('Solicitação de visita enviada com sucesso !");');
+  } catch (e: any) {
+    toast.error("Error: " + e.message);
+  }
+};
+
 export const deleteTenantsResouce = async (id: number) => {
   try {
   } catch (e: any) {}

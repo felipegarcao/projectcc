@@ -4,6 +4,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { TabItem } from "../../../components/SettingsTabs/TabItem";
 import { useState } from "react";
 import { Acesso } from "./screens/acesso";
+import { Visita } from "./screens/visita";
 
 export function Requests() {
   const [currentTab, setCurrentTab] = useState("acesso");
@@ -24,6 +25,9 @@ export function Requests() {
       </Tabs.List>
       <Tabs.Content value="acesso">
         <Acesso />
+      </Tabs.Content>
+      <Tabs.Content value="visitas">
+        <Visita />
       </Tabs.Content>
     </Tabs.Root>
   );

@@ -1,6 +1,7 @@
 import { Armchair, Copy, ShowerHead, Car } from "lucide-react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { RightContent } from "./local-components/right-content";
 
 export function DetailsHome() {
   return (
@@ -14,19 +15,19 @@ export function DetailsHome() {
         centerSlidePercentage={33.3}
       >
         <div>
-          <img src="https://github.com/felipegarcao.png" alt="" />
+          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="" />
         </div>
         <div>
-          <img src="https://github.com/felipegarcao.png" alt="" />
+          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="" />
         </div>
         <div>
-          <img src="https://github.com/felipegarcao.png" alt="Image 3" />
+          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="Image 3" />
         </div>
         <div>
-          <img src="https://github.com/felipegarcao.png" alt="Image 3" />
+          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="Image 3" />
         </div>
         <div>
-          <img src="https://github.com/felipegarcao.png" alt="Image 3" />
+          <img src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais" alt="Image 3" />
         </div>
       </Carousel>
       <div className="grid grid-cols-[1fr_300px] gap-6">
@@ -60,7 +61,7 @@ export function DetailsHome() {
           <div className="border rounded-md p-4 flex justify-between">
             <div className="flex gap-2">
               <img
-                src="https://github.com/felipegarcao.png"
+                src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
                 alt=""
                 className="h-20 w-20"
               />
@@ -77,25 +78,26 @@ export function DetailsHome() {
           </h2>
 
           <div className="grid grid-cols-3 gap-3">
+        
             <div className="max-w-sm rounded overflow-hidden shadow-lg">
               <img
                 className="w-full h-[200px]"
-                src="https://github.com/felipegarcao.png"
+                src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
                 alt="Sunset in the mountains"
               />
               <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">R$ 1.150</div>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap  text-sm">
+                  <span className="flex items-center gap-1">
                     <strong>120</strong> m²
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>3</strong> Quartos
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>1</strong> Banheiro
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>2</strong> Vagas
                   </span>
                 </div>
@@ -109,22 +111,22 @@ export function DetailsHome() {
             <div className="max-w-sm rounded overflow-hidden shadow-lg">
               <img
                 className="w-full h-[200px]"
-                src="https://github.com/felipegarcao.png"
+                src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
                 alt="Sunset in the mountains"
               />
               <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">R$ 1.150</div>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap  text-sm">
+                  <span className="flex items-center gap-1">
                     <strong>120</strong> m²
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>3</strong> Quartos
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>1</strong> Banheiro
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>2</strong> Vagas
                   </span>
                 </div>
@@ -138,22 +140,22 @@ export function DetailsHome() {
             <div className="max-w-sm rounded overflow-hidden shadow-lg">
               <img
                 className="w-full h-[200px]"
-                src="https://github.com/felipegarcao.png"
+                src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
                 alt="Sunset in the mountains"
               />
               <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">R$ 1.150</div>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap  text-sm">
+                  <span className="flex items-center gap-1">
                     <strong>120</strong> m²
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>3</strong> Quartos
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>1</strong> Banheiro
                   </span>
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <strong>2</strong> Vagas
                   </span>
                 </div>
@@ -164,48 +166,17 @@ export function DetailsHome() {
                 </p>
               </div>
             </div>
+           
           </div>
 
           <a href="/" className="text-center mt-4 text-violet-500 block">
             Ver mais casas disponiveis
           </a>
         </div>
-        <div className="flex flex-col gap-4">
-          <div>
-            <div className="bg-gray-200 p-4 flex flex-col border rounded-md">
-              <span>ALUGUEL</span>
-              <span>
-                <strong>R$ 800</strong>/mês
-              </span>
-            </div>
-          </div>
-
-          <div className="p-4 flex flex-col border rounded-md gap-4">
-            <div className="flex justify-between items-center">
-              <div className="flex flex-col">
-                <span>ANUNCIANTE</span>
-                <span>Imobiliária Kelly Imóveis</span>
-              </div>
-              <img
-                src="https://github.com/felipegarcao.png"
-                alt=""
-                className="h-10 w-10"
-              />
-            </div>
 
 
-            <a target="_blank" href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es " className="bg-green-400 p-3 text-white rounded-md text-center" rel="noreferrer">
-              Contato por WhatsApp
-            </a>
-            <button className="border-2 border-yellow-500 text-yellow-500 p-3 rounded-md">
-              Quero Visitar
-            </button>
-
-            <button className="rounded-md p-3 bg-red-500 text-white">
-              Quero mais informações
-            </button>
-          </div>
-        </div>
+        <RightContent />
+       
       </div>
     </div>
   );

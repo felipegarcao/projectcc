@@ -21,6 +21,7 @@ export function Imoveis() {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(imoveilSchema),
@@ -49,6 +50,8 @@ export function Imoveis() {
       adm_id: 1,
       arquivo: "",
     });
+
+    reset()
   };
 
   return (
@@ -209,7 +212,7 @@ export function Imoveis() {
 
           <div className="grid lg:grid-cols-3 grid-cols-1 gap-3">
             <Controller
-              name="cep"
+              name="dormitorios"
               control={control}
               render={({ field }) => (
                 <Select

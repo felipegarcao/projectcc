@@ -14,6 +14,8 @@ import { MyProfile } from "../../screens/SignedIn/MyProfile";
 export function SettingsTabs() {
   const { currentTab, setCurrentTab } = useContext(applicationContext);
 
+
+
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
       <ScrollArea.Root className="w-full" type="scroll">
