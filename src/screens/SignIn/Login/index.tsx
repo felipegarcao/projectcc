@@ -9,7 +9,8 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "./validation";
 import { handleSubmittedTypes } from "./types";
-import { loginResource } from "../../../services/resources/auth/login";
+import { api } from "../../../services/api";
+import { toast } from "react-toastify";
 
 export function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -28,7 +29,12 @@ export function Login() {
   });
 
   const onSubmit = async (data: any) => {
-    await loginResource(data)
+    await api.post('/user/login', {...data}).then(response => {
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+    }).catch((error) => {
+      toast.error(error.message)
+    })
   }
 
   return (

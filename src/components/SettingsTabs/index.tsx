@@ -11,6 +11,7 @@ import { Requests } from "../../screens/SignedIn/Requests";
 import { applicationContext } from "../../context/ApplicationContext";
 import { MyProfile } from "../../screens/SignedIn/MyProfile";
 import { ListagemInquilinos } from "../../screens/SignedIn/Inquilinos/Listagem";
+import { ListagemContrato } from "../../screens/SignedIn/Contrato/Listagem";
 
 export function SettingsTabs() {
   const { currentTab, setCurrentTab } = useContext(applicationContext);
@@ -42,6 +43,12 @@ export function SettingsTabs() {
               value="tab5"
               title="Contrato/Cadastrar"
               isSelected={currentTab === "tab5"}
+            />
+
+<TabItem
+              value="tab9"
+              title="Contrato/Listar"
+              isSelected={currentTab === "tab9"}
             />
 
             <TabItem
@@ -99,6 +106,12 @@ export function SettingsTabs() {
       <Tabs.Content value="tab8">
         <ListagemInquilinos />
       </Tabs.Content>
+
+
+      <Tabs.Content value="tab9">
+        <ListagemContrato />
+      </Tabs.Content>
+
     </Tabs.Root>
   );
 }

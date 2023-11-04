@@ -32,7 +32,7 @@ export function Similares() {
         Encontre mais imóveis similares
       </h2>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
         {houses.map((house) => (
           <div
             className="max-w-sm rounded overflow-hidden shadow-lg"

@@ -1,4 +1,5 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
+import { Tenants } from "../@types/tenants";
 
 interface ApplicationContextProviderPops {
   children: ReactNode;
@@ -23,11 +24,22 @@ export function ApplicationContextProvider({
   const [collapsed, setCollapsed] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentTab, setCurrentTab] = useState("tab1");
-  const [newRequest, setNewRequest] = useState(0)
+  const [newRequest, setNewRequest] = useState(0);
+  const [user, SetUser] = useState({} as Tenants)
+
 
   const toogle = () => {
     setCollapsed(old => !old)
   }
+
+
+  useEffect(() => {
+
+
+
+
+
+  }, [])
   
   return (
     <applicationContext.Provider

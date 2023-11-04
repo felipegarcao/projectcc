@@ -8,5 +8,6 @@ export interface Contrato {
   observacao: string;
   casa_id: number;
   user_id: string;
-  uri_contrato: string;
+  uri_contrato: any;
+  name?: string;
 }
