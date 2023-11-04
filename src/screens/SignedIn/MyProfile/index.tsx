@@ -7,15 +7,33 @@ import { EditProfileSchema } from "./validation";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { handleSubmittedTypes } from "./types";
 import { editProfileResource } from "../../../services/resources/user";
+import { useEffect } from "react";
 
 export function MyProfile() {
   const {
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(EditProfileSchema),
   });
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      const decode = JSON.parse(user);
+
+      setValue('cpf', decode.cpf)
+      setValue('email', decode.email)
+      setValue('rg', decode.rg)
+      setValue('phone', decode.phone)
+      setValue('profissao', decode.profissao)
+      setValue('name', decode.name)
+      setValue('estado_civil', decode.estado_civil)
+    }
+  }, []);
 
   async function onSubmit(data: any) {
     await editProfileResource(data)
@@ -35,7 +53,10 @@ export function MyProfile() {
               alt=""
               className="h-32 w-32 lg:w-full lg:h-full"
             />
-            <button className="bg-violet-500 p-2 rounded-md text-white" type="button">
+            <button
+              className="bg-violet-500 p-2 rounded-md text-white"
+              type="button"
+            >
               Remover
             </button>
           </div>
@@ -70,7 +91,7 @@ export function MyProfile() {
                   </Input.Root>
                 )}
               />
-                <span className="text-red-600 text-sm ml-2">
+              <span className="text-red-600 text-sm ml-2">
                 {errors?.data_nascimento?.message}
               </span>
             </label>
@@ -89,7 +110,7 @@ export function MyProfile() {
                   </Input.Root>
                 )}
               />
-                <span className="text-red-600 text-sm ml-2">
+              <span className="text-red-600 text-sm ml-2">
                 {errors?.email?.message}
               </span>
             </label>
@@ -105,7 +126,7 @@ export function MyProfile() {
                   </Input.Root>
                 )}
               />
-                <span className="text-red-600 text-sm ml-2">
+              <span className="text-red-600 text-sm ml-2">
                 {errors?.rg?.message}
               </span>
             </label>
@@ -121,7 +142,7 @@ export function MyProfile() {
                   </Input.Root>
                 )}
               />
-                <span className="text-red-600 text-sm ml-2">
+              <span className="text-red-600 text-sm ml-2">
                 {errors?.cpf?.message}
               </span>
             </label>
@@ -143,7 +164,7 @@ export function MyProfile() {
                   </Select>
                 )}
               />
-                <span className="text-red-600 text-sm ml-2">
+              <span className="text-red-600 text-sm ml-2">
                 {errors?.estado_civil?.message}
               </span>
             </label>
@@ -159,7 +180,7 @@ export function MyProfile() {
                   </Input.Root>
                 )}
               />
-                <span className="text-red-600 text-sm ml-2">
+              <span className="text-red-600 text-sm ml-2">
                 {errors?.phone?.message}
               </span>
             </label>
@@ -184,9 +205,9 @@ export function MyProfile() {
                 </Input.Root>
               )}
             />
-              <span className="text-red-600 text-sm ml-2">
-                {errors?.profissao?.message}
-              </span>
+            <span className="text-red-600 text-sm ml-2">
+              {errors?.profissao?.message}
+            </span>
           </label>
         </section>
       </div>
@@ -208,9 +229,9 @@ export function MyProfile() {
                 </Input.Root>
               )}
             />
-              <span className="text-red-600 text-sm ml-2">
-                {errors?.password?.message}
-              </span>
+            <span className="text-red-600 text-sm ml-2">
+              {errors?.password?.message}
+            </span>
           </label>
           <label className="flex flex-col gap-2 text-sm font-medium text-zinc-700">
             Nova senha
@@ -223,13 +244,16 @@ export function MyProfile() {
                 </Input.Root>
               )}
             />
-              <span className="text-red-600 text-sm ml-2">
-                {errors?.new_password?.message}
-              </span>
+            <span className="text-red-600 text-sm ml-2">
+              {errors?.new_password?.message}
+            </span>
           </label>
         </section>
         <footer className="flex justify-end mt-3">
-          <button className="bg-violet-500 p-2 rounded-md text-white" type="submit">
+          <button
+            className="bg-violet-500 p-2 rounded-md text-white"
+            type="submit"
+          >
             Salvar
           </button>
         </footer>

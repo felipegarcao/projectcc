@@ -1,6 +1,55 @@
+import { useEffect, useState } from "react";
 import { Avatar } from "../../../../components/Avatar";
 
+interface MonthData {
+  month: number;
+  status: string;
+}
+
+interface YearData {
+  year: number;
+  months: MonthData[];
+}
+
 export function Historico() {
+  const [paymentData, setPaymentData] = useState<YearData[]>([]);
+
+  const generateMonths = (): MonthData[] => {
+    const months: MonthData[] = [];
+    for (let i = 0; i < 12; i++) {
+      months.push({
+        month: i + 1,
+        status: "pendente", // Definindo inicialmente como "pendente"
+      });
+    }
+    return months;
+  };
+
+  useEffect(() => {
+    const generatePaymentHistory = (): void => {
+      const currentYear = new Date().getFullYear();
+      const years: YearData[] = [];
+      for (let i = 0; i < 2; i++) {
+        const year = currentYear - i;
+        const months = generateMonths();
+        years.push({ year, months });
+      }
+      setPaymentData(years);
+    };
+
+    generatePaymentHistory();
+  }, []);
+
+  const handlePayment = (
+    yearIndex: number,
+    monthIndex: number,
+    status: string
+  ): void => {
+    const updatedPaymentData = [...paymentData];
+    updatedPaymentData[yearIndex].months[monthIndex].status = status;
+    setPaymentData(updatedPaymentData);
+  };
+
   return (
     <>
       <div className="shadow-md rounded-md">
@@ -15,19 +64,25 @@ export function Historico() {
           </div>
           <div className="p-6">
             <div>
-              <span className="text-gray-500 text-lg">Informações Pessoais</span>
+              <span className="text-gray-500 text-lg">
+                Informações Pessoais
+              </span>
 
               <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-3  gap-2 sm:gap-0">
                 <div className="flex flex-col">
                   <strong className="text-gray-500 text-sm">Email</strong>
-                  <span className="text-sm text-gray-400">felipe-mara2003@hotmail.com</span>
+                  <span className="text-sm text-gray-400">
+                    felipe-mara2003@hotmail.com
+                  </span>
                 </div>
                 <div className="flex flex-col">
                   <strong className="text-gray-500 text-sm">Telefone:</strong>
                   <span className="text-sm text-gray-400">(18) 99794-3842</span>
                 </div>
                 <div className="flex flex-col">
-                  <strong className="text-gray-500 text-sm">Estado Civil:</strong>
+                  <strong className="text-gray-500 text-sm">
+                    Estado Civil:
+                  </strong>
                   <span className="text-sm text-gray-400">Solteiro</span>
                 </div>
               </div>
@@ -45,7 +100,7 @@ export function Historico() {
             </div>
 
             <div className="mt-4">
-            <span className="text-gray-500 text-lg">Observação:</span>
+              <span className="text-gray-500 text-lg">Observação:</span>
               <p className="text-sm text-gray-400">dsadadsadadadsacase1</p>
             </div>
 
@@ -58,91 +113,34 @@ export function Historico() {
 
       <h2 className="my-10 text-2xl  text-violet-600">Histórico</h2>
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-md hidden md:block">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Endereço
-              </th>
-
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Valor
-              </th>
-              <th scope="col" className="px-6 py-3">
-                <span className="sr-only">Edit</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="bg-white border-b border-gray-70 text-gray-500">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium whitespace-nowrap"
-              >
-                Apple MacBook Pro 17"
-              </th>
-
-              <td className="px-6 py-4">Laptop</td>
-              <td className="px-6 py-4">$2999</td>
-              <td className="px-6 py-4 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-violet-600 hover:underline"
+      <div>
+        {paymentData.map((yearData) => (
+          <div key={yearData.year}>
+            <h2 className="my-5 text-2xl  text-violet-600">{yearData.year}</h2>
+            {yearData.months.map((month, monthIndex) => (
+              <div className="flex justify-between shadow-md p-4 rounded-lg">
+                <span>Month: {month.month}</span>
+                <select
+                  value={month.status}
+                  onChange={(e) =>
+                    handlePayment(
+                      paymentData.indexOf(yearData),
+                      monthIndex,
+                      e.target.value
+                    )
+                  }
                 >
-                  Edit
-                </a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b border-gray-70 text-gray-500">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium whitespace-nowrap"
-              >
-                Apple MacBook Pro 17"
-              </th>
-
-              <td className="px-6 py-4">Laptop</td>
-              <td className="px-6 py-4">$2999</td>
-              <td className="px-6 py-4 text-right">
-                <a
-                  href="#"
-                  className="font-medium text-violet-600 hover:underline"
-                >
-                  Edit
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div className="md:hidden block mt-10">
-        <div className="shadow-md p-3 ">
-          <div className="flex flex-col">
-            <strong className="text-gray-500 text-sm">Endereço:</strong>
-            <span className="text-sm text-gray-400">Rua maria do espirito santo - 59</span>
+                  <option value="pendente">Pendente</option>
+                  <option value="pago">Pago</option>
+                  <option value="atrasado">Atrasado</option>
+                  <option value="pago parceladamente">
+                    Pago Parceladamente
+                  </option>
+                </select>
+              </div>
+            ))}
           </div>
-
-          <div className="flex justify-between">
-            <div className="flex flex-col">
-              <strong className="text-gray-500 text-sm">Status:</strong>
-              <span className="text-sm text-gray-400">Pago</span>
-            </div>
-
-            <div className="flex flex-col">
-              <strong className="text-gray-500 text-sm">Valor:</strong>
-              <span className="text-sm text-gray-400">R$ 200,00</span>
-            </div>
-          </div>
-
-          <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 mt-3 w-full">
-            Edit
-          </button>
-        </div>
+        ))}
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 import * as Input from "../../../components/Input";
 import { Mail } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { Controller, useForm } from "react-hook-form";
@@ -10,9 +10,16 @@ import { handleSubmittedTypes } from "./types";
 import { inquilinosSchema } from "./validation";
 import { RadioButtonGroup } from "../../../components/Form/RadioButton";
 import { RadioItem } from "../../../components/Form/RadioButton/RadioItem";
+import { DetailsHouse } from "../../../@types/Imoveis";
+import { listImoveis } from "../../../services/resources/properties";
+import { toast } from "react-toastify";
+import { Spinner } from "../../../components/Spinner";
 
 export function Inquilinos() {
   const [openList, setOpenList] = useState(false);
+
+  const [imoveis, setImoveis] = useState<DetailsHouse[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const {
     handleSubmit,
@@ -36,11 +43,26 @@ export function Inquilinos() {
   });
 
   const onSubmit = async (data: any) => {
-
     await createTenantsResource(data);
 
     reset();
   };
+
+  async function carregarDados() {
+    try {
+      await listImoveis().then((result) => {
+        setImoveis(result?.casa);
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    carregarDados();
+  }, []);
 
   return (
     <>
@@ -49,12 +71,45 @@ export function Inquilinos() {
           Dados do Inquilino
         </h1>
 
-      
-
         <form
           className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200"
           onSubmit={handleSubmit(onSubmit)}
         >
+
+          <div className="grid lg:grid-cols-form gap-3 ">
+            {loading ? (
+              <Spinner />
+            ) : (
+             <>
+                <label htmlFor="name" className="text-sm font-medium text-zinc-700">Selecionar Imovel</label>
+              <Controller
+                name="casa_id"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione o Imóvel"
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    {imoveis?.map((item) => (
+                      <SelectItem
+                        key={item.id}
+                        value={String(item.id)}
+                        text={item.rua + ", " + item.numero + " - " + item.cep}
+                      />
+                    ))}
+                  </Select>
+                )}
+              />
+             </>
+            )}
+
+            <span className="text-red-600 text-sm ml-2">
+              {" "}
+              {errors?.casa_id?.message}
+            </span>
+          </div>
+
           <div className="grid lg:grid-cols-form gap-3 ">
             <label htmlFor="name" className="text-sm font-medium text-zinc-700">
               Nome
@@ -267,8 +322,6 @@ export function Inquilinos() {
           </div>
         </form>
       </div>
-
-      
     </>
   );
 }

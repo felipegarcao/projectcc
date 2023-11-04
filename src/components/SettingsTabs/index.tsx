@@ -12,6 +12,7 @@ import { applicationContext } from "../../context/ApplicationContext";
 import { MyProfile } from "../../screens/SignedIn/MyProfile";
 import { ListagemInquilinos } from "../../screens/SignedIn/Inquilinos/Listagem";
 import { ListagemContrato } from "../../screens/SignedIn/Contrato/Listagem";
+import { MyHouse } from "../../screens/SignedIn/MyHouse";
 
 export function SettingsTabs() {
   const { currentTab, setCurrentTab } = useContext(applicationContext);
@@ -45,7 +46,7 @@ export function SettingsTabs() {
               isSelected={currentTab === "tab5"}
             />
 
-<TabItem
+            <TabItem
               value="tab9"
               title="Contrato/Listar"
               isSelected={currentTab === "tab9"}
@@ -67,6 +68,12 @@ export function SettingsTabs() {
               value="tab2"
               title="Perfil"
               isSelected={currentTab === "tab2"}
+            />
+
+            <TabItem
+              value="tab10"
+              title="Minhas Casas"
+              isSelected={currentTab === "tab10"}
             />
           </Tabs.List>
         </ScrollArea.Viewport>
@@ -107,11 +114,13 @@ export function SettingsTabs() {
         <ListagemInquilinos />
       </Tabs.Content>
 
-
       <Tabs.Content value="tab9">
         <ListagemContrato />
       </Tabs.Content>
 
+      <Tabs.Content value="tab10">
+        <MyHouse />
+      </Tabs.Content>
     </Tabs.Root>
   );
 }

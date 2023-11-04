@@ -14,4 +14,5 @@ export const inquilinosSchema = zod.object({
   sexo: zod.string(),
   phone: zod.string(),
   password: zod.string().default("senha1234"),
+  casa_id: zod.string()
 });
