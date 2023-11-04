@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Select } from "../../../../../components/Form/Select";
+import * as Input from "../../../../../components/Input";
 import { SelectItem } from "../../../../../components/Form/Select/SelectItem";
 import { useParams } from "react-router-dom";
 import { solicitarVisitaResource } from "../../../../../services/resources/user";
 import { Props } from "./types";
 
-export function RightContent({preco}: Props) {
+export function RightContent({ preco }: Props) {
   const [requestVisit, setRequestVisit] = useState(false);
 
   const dias = [
@@ -26,20 +27,19 @@ export function RightContent({preco}: Props) {
     formState: { errors },
   } = useForm();
 
-  const {id} = useParams()
+  const { id } = useParams();
 
   const onSubmit = async (data: any) => {
     const dataFormatted = {
       ...data,
-      casa_id: Number(id)
-    }
+      casa_id: Number(id),
+    };
 
-    await solicitarVisitaResource(dataFormatted)
+    await solicitarVisitaResource(dataFormatted);
 
-    reset()
-    setRequestVisit(false)
-  }
-
+    reset();
+    setRequestVisit(false);
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -53,7 +53,40 @@ export function RightContent({preco}: Props) {
       </div>
 
       {requestVisit ? (
-        <form className="p-4 flex flex-col border rounded-md gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="p-4 flex flex-col border rounded-md gap-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Controller
+            name="nome"
+            control={control}
+            render={({ field }) => (
+              <Input.Root>
+                <Input.Control {...field} placeholder="Nome" />
+              </Input.Root>
+            )}
+          />
+
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input.Root>
+                <Input.Control {...field} placeholder="Email" />
+              </Input.Root>
+            )}
+          />
+
+          <Controller
+            name="telefone"
+            control={control}
+            render={({ field }) => (
+              <Input.Root>
+                <Input.Control {...field} placeholder="Telefone" />
+              </Input.Root>
+            )}
+          />
+
           <Controller
             name="periodo"
             control={control}
@@ -98,12 +131,19 @@ export function RightContent({preco}: Props) {
             )}
           />
 
-          <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700" type="submit">
+          <button
+            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
+            type="submit"
+          >
             Enviar
           </button>
 
-          <button type="button" onClick={() => setRequestVisit(false)} className="border px-4 py-2 text-sm rounded-lg">
-              Cancelar
+          <button
+            type="button"
+            onClick={() => setRequestVisit(false)}
+            className="border px-4 py-2 text-sm rounded-lg"
+          >
+            Cancelar
           </button>
         </form>
       ) : (

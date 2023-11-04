@@ -7,6 +7,9 @@ interface Visita {
   dia: string;
   observacao: string;
   status: string;
+  telefone: string;
+  email: string;
+  nome: string;
 }
 
 export interface Listagem {

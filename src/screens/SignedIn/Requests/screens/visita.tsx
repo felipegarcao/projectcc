@@ -20,21 +20,18 @@ export function Visita() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Pendentes</h1>
 
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
+        {visitas?.listagem?.pending?.length === 0 && <h2>Não ha Solicitação</h2>}
         {visitas?.listagem?.pending?.map((item, index) => (
           <div className="shadow p-3" key={index}>
             <section className="flex flex-col text-sm gap-1">
-              <h2>Luis Felipe Garção Silva</h2>
+              <h2>{item.nome}</h2>
 
-              <span>Telefone: 18997943842</span>
-              <span>Email: felipe-mara2003@hotmail.com</span>
+              <span>Telefone: {item.telefone}</span>
+              <span>Email: {item.email}</span>
 
               <p>
                 <strong>Motivo: </strong>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestias, repudiandae sed. Unde iure laboriosam illum
-                asperiores veniam officia doloremque nam, tempora ipsa mollitia
-                error, cumque exercitationem distinctio voluptates in
-                recusandae!
+               {item.motivo}
               </p>
             </section>
 
@@ -54,6 +51,8 @@ export function Visita() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Aceitas</h1>
 
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
+      {visitas?.listagem?.accepted?.length === 0 && <h2>Não ha Solicitação</h2>}
+
         {visitas?.listagem?.accepted?.map((item, index) => (
           <div className="shadow p-3" key={index}>
             <section className="flex flex-col text-sm gap-1">
@@ -82,6 +81,7 @@ export function Visita() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Recusas</h1>
 
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
+      {visitas?.listagem?.denied?.length === 0 && <h2>Não ha Solicitação</h2>}
 
       {visitas?.listagem?.denied?.map((item, index) => (
           <div className="shadow p-3" key={index}>
@@ -111,6 +111,8 @@ export function Visita() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Finalizadas</h1>
 
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
+      {visitas?.listagem?.done?.length === 0 && <h2>Não ha Solicitação</h2>}
+
       {visitas?.listagem?.done?.map((item, index) => (
          <div className="shadow p-3" key={index}>
          <section className="flex flex-col text-sm gap-1">

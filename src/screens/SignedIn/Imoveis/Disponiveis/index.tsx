@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { CasasDisponiveisProps } from "./types";
 
 
 export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
+
+  const navigate = useNavigate()
+
   return (
     <div className="border border-gray-200 rounded-lg shadow">
       <div className="grid lg:grid-cols-[360px_1fr] md:grid-cols-[250px_1fr] grid-cols-1">
@@ -34,7 +38,7 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
             <p>
               <strong>R$ {item.preco}</strong> /mês
             </p>
-            <a href={`detalhamento-casa/${item.id}`} className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg">Detalhes</a>
+            <button onClick={() => navigate(`/detalhamento-casa/${item.id}`)}  className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg">Detalhes</button>
           </footer>
         </div>
       </div>
