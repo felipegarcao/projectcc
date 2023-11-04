@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Spinner } from "../../../../components/Spinner";
 import { UserItem } from "../UserItem";
 import { Tenants } from "../../../../@types/tenants";
@@ -7,12 +7,17 @@ import {
   tenantsOffResource,
   tenantsResource,
 } from "../../../../services/resources/user";
+import { applicationContext } from "../../../../context/ApplicationContext";
 
 export function ListagemInquilinos() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
   const [tenantsOff, setTenantsOff] = useState<Tenants[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingOff, setLoadingOff] = useState(true);
+
+
+  const {newRequest} = useContext(applicationContext)
+
 
   useEffect(() => {
     tenantsResource().then((result) => {
@@ -26,7 +31,7 @@ export function ListagemInquilinos() {
 
       setLoadingOff(false);
     });
-  }, []);
+  }, [newRequest]);
 
   return (
     <div className="space-y-7">

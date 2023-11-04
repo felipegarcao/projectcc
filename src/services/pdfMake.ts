@@ -3,24 +3,27 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { Tenants } from "../@types/tenants";
 import { DetailsHouse } from "../@types/Imoveis";
 import { handleSubmittedTypes } from "../screens/SignedIn/Contrato/types";
+import { api } from "./api";
+import { createContrato } from "./resources/contrato";
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 interface generatePdfProps {
   inquilino: Tenants;
   imovel: DetailsHouse;
-  contrato: handleSubmittedTypes
+  contrato: handleSubmittedTypes;
 }
 
-export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
-
-
-
-  const currencyFormatted = new Intl.NumberFormat('pt-BR', {
+export async function generatePdf({
+  inquilino,
+  imovel,
+  contrato,
+}: generatePdfProps) {
+  const currencyFormatted = new Intl.NumberFormat("pt-BR", {
     style: "currency",
-    currency: 'BRL',
-    minimumFractionDigits: 2
-  })
+    currency: "BRL",
+    minimumFractionDigits: 2,
+  });
 
   var dd = {
     content: [
@@ -28,7 +31,7 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
         text: "CONTRATO DE ALUGUEL RESIDENCIAL",
         style: "header",
       },
-      "Entre Contrato de aluguel Residencial (doravante referido como 'Contrato') é celebrado neste dia 08/09, entre:\n\n",
+      `Entre Contrato de aluguel Residencial (doravante referido como 'Contrato') é celebrado neste dia ${contrato.data_vigencia}, entre:\n\n`,
       {
         text: "Locador:",
         style: "subheader",
@@ -134,9 +137,8 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
       },
       {
         ul: [
-          "Animais de estimação: [Regras sobre animais de estimação, se aplicável]",
+          "Animais de estimação: Permitido",
           "Sublocação: [Política de sublocação, se aplicável]",
-          "Outras cláusulas e disposições específicas: [Incluir qualquer cláusula adicional necessária]",
         ],
       },
       {
@@ -190,11 +192,30 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
 
   let base64;
 
-  pdfMake.createPdf(dd).getBase64((data) => {
+  pdfMake.createPdf(dd).getBase64(async (data) => {
     base64 = `data:application/pdf;base64, ${data}`;
 
-    console.log(data)
-  })
+  
+      await createContrato({
+        casa_id: imovel.id,
+        user_id: inquilino.id,
+        data_vencimento: contrato.data_vencimento,
+        data_vigencia: contrato.data_vigencia,
+        duracao_meses: contrato.duracao_meses,
+        finalidade: contrato.finalidade,
+        juros_atraso: contrato.juros_atraso,
+        observacao: contrato.observacao,
+        uri_contrato: base64,
+        valor_aluguel: contrato.valor_aluguel,
+      })
+    
 
-  pdfMake.createPdf(dd).open();
+
+    // pdfMake.createPdf(dd).open()
+
+  });
+
+
+
+  console.log(imovel, contrato, base64);
 }

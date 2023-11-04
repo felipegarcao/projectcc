@@ -49,6 +49,7 @@ export function Contrato() {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(contratoSchema),
@@ -77,6 +78,9 @@ export function Contrato() {
       imovel: house,
       contrato: data,
     });
+
+
+    reset()
   }
 
   return (

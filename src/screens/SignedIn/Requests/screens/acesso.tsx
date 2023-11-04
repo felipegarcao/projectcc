@@ -12,7 +12,7 @@ export function Acesso() {
     tenantsPendingResource().then((x) => setPending(x.usersPending));
   }, []);
 
-  async function handleAcceptUser(id: number) {
+  async function handleAcceptUser(id: string) {
     await acceptedUserResource(id);
    
   }

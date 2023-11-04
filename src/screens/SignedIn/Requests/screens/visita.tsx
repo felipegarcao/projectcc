@@ -9,7 +9,6 @@ export function Visita() {
     await listagemVisita().then((x) => setVisitas(x));
   }
 
-  console.log(visitas.listagem);
 
   useEffect(() => {
     carregarDados();

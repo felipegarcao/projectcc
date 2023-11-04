@@ -46,7 +46,7 @@ export const editProfileResource = async (params: ParamsEditProfile) => {
   }
 };
 
-export const acceptedUserResource = async (id: number) => {
+export const acceptedUserResource = async (id: string) => {
   try {
     await api
       .put(`/user/accept/${id}`)
@@ -101,7 +101,13 @@ export const listagemVisita = async () => {
 
 
 
-export const deleteTenantsResouce = async (id: number) => {
+export const disableTenantsResouce = async (id: string) => {
   try {
+
+    await api.post(`/user/desabilitar/${id}`)
+
+    toast.info('usuario desabilitado com sucesso !');
+
+
   } catch (e: any) {}
 };
