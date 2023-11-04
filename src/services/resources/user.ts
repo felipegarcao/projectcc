@@ -12,6 +12,19 @@ export const tenantsResource = async () => {
   }
 };
 
+
+
+export const tenantsOffResource = async () => {
+  try {
+    const { data } = await api.get("/user/tenant/off");
+
+    return data;
+  } catch (e: any) {
+    toast.error("Error: " + e.message);
+  }
+};
+
+
 export const tenantsPendingResource = async () => {
   try {
     const { data } = await api.get("/user/pending");
@@ -45,7 +58,7 @@ export const acceptedUserResource = async (id: number) => {
 
 export const tenantsIdResource = async (id: string): Promise<any> => {
   try {
-    const { data } = await api.get(`/tenants/${id}`);
+    const { data } = await api.get(`/user/tenant/${id}`);
     return data;
   } catch (e: any) {
     toast.error("Error");
@@ -74,6 +87,19 @@ export const solicitarVisitaResource = async (data: any) => {
     toast.error("Error: " + e.message);
   }
 };
+
+
+export const listagemVisita = async () => {
+  try {
+    const { data } = await api.get(`/visita/listagem`);
+    return data;
+  } catch (e: any) {
+    toast.error("Error");
+  }
+}
+
+
+
 
 export const deleteTenantsResouce = async (id: number) => {
   try {

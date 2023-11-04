@@ -15,29 +15,35 @@ import {
 import { generatePdf } from "../../../services/pdfMake";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { House } from "../../../@types/Imoveis";
+import { DetailsHouse } from "../../../@types/Imoveis";
 import { contratoSchema } from "./validation";
 import { handleSubmittedTypes } from "./types";
 import { Spinner } from "../../../components/Spinner";
+import { toast } from "react-toastify";
 
 export function Contrato() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
-  const [imoveis, setImoveis] = useState<House[]>([]);
+  const [imoveis, setImoveis] = useState<DetailsHouse[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    carregarDados().then(() => setLoading(false));
+    carregarDados();
   }, []);
 
   async function carregarDados() {
-    tenantsResource().then((result) => {
-      setTenants(result?.user);
-     
-    });
+    try {
+      await tenantsResource().then((result) => {
+        setTenants(result?.user);
+      });
 
-    listImoveis().then((result) => {
-      setImoveis(result?.house);
-    });
+      await listImoveis().then((result) => {
+        setImoveis(result?.casa);
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const {
@@ -47,25 +53,28 @@ export function Contrato() {
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(contratoSchema),
     defaultValues: {
-      imovel: "",
-      inquilino: "",
-      dataInicio: "",
-      duracao: "",
+      casa_id: "",
+      user_id: "",
+      data_vigencia: "",
+      duracao_meses: "",
       finalidade: "",
-      dataVencimento: "",
-      valorAluguel: "",
-      juros: "",
+      data_vencimento: "",
+      valor_aluguel: "",
+      juros_atraso: "",
       observacao: "",
     },
   });
 
   async function onSubmit(data: handleSubmittedTypes) {
-    const inquilino = await tenantsIdResource(data.imovel);
-    const imovel = await listIdImoveis(data.imovel);
+    const {user} = await tenantsIdResource(data.user_id);
+    const {house} = await listIdImoveis(data.casa_id);
+
+
+
 
     generatePdf({
-      inquilino,
-      imovel,
+      inquilino: user,
+      imovel: house,
       contrato: data,
     });
   }
@@ -93,7 +102,7 @@ export function Contrato() {
               <Spinner />
             ) : (
               <Controller
-                name="imovel"
+                name="casa_id"
                 control={control}
                 render={({ field }) => (
                   <Select
@@ -115,7 +124,7 @@ export function Contrato() {
 
             <span className="text-red-600 text-sm ml-2">
               {" "}
-              {errors?.imovel?.message}
+              {errors?.casa_id?.message}
             </span>
           </div>
         </div>
@@ -129,16 +138,15 @@ export function Contrato() {
           </label>
 
           <div className="flex flex-col">
-            {
-              loading ? (
-                <Spinner />
-              ) : (
-                <Controller
+            {loading ? (
+              <Spinner />
+            ) : (
+              <Controller
                 control={control}
-                name="inquilino"
+                name="user_id"
                 render={({ field }) => (
                   <Select
-                  placeholder="Selecione o Inquilino"
+                    placeholder="Selecione o Inquilino"
                     onValueChange={field.onChange}
                     {...field}
                   >
@@ -152,19 +160,18 @@ export function Contrato() {
                   </Select>
                 )}
               />
-              )
-            }
-         
+            )}
+
             <span className="text-red-600 text-sm ml-2">
               {" "}
-              {errors?.inquilino?.message}
+              {errors?.user_id?.message}
             </span>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label
-            htmlFor="datainicio"
+            htmlFor="data_vigencia"
             className="text-sm font-medium text-zinc-700"
           >
             Data de Inicio de vigência & Duração (meses)
@@ -173,7 +180,7 @@ export function Contrato() {
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
               <Controller
                 control={control}
-                name="dataInicio"
+                name="data_vigencia"
                 render={({ field }) => (
                   <Input.Root>
                     <Input.Control {...field} />
@@ -183,7 +190,7 @@ export function Contrato() {
 
               <Controller
                 control={control}
-                name="duracao"
+                name="duracao_meses"
                 render={({ field }) => (
                   <Input.Root>
                     <Input.Control {...field} />
@@ -193,7 +200,7 @@ export function Contrato() {
             </div>
             <span className="text-red-600 text-sm ml-2">
               {" "}
-              {errors?.dataInicio?.message} - {errors?.duracao?.message}
+              {errors?.data_vigencia?.message} - {errors?.duracao_meses?.message}
             </span>
           </div>
         </div>
@@ -225,7 +232,7 @@ export function Contrato() {
               />
 
               <Controller
-                name="dataVencimento"
+                name="data_vencimento"
                 control={control}
                 render={({ field }) => (
                   <Input.Root>
@@ -236,7 +243,7 @@ export function Contrato() {
             </div>
             <span className="text-red-600 text-sm ml-2">
               {" "}
-              {errors?.finalidade?.message} - {errors?.dataVencimento?.message}
+              {errors?.finalidade?.message} - {errors?.data_vencimento?.message}
             </span>
           </div>
         </div>
@@ -256,7 +263,7 @@ export function Contrato() {
             <div className="flex flex-col">
               <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 ">
                 <Controller
-                  name="valorAluguel"
+                  name="valor_aluguel"
                   control={control}
                   render={({ field }) => (
                     <Input.Root>
@@ -266,7 +273,7 @@ export function Contrato() {
                 />
 
                 <Controller
-                  name="juros"
+                  name="juros_atraso"
                   control={control}
                   render={({ field }) => (
                     <Input.Root>
@@ -277,7 +284,7 @@ export function Contrato() {
               </div>
 
               <span className="text-red-600 text-sm ml-2">
-                {errors?.valorAluguel?.message} - {errors?.juros?.message}
+                {errors?.valor_aluguel?.message} - {errors?.juros_atraso?.message}
               </span>
             </div>
           </div>

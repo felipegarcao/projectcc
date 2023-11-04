@@ -10,11 +10,10 @@ import { useContext } from "react";
 import { Requests } from "../../screens/SignedIn/Requests";
 import { applicationContext } from "../../context/ApplicationContext";
 import { MyProfile } from "../../screens/SignedIn/MyProfile";
+import { ListagemInquilinos } from "../../screens/SignedIn/Inquilinos/Listagem";
 
 export function SettingsTabs() {
   const { currentTab, setCurrentTab } = useContext(applicationContext);
-
-
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
@@ -28,8 +27,14 @@ export function SettingsTabs() {
             />
 
             <TabItem
+              value="tab8"
+              title="Inquilinos/Listar"
+              isSelected={currentTab === "tab8"}
+            />
+
+            <TabItem
               value="tab3"
-              title="Inquilinos"
+              title="Inquilinos/Cadastrar"
               isSelected={currentTab === "tab3"}
             />
 
@@ -89,6 +94,10 @@ export function SettingsTabs() {
 
       <Tabs.Content value="tab7">
         <Requests />
+      </Tabs.Content>
+
+      <Tabs.Content value="tab8">
+        <ListagemInquilinos />
       </Tabs.Content>
     </Tabs.Root>
   );

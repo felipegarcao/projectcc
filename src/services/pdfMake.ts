@@ -1,19 +1,19 @@
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { Tenants } from "../@types/tenants";
-import { House } from "../@types/Imoveis";
+import { DetailsHouse } from "../@types/Imoveis";
 import { handleSubmittedTypes } from "../screens/SignedIn/Contrato/types";
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 interface generatePdfProps {
   inquilino: Tenants;
-  imovel: House;
+  imovel: DetailsHouse;
   contrato: handleSubmittedTypes
 }
 
 export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
-  let base64;
+
 
 
   const currencyFormatted = new Intl.NumberFormat('pt-BR', {
@@ -67,7 +67,7 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
         style: "defaultTextBold",
       },
       {
-        text: `O período de locação terá início em ${contrato.dataInicio} e terá uma duração de ${contrato.duracao} meses, encerrando-se em ${contrato.dataVencimento}.\n\n`,
+        text: `O período de locação terá início em ${contrato.data_vigencia} e terá uma duração de ${contrato.duracao_meses} meses, encerrando-se em ${contrato.data_vencimento}.\n\n`,
         style: "defaultText",
       },
 
@@ -78,7 +78,7 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
         style: "defaultTextBold",
       },
       {
-        text: `O valor do aluguel mensal será de ${currencyFormatted}, devido até o dia ${contrato.dataVencimento} de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de depósito bancário, Pix e outros.\n\n`,
+        text: `O valor do aluguel mensal será de ${currencyFormatted}, devido até o dia ${contrato.data_vencimento} de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de depósito bancário, Pix e outros.\n\n`,
         style: "defaultText",
       },
 
@@ -187,6 +187,9 @@ export function generatePdf({ inquilino, imovel, contrato }: generatePdfProps) {
       },
     },
   };
+
+  let base64;
+
   pdfMake.createPdf(dd).getBase64((data) => {
     base64 = `data:application/pdf;base64, ${data}`;
 

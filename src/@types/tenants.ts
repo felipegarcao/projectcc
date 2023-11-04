@@ -3,7 +3,7 @@ export interface Tenants {
  name: string;
   cpf?: string,
   rg?: string,
-  status?: "on" | "off" ;
+  status_user?: "on" | "off" ;
   civilStatus?: string,
   email?: string,
   avatarUrl?: string;

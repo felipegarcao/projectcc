@@ -1,6 +1,5 @@
 import * as Input from "../../../components/Input";
-import { List, Mail } from "lucide-react";
-import { ListInquilinos } from "./ListInquilinos";
+import { Mail } from "lucide-react";
 import { useState } from "react";
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
@@ -50,38 +49,7 @@ export function Inquilinos() {
           Dados do Inquilino
         </h1>
 
-        <div className="flex items-center justify-between border-b border-zinc-200 pb-5">
-          <div className="space-y-1">
-            <h2 className="text-lg font-medium text-zinc-900">
-              Listagem de Inquilinos
-            </h2>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="#down"
-              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-              onClick={() => setOpenList(!openList)}
-            >
-              <List />
-            </a>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between border-b border-zinc-200 pb-5">
-          <div className="space-y-1">
-            <h2 className="text-lg font-medium text-zinc-900">
-              Listagem de Inquilinos (Desativados)
-            </h2>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="#down"
-              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-            >
-              <List />
-            </a>
-          </div>
-        </div>
+      
 
         <form
           className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200"
@@ -300,7 +268,7 @@ export function Inquilinos() {
         </form>
       </div>
 
-      <div id="down">{openList && <ListInquilinos />}</div>
+      
     </>
   );
 }

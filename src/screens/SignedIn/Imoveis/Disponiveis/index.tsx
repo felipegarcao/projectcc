@@ -25,8 +25,8 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
               <span>{item.vagas_garagem} Vagas</span>
             </div>
 
-            <div>
-              <span>Garagem</span>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="p-2  text-xs rounded-lg bg-gray-200">Garagem</span>
             </div>
           </section>
 

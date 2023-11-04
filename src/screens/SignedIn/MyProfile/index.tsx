@@ -35,7 +35,7 @@ export function MyProfile() {
               alt=""
               className="h-32 w-32 lg:w-full lg:h-full"
             />
-            <button className="bg-violet-500 p-2 rounded-md text-white">
+            <button className="bg-violet-500 p-2 rounded-md text-white" type="button">
               Remover
             </button>
           </div>

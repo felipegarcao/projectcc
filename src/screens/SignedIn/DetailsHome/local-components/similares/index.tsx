@@ -1,12 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { listSimilaresImoveis } from "../../../../../services/resources/properties";
 import { useEffect, useState } from "react";
 import { DetailsHouse } from "../../../../../@types/Imoveis";
+import { limitarCaracteres } from "../../../../../utils/format-bytes";
 
 export function Similares() {
   const [houses, setHouses] = useState<DetailsHouse[]>([]);
 
   const { id } = useParams();
+
+  const navigate = useNavigate()
 
   async function carregarDados() {
     if (id) {
@@ -18,6 +21,11 @@ export function Similares() {
     carregarDados();
   }, []);
 
+
+  function handleNavigate(id: number) {
+    navigate(`/detalhamento-casa/${id}`)
+    window.location.reload()
+  }
   return (
     <>
       <h2 className="text-3xl text-center my-10">
@@ -52,8 +60,11 @@ export function Similares() {
                 </span>
               </div>
               <p className="text-gray-700 text-sm text-justify mt-3">
-                {house.observacao}
+                {limitarCaracteres(house.observacao, 200)}
               </p>
+
+              <button onClick={() => handleNavigate(house.id)} className="text-white block text-center mt-3 p-2 bg-violet-500 rounded-lg w-full">Detalhes</button>
+              
             </div>
           </div>
         ))}
