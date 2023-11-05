@@ -229,7 +229,7 @@ export function Imoveis() {
             />
 
             <Controller
-              name="cep"
+              name="suites"
               control={control}
               render={({ field }) => (
                 <Select
@@ -245,7 +245,7 @@ export function Imoveis() {
             />
 
             <Controller
-              name="cep"
+              name="vagas_garagem"
               control={control}
               render={({ field }) => (
                 <Select

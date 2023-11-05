@@ -45,9 +45,20 @@ export const houseDisponiveis = async () => {
   }
 }
 
-export const listIdImoveis = async (id: string) => {
+export const listIdImoveis = async (id: string | number) => {
   try {
     const { data } = await api.get(`/house/detalhes/${id}`);
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}; 
+
+
+export const listIdMyHouse = async (id: string | number) => {
+  try {
+    const { data } = await api.get(`/user/my-house/${id}`);
 
     return data;
   } catch (e) {
