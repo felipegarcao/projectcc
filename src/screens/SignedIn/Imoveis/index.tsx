@@ -36,7 +36,7 @@ export function Imoveis() {
       observacao: "",
       dormitorios: "",
       suites: "",
-      vagas_garagem: ""
+      vagas_garagem: "",
     },
   });
 
@@ -51,7 +51,7 @@ export function Imoveis() {
       arquivo: "",
     });
 
-    reset()
+    reset();
   };
 
   return (
@@ -221,10 +221,9 @@ export function Imoveis() {
                   {...field}
                 >
                   <SelectItem value="1" text="1" />
-                  <SelectItem  value="2" text="2"/>
+                  <SelectItem value="2" text="2" />
                   <SelectItem value="3" text="3" />
                 </Select>
-               
               )}
             />
 
@@ -233,14 +232,14 @@ export function Imoveis() {
               control={control}
               render={({ field }) => (
                 <Select
-                placeholder="Suítes"
-                onValueChange={field.onChange}
-                {...field}
-              >
-                <SelectItem value="1" text="1" />
-                <SelectItem  value="2" text="2"/>
-                <SelectItem value="3" text="3" />
-              </Select>
+                  placeholder="Suítes"
+                  onValueChange={field.onChange}
+                  {...field}
+                >
+                  <SelectItem value="1" text="1" />
+                  <SelectItem value="2" text="2" />
+                  <SelectItem value="3" text="3" />
+                </Select>
               )}
             />
 
@@ -249,14 +248,14 @@ export function Imoveis() {
               control={control}
               render={({ field }) => (
                 <Select
-                placeholder="Vagas"
-                onValueChange={field.onChange}
-                {...field}
-              >
-                <SelectItem value="1" text="1" />
-                <SelectItem  value="2" text="2"/>
-                <SelectItem value="3" text="3" />
-              </Select>
+                  placeholder="Vagas"
+                  onValueChange={field.onChange}
+                  {...field}
+                >
+                  <SelectItem value="1" text="1" />
+                  <SelectItem value="2" text="2" />
+                  <SelectItem value="3" text="3" />
+                </Select>
               )}
             />
           </div>
@@ -289,8 +288,8 @@ export function Imoveis() {
                 control={control}
                 render={({ field }) => (
                   <Input.Root>
-                  <Input.Control {...field} type="number" />
-                </Input.Root>
+                    <Input.Control {...field} type="number" />
+                  </Input.Root>
                 )}
               />
               <span className="text-red-600 text-sm ml-2">
@@ -299,7 +298,6 @@ export function Imoveis() {
             </div>
           </div>
         </div>
-
 
         <div className="grid lg:grid-cols-form grid-cols-1 gap-3 pt-5">
           <label

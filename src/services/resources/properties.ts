@@ -66,6 +66,30 @@ export const listIdMyHouse = async (id: string | number) => {
   }
 }; 
 
+export const listMyHouse = async () => {
+  try {
+    const { data } = await api.get(`/user/my-house`);
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}; 
+
+export const editMyHouse = async (id: string | number, data: any) => {
+  try {
+    await api.put(`/house/editar/${id}`, {
+      ...data
+    });
+
+ toast.success('Dados alterados com sucesso !')
+
+    
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 
 export const listSimilaresImoveis = async (id: string) => {
   try {

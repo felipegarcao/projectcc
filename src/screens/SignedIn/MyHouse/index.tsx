@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { customStyles } from "./util";
 
 import * as Input from "../../../components/Input";
-import { listIdMyHouse } from "../../../services/resources/properties";
+import {
+  editMyHouse,
+  listIdMyHouse,
+  listMyHouse,
+} from "../../../services/resources/properties";
 import { imoveilSchema } from "../Imoveis/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
@@ -15,6 +19,8 @@ export function MyHouse() {
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [dadosEdit, setDadosEdit] = useState({} as handleSubmittedTypes);
+  const [id, setId] = useState(0);
+  const [houses, setHouses] = useState<any[]>([])
 
   const {
     handleSubmit,
@@ -26,9 +32,13 @@ export function MyHouse() {
   });
 
   async function openModal(id: number) {
-    setIsOpen(true);
+    
 
-    await listIdMyHouse(id).then((x) => setDadosEdit(x));
+    await listIdMyHouse(id).then((x) => {
+      setDadosEdit(x);
+      setIsOpen(true);
+    });
+    setId(id);
   }
 
   function closeModal() {
@@ -49,11 +59,30 @@ export function MyHouse() {
     setValue("suites", dadosEdit.suites);
     setValue("tamanho", dadosEdit.tamanho);
     setValue("vagas_garagem", dadosEdit.vagas_garagem);
+
+    carregarDados()
+    
   }, [modalIsOpen]);
+
+  async function carregarDados() {
+    await listMyHouse().then((x) => setHouses(x))
+  }
+
+  const onSubmit = async (data: any) => {
+    await editMyHouse(id, {
+      ...data,
+    }).then(() => {
+      setTimeout(() => {
+        setIsOpen(false)
+      }, 2000)
+    })
+  };
 
   return (
     <>
-      <div className="mt-5 grid grid-cols-1 gap-6">
+    {
+      houses?.map((item, key) => (
+        <div className="mt-5 grid grid-cols-1 gap-6" key={key}>
         <div className="border border-gray-200 rounded-lg shadow">
           <div className="grid lg:grid-cols-[360px_1fr] md:grid-cols-[250px_1fr] grid-cols-1">
             <img
@@ -65,19 +94,19 @@ export function MyHouse() {
             <div className="p-4 w-full flex flex-col justify-between">
               <header>
                 <span className="text-xs">
-                  Montalvão, Presidente Prudente - SP
+                  {item.bairro}, {item.cidade} - {item.estado}
                 </span>
                 <h2 className="font-semibold text-lg">
-                  Casa com 1 Quartos Para Aluguel, 20m²
+                  Casa com {item.dormitorios} Quartos Para Aluguel, {item.tamanho}m²
                 </h2>
               </header>
 
               <section>
                 <div className="flex items-center gap-4">
-                  <span>20 m²</span>
-                  <span>1 Quartos</span>
-                  <span>2 Banheiro</span>
-                  <span>1 Vagas</span>
+                  <span>{item.tamanho} m²</span>
+                  <span>{item.dormitorios} Quartos</span>
+                  <span>{item.suites} Banheiro</span>
+                  <span>{item.vagas_garagem} Vagas</span>
                 </div>
 
                 <div className="flex items-center gap-2 mt-2">
@@ -89,19 +118,21 @@ export function MyHouse() {
 
               <footer className="flex items-center justify-between">
                 <p>
-                  <strong>R$ 400</strong> /mês
+                  <strong>R$ {item.preco}</strong> /mês
                 </p>
                 <div>
                   <button
                     className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg"
-                    onClick={() => navigate("/historico")}
+                    onClick={() => navigate(`/historico`, {
+                      state: item.id
+                    })}
                   >
                     Detalhes
                   </button>
 
                   <button
                     className="text-white p-2 bg-violet-500 rounded-lg"
-                    onClick={() => openModal(3)}
+                    onClick={() => openModal(item.id)}
                   >
                     Editar
                   </button>
@@ -111,21 +142,28 @@ export function MyHouse() {
           </div>
         </div>
       </div>
+      ))
+    }
+   
 
+      
+
+  
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2>Detalhamento da casa</h2>
+        <h2 className="text-2xl font-mono mb-3">Detalhamento da casa</h2>
 
-        <form className="w-full">
+        <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Rua/AV
               </label>
+
               <Controller
                 control={control}
                 name="rua"
@@ -140,26 +178,45 @@ export function MyHouse() {
               <label className="text-sm font-medium text-zinc-700">
                 Numero
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="numero"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">CEP</label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                control={control}
+                name="cep"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Complemento
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                control={control}
+                name="complemento"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
@@ -168,17 +225,31 @@ export function MyHouse() {
               <label className="text-sm font-medium text-zinc-700">
                 Bairro
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="bairro"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Cidade
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="cidade"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
@@ -187,17 +258,31 @@ export function MyHouse() {
               <label className="text-sm font-medium text-zinc-700">
                 Estado
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="estado"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Dormitórios
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="dormitorios"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
@@ -206,42 +291,76 @@ export function MyHouse() {
               <label className="text-sm font-medium text-zinc-700">
                 Suítes
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="suites"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Vagas de garagem
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="vagas_garagem"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">Preço</label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="preco"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Tamanho m²
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+
+              <Controller
+                control={control}
+                name="tamanho"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
-
-          <textarea
-            id="message"
-            rows={8}
-            className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none mt-5"
-          ></textarea>
+          <Controller
+            name="observacao"
+            control={control}
+            render={({ field }) => (
+              <textarea
+                id="message"
+                rows={8}
+                {...field}
+                className="block p-2.5 mt-5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
+              ></textarea>
+            )}
+          />
 
           <button
             type="submit"
