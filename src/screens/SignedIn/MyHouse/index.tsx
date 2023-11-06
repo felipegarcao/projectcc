@@ -20,7 +20,7 @@ export function MyHouse() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [dadosEdit, setDadosEdit] = useState({} as handleSubmittedTypes);
   const [id, setId] = useState(0);
-  const [houses, setHouses] = useState<any[]>([])
+  const [houses, setHouses] = useState<any[]>([]);
 
   const {
     handleSubmit,
@@ -32,8 +32,6 @@ export function MyHouse() {
   });
 
   async function openModal(id: number) {
-    
-
     await listIdMyHouse(id).then((x) => {
       setDadosEdit(x);
       setIsOpen(true);
@@ -60,12 +58,11 @@ export function MyHouse() {
     setValue("tamanho", dadosEdit.tamanho);
     setValue("vagas_garagem", dadosEdit.vagas_garagem);
 
-    carregarDados()
-    
+    carregarDados();
   }, [modalIsOpen]);
 
   async function carregarDados() {
-    await listMyHouse().then((x) => setHouses(x))
+    await listMyHouse().then((x) => setHouses(x));
   }
 
   const onSubmit = async (data: any) => {
@@ -73,82 +70,79 @@ export function MyHouse() {
       ...data,
     }).then(() => {
       setTimeout(() => {
-        setIsOpen(false)
-      }, 2000)
-    })
+        setIsOpen(false);
+      }, 2000);
+    });
   };
 
   return (
     <>
-    {
-      houses?.map((item, key) => (
+      {houses?.map((item, key) => (
         <div className="mt-5 grid grid-cols-1 gap-6" key={key}>
-        <div className="border border-gray-200 rounded-lg shadow">
-          <div className="grid lg:grid-cols-[360px_1fr] md:grid-cols-[250px_1fr] grid-cols-1">
-            <img
-              className=" h-[240px] w-full"
-              src="https://www.plantapronta.com.br/projetos/161/01.jpg"
-              alt=""
-            />
+          <div className="border border-gray-200 rounded-lg shadow">
+            <div className="grid lg:grid-cols-[360px_1fr] md:grid-cols-[250px_1fr] grid-cols-1">
+              <img
+                className=" h-[240px] w-full"
+                src="https://www.plantapronta.com.br/projetos/161/01.jpg"
+                alt=""
+              />
 
-            <div className="p-4 w-full flex flex-col justify-between">
-              <header>
-                <span className="text-xs">
-                  {item.bairro}, {item.cidade} - {item.estado}
-                </span>
-                <h2 className="font-semibold text-lg">
-                  Casa com {item.dormitorios} Quartos Para Aluguel, {item.tamanho}m²
-                </h2>
-              </header>
-
-              <section>
-                <div className="flex items-center gap-4">
-                  <span>{item.tamanho} m²</span>
-                  <span>{item.dormitorios} Quartos</span>
-                  <span>{item.suites} Banheiro</span>
-                  <span>{item.vagas_garagem} Vagas</span>
-                </div>
-
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="p-2  text-xs rounded-lg bg-gray-200">
-                    Garagem
+              <div className="p-4 w-full flex flex-col justify-between">
+                <header>
+                  <span className="text-xs">
+                    {item.bairro}, {item.cidade} - {item.estado}
                   </span>
-                </div>
-              </section>
+                  <h2 className="font-semibold text-lg">
+                    Casa com {item.dormitorios} Quartos Para Aluguel,{" "}
+                    {item.tamanho}m²
+                  </h2>
+                </header>
 
-              <footer className="flex items-center justify-between">
-                <p>
-                  <strong>R$ {item.preco}</strong> /mês
-                </p>
-                <div>
-                  <button
-                    className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg"
-                    onClick={() => navigate(`/historico`, {
-                      state: item.id
-                    })}
-                  >
-                    Detalhes
-                  </button>
+                <section>
+                  <div className="flex items-center gap-4">
+                    <span>{item.tamanho} m²</span>
+                    <span>{item.dormitorios} Quartos</span>
+                    <span>{item.suites} Banheiro</span>
+                    <span>{item.vagas_garagem} Vagas</span>
+                  </div>
 
-                  <button
-                    className="text-white p-2 bg-violet-500 rounded-lg"
-                    onClick={() => openModal(item.id)}
-                  >
-                    Editar
-                  </button>
-                </div>
-              </footer>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="p-2  text-xs rounded-lg bg-gray-200">
+                      Garagem
+                    </span>
+                  </div>
+                </section>
+
+                <footer className="flex items-center justify-between">
+                  <p>
+                    <strong>R$ {item.preco}</strong> /mês
+                  </p>
+                  <div>
+                    <button
+                      className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg"
+                      onClick={() =>
+                        navigate(`/historico`, {
+                          state: item.id,
+                        })
+                      }
+                    >
+                      Detalhes
+                    </button>
+
+                    <button
+                      className="text-white p-2 bg-violet-500 rounded-lg"
+                      onClick={() => openModal(item.id)}
+                    >
+                      Editar
+                    </button>
+                  </div>
+                </footer>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      ))
-    }
-   
+      ))}
 
-      
-
-  
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

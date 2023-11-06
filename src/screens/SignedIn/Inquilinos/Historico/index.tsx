@@ -6,20 +6,20 @@ import { converterNumeroParaData } from "../../../../utils/converterNumeroParaDa
 import { useLocation } from "react-router-dom";
 import { listIdMyHouse } from "../../../../services/resources/properties";
 import { PlusCircle } from "lucide-react";
+import Modal from "react-modal";
+import * as Input from "../../../../components/Input";
+import { customStyles } from "./util";
+import moment from "moment";
 
 interface MonthData {
   month: number;
   status: string;
 }
 
-interface YearData {
-  year: number;
-  months: MonthData[];
-}
-
 export function Historico() {
-  const [paymentData, setPaymentData] = useState<YearData[]>([]);
   const [dados, setDados] = useState({} as any);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [months, setMonths] = useState<MonthData[]>([]);
 
   const location = useLocation();
 
@@ -27,7 +27,15 @@ export function Historico() {
     await listIdMyHouse(location.state).then((x) => setDados(x));
   }
 
-  const generateMonths = (): MonthData[] => {
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  const generateMonths = () => {
     const months: MonthData[] = [];
     for (let i = 0; i < 12; i++) {
       months.push({
@@ -35,35 +43,14 @@ export function Historico() {
         status: "pendente", // Definindo inicialmente como "pendente"
       });
     }
-    return months;
+    setMonths(months);
   };
 
   useEffect(() => {
-    const generatePaymentHistory = (): void => {
-      const currentYear = new Date().getFullYear();
-      const years: YearData[] = [];
-      for (let i = 0; i < 1; i++) {
-        const year = currentYear - i;
-        const months = generateMonths();
-        years.push({ year, months });
-      }
-      setPaymentData(years);
-    };
-
-    generatePaymentHistory();
-
     carregarDados();
-  }, []);
 
-  const handlePayment = (
-    yearIndex: number,
-    monthIndex: number,
-    status: string
-  ): void => {
-    const updatedPaymentData = [...paymentData];
-    updatedPaymentData[yearIndex].months[monthIndex].status = status;
-    setPaymentData(updatedPaymentData);
-  };
+    generateMonths();
+  }, []);
 
   return (
     <>
@@ -124,39 +111,97 @@ export function Historico() {
 
       <div className="flex items-center justify-between">
         <h2 className="my-10 text-2xl  text-violet-600">Histórico</h2>
-        <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3">
+        <button
+          onClick={openModal}
+          className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3"
+        >
           <PlusCircle /> <span>Registrar Pagamento</span>
         </button>
       </div>
 
       <div>
-        {paymentData.map((yearData) => (
-          <div key={yearData.year}>
-            <h2 className="my-5 text-2xl  text-violet-600">{yearData.year}</h2>
-            {yearData.months.map((month, monthIndex) => (
-              <div className="grid grid-cols-[1fr_200px] items-center justify-between shadow-md p-4 rounded-lg">
-                <span>{converterNumeroParaData(month.month)}</span>
+        <div>
+          <h2 className="my-5 text-2xl  text-violet-600">2023</h2>
 
-                <Select
-                  placeholder="Selecione"
-                  onValueChange={(e) =>
-                    handlePayment(paymentData.indexOf(yearData), monthIndex, e)
-                  }
-                  defaultValue="pendente"
-                >
-                  <SelectItem value="pendente" text="Pendente" />
-                  <SelectItem value="pago" text="Pago" />
-                  <SelectItem value="atrasado" text="Atrasado" />
-                  <SelectItem
-                    value="pago parceladamente"
-                    text="Pago Parceladamente"
-                  />
-                </Select>
-              </div>
-            ))}
+          <div className="grid grid-cols-[1fr_200px] items-center justify-between shadow-md p-4 rounded-lg">
+            <span>{converterNumeroParaData(1)}</span>
+
+            <Select placeholder="Selecione">
+              <SelectItem value="pendente" text="Pendente" />
+              <SelectItem value="pago" text="Pago" />
+              <SelectItem value="atrasado" text="Atrasado" />
+              <SelectItem
+                value="pago parceladamente"
+                text="Pago Parceladamente"
+              />
+            </Select>
           </div>
-        ))}
+        </div>
       </div>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2 className="text-2xl font-mono mb-3">Regitrar Pagamento</h2>
+
+        <form className="w-full">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-zinc-700">Mês</label>
+
+              <Select placeholder="Selecione">
+                {months.map((months, index) => (
+                  <SelectItem
+                    key={index}
+                    value={converterNumeroParaData(months.month)}
+                    text={converterNumeroParaData(months.month)}
+                  />
+                ))}
+              </Select>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-zinc-700">Ano</label>
+              <Input.Root>
+                <Input.Control value={moment().format("YYYY")} disabled />
+              </Input.Root>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 mt-5">
+            <div>
+              <label className="text-sm font-medium text-zinc-700">
+                Status
+              </label>
+              <Select placeholder="Selecione">
+                <SelectItem value="pendente" text="Pendente" />
+                <SelectItem value="pago" text="Pago" />
+                <SelectItem value="atrasado" text="Atrasado" />
+                <SelectItem
+                  value="pago parceladamente"
+                  text="Pago Parceladamente"
+                />
+              </Select>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-zinc-700">
+                Valor Faltante
+              </label>
+              <Input.Root>
+                <Input.Control />
+              </Input.Root>
+            </div>
+          </div>
+
+          <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3 mt-3 w-full justify-center">
+            Salvar
+          </button>
+        </form>
+      </Modal>
     </>
   );
 }

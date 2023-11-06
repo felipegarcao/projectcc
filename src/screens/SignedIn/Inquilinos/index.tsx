@@ -75,33 +75,39 @@ export function Inquilinos() {
           className="mt-6 flex lg:w-full flex-col gap-5 divide-y divide-zinc-200"
           onSubmit={handleSubmit(onSubmit)}
         >
-
           <div className="grid lg:grid-cols-form gap-3 ">
             {loading ? (
               <Spinner />
             ) : (
-             <>
-                <label htmlFor="name" className="text-sm font-medium text-zinc-700">Selecionar Imovel</label>
-              <Controller
-                name="casa_id"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    placeholder="Selecione o Imóvel"
-                    onValueChange={field.onChange}
-                    {...field}
-                  >
-                    {imoveis?.map((item) => (
-                      <SelectItem
-                        key={item.id}
-                        value={String(item.id)}
-                        text={item.rua + ", " + item.numero + " - " + item.cep}
-                      />
-                    ))}
-                  </Select>
-                )}
-              />
-             </>
+              <>
+                <label
+                  htmlFor="name"
+                  className="text-sm font-medium text-zinc-700"
+                >
+                  Selecionar Imovel
+                </label>
+                <Controller
+                  name="casa_id"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      placeholder="Selecione o Imóvel"
+                      onValueChange={field.onChange}
+                      {...field}
+                    >
+                      {imoveis?.map((item) => (
+                        <SelectItem
+                          key={item.id}
+                          value={String(item.id)}
+                          text={
+                            item.rua + ", " + item.numero + " - " + item.cep
+                          }
+                        />
+                      ))}
+                    </Select>
+                  )}
+                />
+              </>
             )}
 
             <span className="text-red-600 text-sm ml-2">

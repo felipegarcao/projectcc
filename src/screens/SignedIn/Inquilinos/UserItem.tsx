@@ -14,15 +14,12 @@ export function UserItem({
   status_user,
   id,
 }: Tenants) {
-
-
-  const {setNewRequest} = useContext(applicationContext)
-
+  const { setNewRequest } = useContext(applicationContext);
 
   const disabledUser = async (id: string) => {
     disableTenantsResouce(id);
 
-    setNewRequest(Math.random())
+    setNewRequest(Math.random());
   };
 
   return (
