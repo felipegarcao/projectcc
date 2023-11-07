@@ -6,6 +6,7 @@ import { SelectItem } from "../../../../../components/Form/Select/SelectItem";
 import { useParams } from "react-router-dom";
 import { solicitarVisitaResource } from "../../../../../services/resources/user";
 import { Props } from "./types";
+import { useUser } from "../../../../../hooks/useUser";
 
 export function RightContent({ preco }: Props) {
   const [requestVisit, setRequestVisit] = useState(false);
@@ -29,10 +30,13 @@ export function RightContent({ preco }: Props) {
 
   const { id } = useParams();
 
+  const {user} = useUser()
+
   const onSubmit = async (data: any) => {
     const dataFormatted = {
       ...data,
       casa_id: Number(id),
+      user_id: user?.id
     };
 
     await solicitarVisitaResource(dataFormatted);

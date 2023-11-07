@@ -4,7 +4,7 @@ export interface Tenants {
   cpf?: string,
   rg?: string,
   status_user?: "on" | "off" ;
-  civilStatus?: string,
+  estado_civil?: string,
   email?: string,
   avatarUrl?: string;
   profissao?: string,

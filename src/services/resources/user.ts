@@ -42,7 +42,7 @@ export const editProfileResource = async (params: ParamsEditProfile) => {
     });
     toast.success("Perfil alterado com sucesso !");
   } catch (error: any) {
-    toast.error("Error: " + error.message);
+    toast.error(error.response.data.message)
   }
 };
 
@@ -52,7 +52,7 @@ export const acceptedUserResource = async (id: string) => {
       .put(`/user/accept/${id}`)
       .then((response) => toast.success(response.data.message));
   } catch (error: any) {
-    toast.error("Error: " + error.message);
+    toast.error(error.response.data.message)
   }
 };
 
@@ -87,6 +87,18 @@ export const solicitarVisitaResource = async (data: any) => {
     toast.error("Error: " + e.message);
   }
 };
+
+export const alterarStatusVisitaResource = async (data: any) => {
+
+  try {
+    await api.put('/visita', {
+      ...data
+    })
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+  }
+
+}
 
 
 export const listagemVisita = async () => {

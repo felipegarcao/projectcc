@@ -10,8 +10,8 @@ export const EditProfileSchema = z.object({
     .max(11, "Informe o cpf valido"),
   estado_civil: z.string().optional(),
   profissao: z.string().optional(),
-  phone: z.string(),
-  password: z.string(),
-  new_password: z.string(),
-  data_nascimento: z.string()
+  phone: z.string().optional(),
+  password: z.string().optional(),
+  new_password: z.string().optional(),
+  data_nascimento: z.string().optional()
 });

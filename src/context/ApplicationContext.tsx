@@ -20,6 +20,7 @@ interface ApplicationContextProps {
   logout: () => void;
   login: (values: any) => Promise<void>;
   user: Tenants | undefined;
+  setUser: (value: Tenants) => void;
   rehydrateLoading: boolean;
 }
 
@@ -51,7 +52,7 @@ export function ApplicationContextProvider({
         setRehydrateLoading(!rehydrateLoading)
       })
       .catch((error) => {
-        toast.error(error.message);
+        toast.error(error.response.data.message)
       });
 
   
@@ -92,7 +93,8 @@ export function ApplicationContextProvider({
         logout,
         login,
         user,
-        rehydrateLoading
+        rehydrateLoading,
+        setUser
       }}
     >
       {children}

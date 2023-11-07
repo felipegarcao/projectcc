@@ -8,6 +8,8 @@ import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { handleSubmittedTypes } from "./types";
 import { editProfileResource } from "../../../services/resources/user";
 import { useEffect } from "react";
+import { useUser } from "../../../hooks/useUser";
+import { toast } from "react-toastify";
 
 export function MyProfile() {
   const {
@@ -19,24 +21,28 @@ export function MyProfile() {
     resolver: zodResolver(EditProfileSchema),
   });
 
+
+  const {user, setUser} = useUser()
+
   useEffect(() => {
-    const user = localStorage.getItem("user");
+   
 
     if (user) {
-      const decode = JSON.parse(user);
 
-      setValue('cpf', decode.cpf)
-      setValue('email', decode.email)
-      setValue('rg', decode.rg)
-      setValue('phone', decode.phone)
-      setValue('profissao', decode.profissao)
-      setValue('name', decode.name)
-      setValue('estado_civil', decode.estado_civil)
+      setValue('cpf', user.cpf ? user.cpf : '')
+      setValue('email', user.email ? user.email : '')
+      setValue('rg', user.rg ? user.rg : '')
+      setValue('phone', user.phone)
+      setValue('profissao', user.profissao)
+      setValue('name', user.name)
+      setValue('estado_civil', user.estado_civil ? user.estado_civil : '')
     }
   }, []);
 
   async function onSubmit(data: any) {
-    await editProfileResource(data)
+
+       await editProfileResource(data).then((x: any) => setUser(x)).catch((err) => console.log(err))
+    
   }
 
   return (
@@ -49,7 +55,7 @@ export function MyProfile() {
         <section className="grid lg:grid-cols-[170px_1fr] grid-cols-1 gap-5">
           <div className="flex flex-col items-center gap-3">
             <img
-              src="https://cdn-icons-png.flaticon.com/512/552/552721.png"
+              src="https://cdn-icons-png.flaticon.com/512/666/666201.png"
               alt=""
               className="h-32 w-32 lg:w-full lg:h-full"
             />
