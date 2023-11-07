@@ -82,7 +82,7 @@ export const solicitarVisitaResource = async (data: any) => {
       ...data,
     });
 
-    toast.success('Solicitação de visita enviada com sucesso !");');
+    toast.success('Solicitação de visita enviada com sucesso !');
   } catch (e: any) {
     toast.error("Error: " + e.message);
   }

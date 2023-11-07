@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
-import { listagemVisita } from "../../../../services/resources/user";
+import {
+  alterarStatusVisitaResource,
+  listagemVisita,
+} from "../../../../services/resources/user";
 import { Listagem } from "./types";
 import Modal from "react-modal";
 import { customStyles } from "./util";
-import {useForm} from 'react-hook-form'
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { VisitaSchema } from "./validation";
 
 export function Visita() {
   const [visitas, setVisitas] = useState<Listagem>({} as Listagem);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [tipo, setTipo] = useState("");
+  const [id, setId] = useState(0);
+
+  const [newRequest, setNewRequest] = useState(0);
 
   async function carregarDados() {
     await listagemVisita().then((x) => setVisitas(x));
@@ -15,6 +25,8 @@ export function Visita() {
 
   function openModal({ id, tipo }: { id: number; tipo: string }) {
     setModalIsOpen(true);
+    setTipo(tipo);
+    setId(id);
   }
 
   function closeModal() {
@@ -23,15 +35,21 @@ export function Visita() {
 
   useEffect(() => {
     carregarDados();
-  }, []);
+  }, [newRequest]);
 
+  const { control, handleSubmit } = useForm({
+    resolver: zodResolver(VisitaSchema),
+  });
 
-  const {
-    control,
-    handleSubmit,
-  } = useForm({
-    
-  })
+  const onSubmit = async (data: any) => {
+    await alterarStatusVisitaResource({
+      ...data,
+      status: tipo,
+      id,
+    });
+
+    setNewRequest(Math.random());
+  };
 
   return (
     <div>
@@ -101,16 +119,12 @@ export function Visita() {
 
               <p>
                 <strong>Motivo: </strong>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestias, repudiandae sed. Unde iure laboriosam illum
-                asperiores veniam officia doloremque nam, tempora ipsa mollitia
-                error, cumque exercitationem distinctio voluptates in
-                recusandae!
+                {item.observacao}
               </p>
             </section>
 
             <button className="bg-green-500 p-2 rounded-md text-white mt-3 w-full">
-              Aceita
+              Finalizar
             </button>
           </div>
         ))}
@@ -131,11 +145,7 @@ export function Visita() {
 
               <p>
                 <strong>Motivo: </strong>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestias, repudiandae sed. Unde iure laboriosam illum
-                asperiores veniam officia doloremque nam, tempora ipsa mollitia
-                error, cumque exercitationem distinctio voluptates in
-                recusandae!
+                {item.observacao}
               </p>
             </section>
 
@@ -161,11 +171,7 @@ export function Visita() {
 
               <p>
                 <strong>Motivo: </strong>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestias, repudiandae sed. Unde iure laboriosam illum
-                asperiores veniam officia doloremque nam, tempora ipsa mollitia
-                error, cumque exercitationem distinctio voluptates in
-                recusandae!
+                {item.observacao}
               </p>
             </section>
 
@@ -182,7 +188,25 @@ export function Visita() {
         style={customStyles}
         contentLabel="Example Modal"
       >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h2>Observação</h2>
 
+          <Controller
+            name="observacao"
+            control={control}
+            render={({ field }) => (
+              <textarea
+                {...field}
+                className="border my-2 rounded-md resize-none p-3 text-xs w-full"
+                rows={8}
+              ></textarea>
+            )}
+          />
+
+          <button className="w-full rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700">
+            Salvar
+          </button>
+        </form>
       </Modal>
     </div>
   );
