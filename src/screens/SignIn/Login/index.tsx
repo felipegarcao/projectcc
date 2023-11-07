@@ -1,7 +1,7 @@
 import * as Input from "../../../components/Input";
 import * as Tabs from "@radix-ui/react-tabs";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Logo } from "../../../components/Sidebar/Logo";
 import { TabItem } from "../../../components/SettingsTabs/TabItem";
 import { SignUp } from "../SignUp";
@@ -9,12 +9,12 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "./validation";
 import { handleSubmittedTypes } from "./types";
-import { api } from "../../../services/api";
-import { toast } from "react-toastify";
+import { applicationContext } from "../../../context/ApplicationContext";
 
 export function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [currentTab, setCurrentTab] = useState("tab1");
+  const {login} = useContext(applicationContext)
 
   const {
     handleSubmit,
@@ -29,11 +29,8 @@ export function Login() {
   });
 
   const onSubmit = async (data: any) => {
-    await api.post('/user/login', {...data}).then(response => {
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('user', JSON.stringify(response.data.user))
-    }).catch((error) => {
-      toast.error(error.message)
+    await login({
+      ...data
     })
   }
 

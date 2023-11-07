@@ -13,6 +13,7 @@ import { imoveilSchema } from "../Imoveis/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { handleSubmittedTypes } from "../Imoveis/types";
+import { useUser } from "../../../hooks/useUser";
 
 export function MyHouse() {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ export function MyHouse() {
   const [dadosEdit, setDadosEdit] = useState({} as handleSubmittedTypes);
   const [id, setId] = useState(0);
   const [houses, setHouses] = useState<any[]>([]);
+
+  const { user } = useUser();
 
   const {
     handleSubmit,
@@ -129,12 +132,14 @@ export function MyHouse() {
                       Detalhes
                     </button>
 
-                    <button
-                      className="text-white p-2 bg-violet-500 rounded-lg"
-                      onClick={() => openModal(item.id)}
-                    >
-                      Editar
-                    </button>
+                    {user?.is_admin && (
+                      <button
+                        className="text-white p-2 bg-violet-500 rounded-lg"
+                        onClick={() => openModal(item.id)}
+                      >
+                        Editar
+                      </button>
+                    )}
                   </div>
                 </footer>
               </div>

@@ -6,16 +6,15 @@ import { HomePage } from "../../screens/SignedIn/Home/HomePage";
 import { Imoveis } from "../../screens/SignedIn/Imoveis";
 import { Inquilinos } from "../../screens/SignedIn/Inquilinos";
 import { TabItem } from "./TabItem";
-import { useContext } from "react";
 import { Requests } from "../../screens/SignedIn/Requests";
-import { applicationContext } from "../../context/ApplicationContext";
 import { MyProfile } from "../../screens/SignedIn/MyProfile";
 import { ListagemInquilinos } from "../../screens/SignedIn/Inquilinos/Listagem";
 import { ListagemContrato } from "../../screens/SignedIn/Contrato/Listagem";
 import { MyHouse } from "../../screens/SignedIn/MyHouse";
+import { useUser } from "../../hooks/useUser";
 
 export function SettingsTabs() {
-  const { currentTab, setCurrentTab } = useContext(applicationContext);
+  const { currentTab, setCurrentTab, user } = useUser();
 
   return (
     <Tabs.Root value={currentTab} onValueChange={setCurrentTab}>
@@ -28,41 +27,45 @@ export function SettingsTabs() {
               isSelected={currentTab === "tab1"}
             />
 
-            <TabItem
-              value="tab8"
-              title="Inquilinos/Listar"
-              isSelected={currentTab === "tab8"}
-            />
+            {user?.is_admin && (
+              <>
+                <TabItem
+                  value="tab8"
+                  title="Inquilinos/Listar"
+                  isSelected={currentTab === "tab8"}
+                />
 
-            <TabItem
-              value="tab3"
-              title="Inquilinos/Cadastrar"
-              isSelected={currentTab === "tab3"}
-            />
+                <TabItem
+                  value="tab3"
+                  title="Inquilinos/Cadastrar"
+                  isSelected={currentTab === "tab3"}
+                />
 
-            <TabItem
-              value="tab5"
-              title="Contrato/Cadastrar"
-              isSelected={currentTab === "tab5"}
-            />
+                <TabItem
+                  value="tab5"
+                  title="Contrato/Cadastrar"
+                  isSelected={currentTab === "tab5"}
+                />
 
-            <TabItem
-              value="tab9"
-              title="Contrato/Listar"
-              isSelected={currentTab === "tab9"}
-            />
+                <TabItem
+                  value="tab9"
+                  title="Contrato/Listar"
+                  isSelected={currentTab === "tab9"}
+                />
 
-            <TabItem
-              value="tab6"
-              title="Imoveis"
-              isSelected={currentTab === "tab6"}
-            />
+                <TabItem
+                  value="tab6"
+                  title="Imoveis"
+                  isSelected={currentTab === "tab6"}
+                />
 
-            <TabItem
-              value="tab7"
-              title="Solicitação"
-              isSelected={currentTab === "tab7"}
-            />
+                <TabItem
+                  value="tab7"
+                  title="Solicitação"
+                  isSelected={currentTab === "tab7"}
+                />
+              </>
+            )}
 
             <TabItem
               value="tab2"

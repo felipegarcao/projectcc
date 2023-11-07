@@ -3,14 +3,17 @@ import { RouterApp } from "./routes";
 import { Sidebar } from "./components/Sidebar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "./hooks/useUser";
 
 function App() {
-  const app = true;
+  
+
+  const {user} = useUser()
 
   return (
     <>
       <ToastContainer theme="colored" position="top-right"></ToastContainer>
-      {app ? (
+      {user ? (
         <div className="min-h-screen lg:grid lg:grid-cols-app">
           <Sidebar />
 

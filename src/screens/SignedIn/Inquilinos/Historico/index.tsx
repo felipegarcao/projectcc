@@ -10,21 +10,69 @@ import Modal from "react-modal";
 import * as Input from "../../../../components/Input";
 import { customStyles } from "./util";
 import moment from "moment";
+import { BoxPagamento } from "./BoxPagamento";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterPagamentoSchema } from "./validation";
+import { Tenants } from "../../../../@types/tenants";
+import { tenantsResource } from "../../../../services/resources/user";
+import { toast } from "react-toastify";
+import { Spinner } from "../../../../components/Spinner";
+import {
+  countValorFaltante,
+  createPagamento,
+  listPagamentos,
+} from "../../../../services/resources/pagamentos";
+import { useUser } from "../../../../hooks/useUser";
 
 interface MonthData {
   month: number;
   status: string;
 }
 
+interface PagamentosProps {
+  nome_mes: string;
+  status: "pendente" | "pago" | "atrasado" | "pago_parcelatamente";
+  ano: string;
+  valor_faltante: string;
+  user_id: string;
+  casa_id: number;
+  name: string;
+}
+
+interface Count {
+  total: number;
+}
+
 export function Historico() {
   const [dados, setDados] = useState({} as any);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [months, setMonths] = useState<MonthData[]>([]);
+  const [tenants, setTenants] = useState<Tenants[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [pagamentos, setPagamentos] = useState<PagamentosProps[]>([]);
+  const [count, setCount] = useState({} as Count);
 
   const location = useLocation();
 
+  const { user } = useUser();
+
   async function carregarDados() {
-    await listIdMyHouse(location.state).then((x) => setDados(x));
+    try {
+      await listIdMyHouse(location.state).then((x) => {
+        listPagamentos(x.user_id).then((result) => setPagamentos(result));
+        countValorFaltante(x.user_id).then((result) => setCount(result));
+        setDados(x);
+      });
+
+      await tenantsResource().then((result) => {
+        setTenants(result?.user);
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function openModal() {
@@ -46,15 +94,43 @@ export function Historico() {
     setMonths(months);
   };
 
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(RegisterPagamentoSchema),
+    defaultValues: {
+      nome_mes: "",
+      status: "",
+      ano: moment().format("YYYY"),
+      valor_faltante: 0,
+      user_id: "",
+    },
+  });
+
   useEffect(() => {
     carregarDados();
 
     generateMonths();
   }, []);
 
+  const onSubmit = async (data: any) => {
+    await createPagamento({
+      ...data,
+      valor_faltante: Number(data.valor_faltante),
+      casa_id: location.state,
+    });
+
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 2000);
+  };
+
   return (
     <>
-      <div className=" grid grid-cols-[1fr_300px] gap-5">
+      <div className=" grid xl:grid-cols-[1fr_300px] grid-cols-1 gap-5">
         <div className="grid md:grid-cols-[150px_1fr] grid-cols-1 shadow-md rounded-md">
           <div className="flex flex-col justify-center items-center gap-4 border-r border-gray-200 p-6">
             <Avatar />
@@ -64,7 +140,7 @@ export function Historico() {
           <div className="p-6">
             <div>
               <span className="text-gray-500 text-lg">
-                Informações Pessoais
+                Informações Pessoais (Inquilino Atual)
               </span>
 
               <div className="grid md:grid-cols-2 sm:grid-cols-2 grid-cols-1 mt-3  gap-2 sm:gap-0">
@@ -97,7 +173,7 @@ export function Historico() {
         </div>
         <div className="shadow-md p-3 flex items-center flex-col justify-evenly">
           <h3 className="text-2xl font-mono">Total a Pagar</h3>
-          <p className="text-3xl font-mono">R$ 0,00</p>
+          <p className="text-3xl font-mono">R$ {count.total}</p>
           <a
             target="_blank"
             href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es "
@@ -111,31 +187,29 @@ export function Historico() {
 
       <div className="flex items-center justify-between">
         <h2 className="my-10 text-2xl  text-violet-600">Histórico</h2>
-        <button
-          onClick={openModal}
-          className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3"
-        >
-          <PlusCircle /> <span>Registrar Pagamento</span>
-        </button>
+        {user?.is_admin && (
+          <button
+            onClick={openModal}
+            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3"
+          >
+            <PlusCircle /> <span>Registrar Pagamento</span>
+          </button>
+        )}
       </div>
 
       <div>
         <div>
           <h2 className="my-5 text-2xl  text-violet-600">2023</h2>
 
-          <div className="grid grid-cols-[1fr_200px] items-center justify-between shadow-md p-4 rounded-lg">
-            <span>{converterNumeroParaData(1)}</span>
-
-            <Select placeholder="Selecione">
-              <SelectItem value="pendente" text="Pendente" />
-              <SelectItem value="pago" text="Pago" />
-              <SelectItem value="atrasado" text="Atrasado" />
-              <SelectItem
-                value="pago parceladamente"
-                text="Pago Parceladamente"
-              />
-            </Select>
-          </div>
+          {pagamentos.map((item, index) => (
+            <BoxPagamento
+              key={index}
+              nome_mes={item.nome_mes}
+              status={item.status}
+              user_name={item.name}
+              variant={item.status}
+            />
+          ))}
         </div>
       </div>
 
@@ -147,27 +221,43 @@ export function Historico() {
       >
         <h2 className="text-2xl font-mono mb-3">Regitrar Pagamento</h2>
 
-        <form className="w-full">
+        <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">Mês</label>
 
-              <Select placeholder="Selecione">
-                {months.map((months, index) => (
-                  <SelectItem
-                    key={index}
-                    value={converterNumeroParaData(months.month)}
-                    text={converterNumeroParaData(months.month)}
-                  />
-                ))}
-              </Select>
+              <Controller
+                name="nome_mes"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione"
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    {months.map((months, index) => (
+                      <SelectItem
+                        key={index}
+                        value={converterNumeroParaData(months.month)}
+                        text={converterNumeroParaData(months.month)}
+                      />
+                    ))}
+                  </Select>
+                )}
+              />
             </div>
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">Ano</label>
-              <Input.Root>
-                <Input.Control value={moment().format("YYYY")} disabled />
-              </Input.Root>
+              <Controller
+                control={control}
+                name="ano"
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control disabled {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
@@ -176,25 +266,68 @@ export function Historico() {
               <label className="text-sm font-medium text-zinc-700">
                 Status
               </label>
-              <Select placeholder="Selecione">
-                <SelectItem value="pendente" text="Pendente" />
-                <SelectItem value="pago" text="Pago" />
-                <SelectItem value="atrasado" text="Atrasado" />
-                <SelectItem
-                  value="pago parceladamente"
-                  text="Pago Parceladamente"
-                />
-              </Select>
+
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione"
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    <SelectItem value="pendente" text="Pendente" />
+                    <SelectItem value="pago" text="Pago" />
+                    <SelectItem value="atrasado" text="Atrasado" />
+                    <SelectItem
+                      value="pago parceladamente"
+                      text="Pago Parceladamente"
+                    />
+                  </Select>
+                )}
+              />
             </div>
 
             <div>
               <label className="text-sm font-medium text-zinc-700">
                 Valor Faltante
               </label>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="valor_faltante"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control type="number" {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
+          </div>
+
+          <div className="flex flex-col mt-3">
+            {loading ? (
+              <Spinner />
+            ) : (
+              <Controller
+                control={control}
+                name="user_id"
+                render={({ field }) => (
+                  <Select
+                    placeholder="Selecione o Inquilino"
+                    onValueChange={field.onChange}
+                    {...field}
+                  >
+                    {tenants?.map((tenant) => (
+                      <SelectItem
+                        key={tenant.id}
+                        value={String(tenant.id)}
+                        text={tenant.name + " -  " + tenant.cpf}
+                      />
+                    ))}
+                  </Select>
+                )}
+              />
+            )}
           </div>
 
           <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3 mt-3 w-full justify-center">

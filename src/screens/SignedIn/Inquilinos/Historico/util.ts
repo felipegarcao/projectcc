@@ -6,6 +6,6 @@ export const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    width: window.innerWidth > 1200 ? '50%' : '90%' 
+    minWidth: window.innerWidth > 1200 ? '50%' : '90%' 
   },
 };
