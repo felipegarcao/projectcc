@@ -4,7 +4,7 @@ import { Select } from "../../../../components/Form/Select";
 import { SelectItem } from "../../../../components/Form/Select/SelectItem";
 import { converterNumeroParaData } from "../../../../utils/converterNumeroParaData";
 import { useLocation } from "react-router-dom";
-import { listIdMyHouse } from "../../../../services/resources/properties";
+import {  listIdMyHouseUser } from "../../../../services/resources/properties";
 import { PlusCircle } from "lucide-react";
 import Modal from "react-modal";
 import * as Input from "../../../../components/Input";
@@ -59,9 +59,14 @@ export function Historico() {
 
   async function carregarDados() {
     try {
-      await listIdMyHouse(location.state).then((x) => {
-        listPagamentos(x.user_id).then((result) => setPagamentos(result));
-        countValorFaltante(x.user_id).then((result) => setCount(result));
+      await listIdMyHouseUser({
+        idCasa: location.state.idCasa,
+        idUser: location.state.idUser
+      }).then((x) => {
+
+        listPagamentos(location.state.idUser).then((result) => setPagamentos(result));
+        countValorFaltante(location.state.idUser).then((result) => setCount(result));
+   
         setDados(x);
       });
 
@@ -120,7 +125,8 @@ export function Historico() {
     await createPagamento({
       ...data,
       valor_faltante: Number(data.valor_faltante),
-      casa_id: location.state,
+      casa_id: location.state.idCasa,
+      user_id: location.state.idUser
     });
 
     setTimeout(() => {
@@ -134,8 +140,8 @@ export function Historico() {
         <div className="grid md:grid-cols-[150px_1fr] grid-cols-1 shadow-md rounded-md">
           <div className="flex flex-col justify-center items-center gap-4 border-r border-gray-200 p-6">
             <Avatar />
-            <h2 className="text-gray-600 font-medium">{dados.name}</h2>
-            <span className="text-sm text-gray-400">{dados.profissao}</span>
+            <h2 className="text-gray-600 font-medium">{dados?.name}</h2>
+            <span className="text-sm text-gray-400">{dados?.profissao}</span>
           </div>
           <div className="p-6">
             <div>
@@ -171,7 +177,7 @@ export function Historico() {
         </div>
         <div className="shadow-md p-3 flex items-center flex-col justify-evenly">
           <h3 className="text-2xl font-mono">Total a Pagar</h3>
-          <p className="text-3xl font-mono">R$ {count.total}</p>
+          <p className="text-3xl font-mono">R$ {count.total ? count.total  : 0}</p>
           <a
             target="_blank"
             href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es "
@@ -302,31 +308,7 @@ export function Historico() {
             </div>
           </div>
 
-          <div className="flex flex-col mt-3">
-            {loading ? (
-              <Spinner />
-            ) : (
-              <Controller
-                control={control}
-                name="user_id"
-                render={({ field }) => (
-                  <Select
-                    placeholder="Selecione o Inquilino"
-                    onValueChange={field.onChange}
-                    {...field}
-                  >
-                    {tenants?.map((tenant) => (
-                      <SelectItem
-                        key={tenant.id}
-                        value={String(tenant.id)}
-                        text={tenant.name + " -  " + tenant.cpf}
-                      />
-                    ))}
-                  </Select>
-                )}
-              />
-            )}
-          </div>
+         
 
           <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3 mt-3 w-full justify-center">
             Salvar

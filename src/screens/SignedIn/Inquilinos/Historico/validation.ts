@@ -6,5 +6,4 @@ export const RegisterPagamentoSchema = z.object({
   status: z.string(),
   ano: z.string(),
   valor_faltante: z.string(),
-  user_id: z.string()
 })

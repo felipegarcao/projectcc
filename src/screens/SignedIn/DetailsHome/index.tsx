@@ -65,13 +65,13 @@ export function DetailsHome() {
           />
         </div>
       </Carousel>
-      <div className="grid md:grid-cols-[1fr_300px] grid-cols-1  gap-6">
+      <div className="grid md:grid-cols-[1fr_300px] grid-cols-1  gap-6 ">
         <div>
           <h2>
             Casa com {data.dormitorios} Quartos e {data.suites} banheiro para Alugar, {data.tamanho} m² por R$ {data.preco}/Mês
           </h2>
           <span>{data.bairro},  {data.cidade} - {data.estado}</span>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-4 grid-cols-2 gap-4 my-4">
             <div className="flex items-center gap-4">
               <Copy />
               <span>{data.tamanho}m²</span>

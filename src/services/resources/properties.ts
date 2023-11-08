@@ -82,12 +82,12 @@ export const listMyHouseUser = async (id: any) => {
 }; 
 
 
-export const listIdMyHouse = async ({
+export const listIdMyHouseAdmin = async ({
   idUser,
   idCasa
 }: {idUser: any, idCasa: number}) => {
   try {
-    const { data } = await api.get(`/user/my-house/${idUser}/edit/${idCasa}`);
+    const { data } = await api.get(`/user/my-house/${idUser}/edit/${idCasa}/admin`);
 
     return data;
   } catch (e: any) {
@@ -95,6 +95,22 @@ export const listIdMyHouse = async ({
 
   }
 }; 
+
+
+export const listIdMyHouseUser = async ({
+  idUser,
+  idCasa
+}: {idUser: any, idCasa: number}) => {
+  try {
+    const { data } = await api.get(`/user/my-house/${idUser}/edit/${idCasa}/user`);
+
+    return data;
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
+  }
+}; 
+
 
 
 

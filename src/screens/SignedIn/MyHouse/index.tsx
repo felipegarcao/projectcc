@@ -6,7 +6,7 @@ import { customStyles } from "./util";
 import * as Input from "../../../components/Input";
 import {
   editMyHouse,
-  listIdMyHouse,
+  listIdMyHouseAdmin,
   listMyHouseAdmin,
   listMyHouseUser,
 } from "../../../services/resources/properties";
@@ -39,7 +39,7 @@ export function MyHouse() {
   });
 
   async function openModal(id: number) {
-    await listIdMyHouse({
+    await listIdMyHouseAdmin({
       idCasa: id,
       idUser: user?.id
     }).then((x) => {
@@ -141,7 +141,10 @@ export function MyHouse() {
                       className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg"
                       onClick={() =>
                         navigate(`/historico`, {
-                          state: item.id,
+                          state: {
+                            idCasa: item.IdCasa,
+                            idUser: item.user_id
+                          }
                         })
                       }
                     >
