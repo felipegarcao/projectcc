@@ -110,8 +110,7 @@ export function Historico() {
       nome_mes: "",
       status: "",
       ano: moment().format("YYYY"),
-      valor_faltante: 0,
-      user_id: "",
+      valor_faltante: '0',
     },
   });
 
