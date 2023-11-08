@@ -7,13 +7,17 @@ import * as Input from "../../../components/Input";
 import {
   editMyHouse,
   listIdMyHouse,
-  listMyHouse,
+  listMyHouseAdmin,
+  listMyHouseUser,
 } from "../../../services/resources/properties";
 import { imoveilSchema } from "../Imoveis/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { handleSubmittedTypes } from "../Imoveis/types";
 import { useUser } from "../../../hooks/useUser";
+
+Modal.setAppElement("#root");
+
 
 export function MyHouse() {
   const navigate = useNavigate();
@@ -35,7 +39,10 @@ export function MyHouse() {
   });
 
   async function openModal(id: number) {
-    await listIdMyHouse(id).then((x) => {
+    await listIdMyHouse({
+      idCasa: id,
+      idUser: user?.id
+    }).then((x) => {
       setDadosEdit(x);
       setIsOpen(true);
     });
@@ -44,6 +51,17 @@ export function MyHouse() {
 
   function closeModal() {
     setIsOpen(false);
+  }
+
+
+  
+  async function carregarDados() {
+
+    if (user?.is_admin) {
+      await listMyHouseAdmin(user?.id).then((x) => setHouses(x));
+    } else {
+      await listMyHouseUser(user?.id).then((x) => setHouses(x));
+    }
   }
 
   useEffect(() => {
@@ -64,13 +82,11 @@ export function MyHouse() {
     carregarDados();
   }, [modalIsOpen]);
 
-  async function carregarDados() {
-    await listMyHouse().then((x) => setHouses(x));
-  }
 
   const onSubmit = async (data: any) => {
-    await editMyHouse(id, {
+    await editMyHouse(1, {
       ...data,
+      casa_id: id,
     }).then(() => {
       setTimeout(() => {
         setIsOpen(false);
@@ -135,7 +151,7 @@ export function MyHouse() {
                     {user?.is_admin && (
                       <button
                         className="text-white p-2 bg-violet-500 rounded-lg"
-                        onClick={() => openModal(item.id)}
+                        onClick={() => openModal(item.IdCasa)}
                       >
                         Editar
                       </button>
@@ -157,7 +173,7 @@ export function MyHouse() {
         <h2 className="text-2xl font-mono mb-3">Detalhamento da casa</h2>
 
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Rua/AV
@@ -190,7 +206,7 @@ export function MyHouse() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">CEP</label>
               <Controller
@@ -219,7 +235,7 @@ export function MyHouse() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Bairro
@@ -252,7 +268,7 @@ export function MyHouse() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Estado
@@ -285,7 +301,7 @@ export function MyHouse() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Suítes
@@ -318,7 +334,7 @@ export function MyHouse() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">Preço</label>
 

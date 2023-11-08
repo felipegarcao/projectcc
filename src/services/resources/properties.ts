@@ -9,7 +9,7 @@ export const ufResources = async () => {
     );
 
     return data;
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
   }
 };
@@ -21,7 +21,8 @@ export const createHouse = async (data: House) => {
     });
     toast.success("Casa cadastrada com sucesso !");
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+    toast.error(e.response.data.message)
+
   }
 };
 
@@ -30,8 +31,9 @@ export const listImoveis = async () => {
     const { data } = await api.get("/house");
 
     return data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
   }
 };
 
@@ -40,8 +42,9 @@ export const houseDisponiveis = async () => {
     const { data } = await api.get(`/house/disponiveis`);
 
     return data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
   }
 }
 
@@ -50,31 +53,50 @@ export const listIdImoveis = async (id: string | number) => {
     const { data } = await api.get(`/house/detalhes/${id}`);
 
     return data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
   }
 }; 
 
+export const listMyHouseAdmin = async (id: any) => {
+  try {
+    const { data } = await api.get(`/user/my-house/${id}/admin`);
 
-export const listIdMyHouse = async (id: string | number) => {
+    return data;
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
+  }
+}; 
+
+export const listMyHouseUser = async (id: any) => {
   try {
     const { data } = await api.get(`/user/my-house/${id}`);
 
     return data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
   }
 }; 
 
-export const listMyHouse = async () => {
+
+export const listIdMyHouse = async ({
+  idUser,
+  idCasa
+}: {idUser: any, idCasa: number}) => {
   try {
-    const { data } = await api.get(`/user/my-house`);
+    const { data } = await api.get(`/user/my-house/${idUser}/edit/${idCasa}`);
 
     return data;
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
   }
 }; 
+
+
 
 export const editMyHouse = async (id: string | number, data: any) => {
   try {
@@ -85,8 +107,9 @@ export const editMyHouse = async (id: string | number, data: any) => {
  toast.success('Dados alterados com sucesso !')
 
     
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
   }
 }
 
@@ -96,7 +119,7 @@ export const listSimilaresImoveis = async (id: string) => {
     const { data } = await api.get(`/house/similares/${id}`);
 
     return data;
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
   }
 }; 

@@ -36,12 +36,16 @@ export function Login() {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center ">
-      <Logo height={140} width={140} textVisible={false} />
+      {
+        currentTab === 'tab1' && (
+          <Logo height={140} width={140} textVisible={false} />
+        )
+      }
 
       <Tabs.Root
         value={currentTab}
         onValueChange={setCurrentTab}
-        className="w-2/4"
+        className="md:w-2/4 w-[90%]"
       >
         <Tabs.List className="mt-6 flex w-full items-center gap-4 border-b border-zinc-200">
           <TabItem

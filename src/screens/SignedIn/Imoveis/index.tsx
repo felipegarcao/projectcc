@@ -14,9 +14,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as FileInput from "../../../components/Form/FileInput";
 import { handleSubmittedTypes } from "./types";
 import { imoveilSchema } from "./validation";
+import { useUser } from "../../../hooks/useUser";
 
 export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
+
+  const {user} = useUser()
 
   const {
     handleSubmit,
@@ -47,8 +50,9 @@ export function Imoveis() {
   const onSubmit = async (data: any) => {
     await createHouse({
       ...data,
-      adm_id: 1,
+      admin_id: user?.id,
       arquivo: "",
+      user_id: user?.id
     });
 
     reset();

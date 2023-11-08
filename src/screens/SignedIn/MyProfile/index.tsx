@@ -21,28 +21,24 @@ export function MyProfile() {
     resolver: zodResolver(EditProfileSchema),
   });
 
-
-  const {user, setUser} = useUser()
+  const { user, setUser } = useUser();
 
   useEffect(() => {
-   
-
     if (user) {
-
-      setValue('cpf', user.cpf ? user.cpf : '')
-      setValue('email', user.email ? user.email : '')
-      setValue('rg', user.rg ? user.rg : '')
-      setValue('phone', user.phone)
-      setValue('profissao', user.profissao)
-      setValue('name', user.name)
-      setValue('estado_civil', user.estado_civil ? user.estado_civil : '')
+      setValue("cpf", user.cpf ? user.cpf : "");
+      setValue("email", user.email ? user.email : "");
+      setValue("rg", user.rg ? user.rg : "");
+      setValue("phone", user.phone);
+      setValue("profissao", user.profissao);
+      setValue("name", user.name);
+      setValue("estado_civil", user.estado_civil ? user.estado_civil : "");
     }
   }, []);
 
   async function onSubmit(data: any) {
-
-       await editProfileResource(data).then((x: any) => setUser(x)).catch((err) => console.log(err))
-    
+    await editProfileResource(data)
+      .then((x: any) =>  localStorage.setItem("user", JSON.stringify(x.user)))
+      .catch((err) => console.log(err));
   }
 
   return (

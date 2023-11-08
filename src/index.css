@@ -3,3 +3,13 @@
 @tailwind utilities;
 
 
+
+@media (max-width: 768px) {
+  .ReactModal__Overlay--after-open  {
+  
+    position: relative !important; 
+  }
+
+}
+
+  

@@ -21,7 +21,7 @@ export function ListagemContrato() {
 
       {contratos?.map((item, index) => (
         <div
-          className="shadow-md p-3 rounded-md my-4 flex items-center justify-between"
+          className="shadow-md p-3 rounded-md my-4 flex flex-col md:flex-row md:items-center gap-5 md:gap-0 justify-between"
           key={index}
         >
           <div className="flex items-center gap-2">

@@ -8,11 +8,9 @@ export const tenantsResource = async () => {
 
     return data;
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+    toast.error(e.response.data.message);
   }
 };
-
-
 
 export const tenantsOffResource = async () => {
   try {
@@ -20,10 +18,9 @@ export const tenantsOffResource = async () => {
 
     return data;
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+    toast.error(e.response.data.message);
   }
 };
-
 
 export const tenantsPendingResource = async () => {
   try {
@@ -31,7 +28,7 @@ export const tenantsPendingResource = async () => {
 
     return data;
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+    toast.error(e.response.data.message);
   }
 };
 
@@ -42,7 +39,7 @@ export const editProfileResource = async (params: ParamsEditProfile) => {
     });
     toast.success("Perfil alterado com sucesso !");
   } catch (error: any) {
-    toast.error(error.response.data.message)
+    toast.error(error.response.data.message);
   }
 };
 
@@ -52,7 +49,7 @@ export const acceptedUserResource = async (id: string) => {
       .put(`/user/accept/${id}`)
       .then((response) => toast.success(response.data.message));
   } catch (error: any) {
-    toast.error(error.response.data.message)
+    toast.error(error.response.data.message);
   }
 };
 
@@ -61,7 +58,7 @@ export const tenantsIdResource = async (id: string): Promise<any> => {
     const { data } = await api.get(`/user/tenant/${id}`);
     return data;
   } catch (e: any) {
-    toast.error("Error");
+    toast.error(e.response.data.message);
   }
 };
 
@@ -72,7 +69,7 @@ export const createTenantsResource = async (data: Tenants) => {
     });
     toast.success("Inquilino criado com sucesso !");
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+    toast.error(e.response.data.message);
   }
 };
 
@@ -82,44 +79,37 @@ export const solicitarVisitaResource = async (data: any) => {
       ...data,
     });
 
-    toast.success('Solicitação de visita enviada com sucesso !');
+    toast.success("Solicitação de visita enviada com sucesso !");
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+    toast.error(e.response.data.message);
   }
 };
 
 export const alterarStatusVisitaResource = async (data: any) => {
-
   try {
-    await api.put('/visita', {
-      ...data
-    })
+    await api.put("/visita", {
+      ...data,
+    });
   } catch (e: any) {
-    toast.error(e.response.data.message)
+    toast.error(e.response.data.message);
   }
-
-}
-
+};
 
 export const listagemVisita = async () => {
   try {
     const { data } = await api.get(`/visita/listagem`);
     return data;
   } catch (e: any) {
-    toast.error("Error");
+    toast.error(e.response.data.message);
   }
-}
-
-
-
+};
 
 export const disableTenantsResouce = async (id: string) => {
   try {
+    await api.post(`/user/desabilitar/${id}`);
 
-    await api.post(`/user/desabilitar/${id}`)
-
-    toast.info('usuario desabilitado com sucesso !');
-
-
-  } catch (e: any) {}
+    toast.info("usuario desabilitado com sucesso !");
+  } catch (e: any) {
+    toast.error(e.response.data.message);
+  }
 };

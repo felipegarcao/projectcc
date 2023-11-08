@@ -14,7 +14,7 @@ export const createContrato = async (data: Contrato) => {
     });
     toast.success("Contrato created successfully");
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+          toast.error(e.response.data.message)
   }
 };
 
@@ -27,6 +27,6 @@ export const listContratos = async () => {
 
     return data
   } catch (e: any) {
-    toast.error("Error: " + e.message);
+          toast.error(e.response.data.message)
   }
 }

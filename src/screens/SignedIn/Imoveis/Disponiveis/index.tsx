@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { CasasDisponiveisProps } from "./types";
 
-
 export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="border border-gray-200 rounded-lg shadow">
@@ -17,8 +15,12 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
 
         <div className="p-4 w-full flex flex-col justify-between">
           <header>
-            <span className="text-xs">{item.bairro}, {item.cidade} - {item.estado}</span>
-            <h2 className="font-semibold text-lg">Casa com {item.dormitorios} Quartos Para Aluguel, {item.tamanho}m²</h2>
+            <span className="text-xs">
+              {item.bairro}, {item.cidade} - {item.estado}
+            </span>
+            <h2 className="font-semibold text-lg">
+              Casa com {item.dormitorios} Quartos Para Aluguel, {item.tamanho}m²
+            </h2>
           </header>
 
           <section>
@@ -30,7 +32,9 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
             </div>
 
             <div className="flex items-center gap-2 mt-2">
-              <span className="p-2  text-xs rounded-lg bg-gray-200">Garagem</span>
+              <span className="p-2  text-xs rounded-lg bg-gray-200">
+                Garagem
+              </span>
             </div>
           </section>
 
@@ -38,7 +42,20 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
             <p>
               <strong>R$ {item.preco}</strong> /mês
             </p>
-            <button onClick={() => navigate(`/detalhamento-casa/${item.id}`)}  className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg">Detalhes</button>
+            <div>
+              <button
+                onClick={() => navigate(`/detalhamento-casa/${item.id}`)}
+                className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg"
+              >
+                Detalhes
+              </button>
+              <button
+                onClick={() => navigate(`/detalhamento-casa/${item.id}`)}
+                className="text-violet-500 p-2 bg-violet-200 rounded-lg"
+              >
+                Alugar
+              </button>
+            </div>
           </footer>
         </div>
       </div>

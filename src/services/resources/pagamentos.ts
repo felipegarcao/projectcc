@@ -18,7 +18,7 @@ export async function createPagamento(data: PagamentoProps) {
 
     toast.success("Pagamento created successfully");
   } catch (err: any) {
-    toast.error(err.message);
+    toast.error(err.response.data.message)
   }
 }
 
@@ -28,7 +28,8 @@ export async function listPagamentos(id: string) {
 
     return data;
   } catch (err: any) {
-    toast.error(err.message);
+    toast.error(err.response.data.message)
+
   }
 }
 
@@ -38,6 +39,7 @@ export async function countValorFaltante(id: string) {
 
     return data;
   } catch (err: any) {
-    toast.error(err.message);
+    toast.error(err.response.data.message)
+
   }
 }

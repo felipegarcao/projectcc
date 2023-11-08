@@ -7,10 +7,12 @@ import { listIdImoveis } from "../../../services/resources/properties";
 import { useParams } from "react-router-dom";
 import { DetailsHouse, House } from "../../../@types/Imoveis";
 import { Similares } from "./local-components/similares";
+import { useResponsive } from "../../../hooks/useResponsive";
 
 export function DetailsHome() {
   const { id } = useParams();
   const [data, setData] = useState({} as DetailsHouse)
+  const screenType = useResponsive()
 
   useEffect(() => {
     carregarDados();
@@ -30,7 +32,7 @@ export function DetailsHome() {
         emulateTouch={true}
         showStatus={false}
         centerMode={true}
-        centerSlidePercentage={33.3}
+        centerSlidePercentage={screenType === 'Desktop' ? 33.3 : 100}
       >
         <div>
           <img
@@ -63,7 +65,7 @@ export function DetailsHome() {
           />
         </div>
       </Carousel>
-      <div className="grid grid-cols-[1fr_300px] gap-6">
+      <div className="grid md:grid-cols-[1fr_300px] grid-cols-1  gap-6">
         <div>
           <h2>
             Casa com {data.dormitorios} Quartos e {data.suites} banheiro para Alugar, {data.tamanho} m² por R$ {data.preco}/Mês
@@ -110,15 +112,19 @@ export function DetailsHome() {
             {data.observacao}
           </p>
 
-          <Similares />
+          
 
-          <a href="/" className="text-center mt-4 text-violet-500 block">
-            Ver mais casas disponiveis
-          </a>
+       
         </div>
 
         <RightContent preco={data.preco} />
+
       </div>
+        <Similares />
+
+        <a href="/" className="text-center mt-4 text-violet-500 block">
+            Ver mais casas disponiveis
+          </a>
     </div>
   );
 }

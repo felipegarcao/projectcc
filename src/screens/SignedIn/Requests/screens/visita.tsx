@@ -37,7 +37,7 @@ export function Visita() {
     carregarDados();
   }, [newRequest]);
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setValue, register } = useForm({
     resolver: zodResolver(VisitaSchema),
   });
 
@@ -47,6 +47,8 @@ export function Visita() {
       status: tipo,
       id,
     });
+
+    setModalIsOpen(false)
 
     setNewRequest(Math.random());
   };
@@ -191,17 +193,13 @@ export function Visita() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <h2>Observação</h2>
 
-          <Controller
-            name="observacao"
-            control={control}
-            render={({ field }) => (
-              <textarea
-                {...field}
-                className="border my-2 rounded-md resize-none p-3 text-xs w-full"
-                rows={8}
-              ></textarea>
-            )}
-          />
+          <textarea
+            {...register("observacao")}
+            className="border my-2 rounded-md resize-none p-3 text-xs w-full"
+            rows={8}
+           
+         
+          ></textarea>
 
           <button className="w-full rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700">
             Salvar

@@ -37,7 +37,7 @@ export function SignUp() {
 
   return (
     <form
-      className="flex flex-col items-stretch   mt-5 gap-4"
+      className="flex flex-col items-stretch   mt-5 md:gap-4 gap-0"
       onSubmit={handleSubmit(onSubmit)}
     >
       <label
