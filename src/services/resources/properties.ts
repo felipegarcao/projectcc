@@ -37,9 +37,23 @@ export const listImoveis = async () => {
   }
 };
 
-export const houseDisponiveis = async () => {
+export const houseDisponiveis = async ({
+  banheiro,
+  dormitorios,
+  vagas_garagem
+}: {
+  banheiro: string,
+  dormitorios: string,
+  vagas_garagem: string
+}) => {
   try {
-    const { data } = await api.get(`/house/disponiveis`);
+    const { data } = await api.get(`/house/disponiveis`, {
+      params: {
+        banheiro: banheiro == '0' ? '' : banheiro,
+        dormitorios: dormitorios == '0' ? '': dormitorios,
+        vagas_garagem: vagas_garagem == '0' ? '' : vagas_garagem
+      }
+    });
 
     return data;
   } catch (e: any) {
