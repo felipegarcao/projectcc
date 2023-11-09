@@ -64,7 +64,7 @@ export function Historico() {
         idUser: location.state.idUser
       }).then((x) => {
 
-        listPagamentos(location.state.idUser).then((result) => setPagamentos(result));
+        listPagamentos(location.state.idCasa).then((result) => setPagamentos(result));
         countValorFaltante(location.state.idUser).then((result) => setCount(result));
    
         setDados(x);
@@ -204,7 +204,7 @@ export function Historico() {
         <div>
           <h2 className="my-5 text-2xl  text-violet-600">2023</h2>
 
-          {pagamentos.map((item, index) => (
+          {pagamentos?.map((item, index) => (
             <BoxPagamento
               key={index}
               nome_mes={item.nome_mes}

@@ -19,7 +19,7 @@ import { useUser } from "../../../hooks/useUser";
 export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
 
-  const {user} = useUser()
+  const { user } = useUser()
 
   const {
     handleSubmit,

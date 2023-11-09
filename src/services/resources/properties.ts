@@ -140,3 +140,33 @@ export const listSimilaresImoveis = async (id: string) => {
   }
 }; 
 
+
+
+
+export const alugarHouse = async (params: any) => {
+  try {
+
+    await api.put('/house/alugar', {
+      ...params
+    })
+
+  toast.success('Casa alugada com sucesso !')
+    
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+  }
+}
+
+
+export const desalugarHouse = async (id: any)  => {
+
+  try {
+
+    await api.put(`/house/desalugar/${id}`)
+
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+  }
+
+
+}

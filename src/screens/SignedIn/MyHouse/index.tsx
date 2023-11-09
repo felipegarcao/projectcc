@@ -5,6 +5,7 @@ import { customStyles } from "./util";
 
 import * as Input from "../../../components/Input";
 import {
+  desalugarHouse,
   editMyHouse,
   listIdMyHouseAdmin,
   listMyHouseAdmin,
@@ -54,7 +55,7 @@ export function MyHouse() {
   }
 
 
-  
+
   async function carregarDados() {
 
     if (user?.is_admin) {
@@ -93,6 +94,12 @@ export function MyHouse() {
       }, 2000);
     });
   };
+
+
+
+  async function desalugar(idCasa: any) {
+    await desalugarHouse(idCasa)
+  }
 
   return (
     <>
@@ -137,6 +144,7 @@ export function MyHouse() {
                     <strong>R$ {item.preco}</strong> /mês
                   </p>
                   <div>
+
                     <button
                       className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg"
                       onClick={() =>
@@ -152,12 +160,27 @@ export function MyHouse() {
                     </button>
 
                     {user?.is_admin && (
-                      <button
-                        className="text-white p-2 bg-violet-500 rounded-lg"
-                        onClick={() => openModal(item.IdCasa)}
-                      >
-                        Editar
-                      </button>
+                      <>
+
+                        <button
+                          className="text-white p-2 bg-violet-500 rounded-lg mx-4"
+                          onClick={() => openModal(item.IdCasa)}
+                        >
+                          Editar
+                        </button>
+
+
+                        { item.status === 'off' && (
+                        <button 
+                        className="bg-red-500 p-2 text-white rounded-lg"
+                        onClick={() => desalugar(item.IdCasa)}
+                        >Desalugar</button>
+
+                        )
+
+                        }
+
+                      </>
                     )}
                   </div>
                 </footer>
