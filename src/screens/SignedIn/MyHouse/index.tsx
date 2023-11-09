@@ -58,7 +58,7 @@ export function MyHouse() {
 
   async function carregarDados() {
 
-    if (user?.is_admin) {
+    if (user?.is_admin === 1) {
       await listMyHouseAdmin(user?.id).then((x) => setHouses(x));
     } else {
       await listMyHouseUser(user?.id).then((x) => setHouses(x));
@@ -100,6 +100,9 @@ export function MyHouse() {
   async function desalugar(idCasa: any) {
     await desalugarHouse(idCasa)
   }
+
+
+
 
   return (
     <>
@@ -159,7 +162,7 @@ export function MyHouse() {
                       Detalhes
                     </button>
 
-                    {user?.is_admin && (
+                    {user?.is_admin === 1 && (
                       <>
 
                         <button

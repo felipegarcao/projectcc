@@ -10,7 +10,7 @@ export interface Tenants {
   profissao?: string,
   phone?: string;
   observation?: string;
-  is_admin?: boolean;
+  is_admin?: number;
 }
 
 

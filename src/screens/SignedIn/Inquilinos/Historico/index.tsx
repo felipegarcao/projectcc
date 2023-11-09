@@ -190,7 +190,7 @@ export function Historico() {
 
       <div className="flex items-center justify-between">
         <h2 className="my-10 text-2xl  text-violet-600">Histórico</h2>
-        {user?.is_admin && (
+        {user?.is_admin === 1 && (
           <button
             onClick={openModal}
             className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3"

@@ -1,5 +1,5 @@
 import { NavItem } from "./NavItem";
-import { Users, HomeIcon, FileCog, User, Home } from "lucide-react";
+import { Users, HomeIcon, FileCog, User, Home,LucideHome } from "lucide-react";
 import { useUser } from "../../../hooks/useUser";
 
 export function MainNavigation() {
@@ -14,7 +14,7 @@ export function MainNavigation() {
         tab="tab1"
       />
 
-      {user?.is_admin && (
+      {user?.is_admin === 1 && (
         <>
           <NavItem
             title="Inquilinos"
@@ -43,12 +43,21 @@ export function MainNavigation() {
         </>
       )}
 
+
+      <NavItem
+        title="Minhas casas"
+        icon={LucideHome}
+        active={currentTab === 'tab10'}
+        tab="tab10"
+      />
+
       <NavItem
         title="Perfil"
         icon={User}
         active={currentTab === "tab2"}
         tab="tab2"
       />
+
     </nav>
   );
 }

@@ -27,7 +27,7 @@ export function SettingsTabs() {
               isSelected={currentTab === "tab1"}
             />
 
-            {user?.is_admin && (
+            {user?.is_admin === 1 && (
               <>
                 <TabItem
                   value="tab8"

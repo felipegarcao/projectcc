@@ -1,18 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { CasasDisponiveisProps } from "./types";
 import { useEffect, useState } from "react";
-import Modal from 'react-modal'
+import Modal from "react-modal";
 import { customStyles } from "../../Requests/screens/util";
 import { Tenants } from "../../../../@types/tenants";
 import { tenantsResource } from "../../../../services/resources/user";
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { alugarSchema } from "./validation";
 import { Select } from "../../../../components/Form/Select";
 import { SelectItem } from "../../../../components/Form/Select/SelectItem";
 import { alugarHouse } from "../../../../services/resources/properties";
-
-
+import { useUser } from "../../../../hooks/useUser";
 
 export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
   const navigate = useNavigate();
@@ -20,34 +19,30 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
   const [tenants, setTenants] = useState<Tenants[]>([]);
 
 
+  const {user} = useUser()
 
   useEffect(() => {
-    carregarDados()
-  }, [])
-
+    carregarDados();
+  }, []);
 
   async function carregarDados() {
     await tenantsResource().then((result) => {
       setTenants(result?.user);
     });
-
   }
 
   const { control, handleSubmit } = useForm({
-    resolver: zodResolver(alugarSchema)
-  })
-
+    resolver: zodResolver(alugarSchema),
+  });
 
   async function onSubmit(data: any) {
     await alugarHouse({
       ...data,
-      casa_id: item.id
-    })
+      casa_id: item.id,
+    });
 
-
-    window.location.reload()
+    window.location.reload();
   }
-
 
   return (
     <>
@@ -65,7 +60,8 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
                 {item.bairro}, {item.cidade} - {item.estado}
               </span>
               <h2 className="font-semibold text-lg">
-                Casa com {item.dormitorios} Quartos Para Aluguel, {item.tamanho}m²
+                Casa com {item.dormitorios} Quartos Para Aluguel, {item.tamanho}
+                m²
               </h2>
             </header>
 
@@ -95,18 +91,20 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
                 >
                   Detalhes
                 </button>
-                <button
-                  className="text-violet-500 p-2 bg-violet-200 rounded-lg"
-                  onClick={() => setIsOpen(true)}
-                >
-                  Alugar
-                </button>
+                {user?.is_admin === 1 && (
+                    <button
+                    className="text-violet-500 p-2 bg-violet-200 rounded-lg"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    Alugar
+                  </button>
+                )}
+              
               </div>
             </footer>
           </div>
         </div>
       </div>
-
 
       <Modal
         isOpen={modalIsOpen}
@@ -115,9 +113,9 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
         contentLabel="Example Modal"
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-
-          <h1 className="text-xl font-medium text-zinc-900 my-5">Alugar Casa Para: </h1>
-
+          <h1 className="text-xl font-medium text-zinc-900 my-5">
+            Alugar Casa Para:{" "}
+          </h1>
 
           <Controller
             name="user_id"
@@ -142,13 +140,11 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
           <button
             type="submit"
             className="w-full  mt-5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-          // disabled={!isValid}
+            // disabled={!isValid}
           >
             Realizar Alugamento
           </button>
-
         </form>
-
       </Modal>
     </>
   );

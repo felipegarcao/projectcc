@@ -26,7 +26,7 @@ export function HomePage() {
   const { user } = useUser();
 
   useEffect(() => {
-    if (user?.is_admin) {
+    if (user?.is_admin === 1) {
       carregarQuantidade();
     }
     carregarCasasDisponiveis();
@@ -63,9 +63,9 @@ export function HomePage() {
 
   return (
     <>
-      {user?.is_admin && <TimeLine />}
+      {user?.is_admin === 1 && <TimeLine />}
 
-      {user?.is_admin && (
+      {user?.is_admin === 1 && (
         <div className="lg:grid lg:grid-cols-3 gap-3 flex flex-col justify-center items-center mt-4">
           <div className="lg:max-w-md py-4 px-8 bg-white shadow-lg rounded-lg w-full ">
             <div className="flex items-center justify-center flex-col">
@@ -115,126 +115,130 @@ export function HomePage() {
         Casas Disponíveis
       </h1>
 
-      <div className="p-4 border rounded-md mt-3 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-        <div>
-          <span className="text-gray-500 text-sm">Banheiros</span>
+      {user?.is_admin === 1 && (
+         <div className="p-4 border rounded-md mt-3 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
+         <div>
+           <span className="text-gray-500 text-sm">Banheiros</span>
+ 
+           <Tabs.Root
+             value={currentTabBanheiro}
+             onValueChange={setCurrentTabBanheiro}
+           >
+             <Tabs.List>
+               <ButtonItem
+                 title="1"
+                 value="1"
+                 isSelected={currentTabBanheiro === "1"}
+               />
+ 
+               <ButtonItem
+                 title="2"
+                 value="2"
+                 isSelected={currentTabBanheiro === "2"}
+               />
+ 
+               <ButtonItem
+                 title="3"
+                 value="3"
+                 isSelected={currentTabBanheiro === "3"}
+               />
+ 
+               <ButtonItem
+                 title="4"
+                 value="4"
+                 isSelected={currentTabBanheiro === "4"}
+               />
+             </Tabs.List>
+           </Tabs.Root>
+         </div>
+ 
+         <div>
+           <span className="text-gray-500 text-sm">Quartos</span>
+ 
+           <Tabs.Root
+             value={currentTabQuartos}
+             onValueChange={setCurrentTabQuartos}
+           >
+             <Tabs.List>
+               <ButtonItem
+                 title="1"
+                 value="1"
+                 isSelected={currentTabQuartos === "1"}
+               />
+ 
+               <ButtonItem
+                 title="2"
+                 value="2"
+                 isSelected={currentTabQuartos === "2"}
+               />
+ 
+               <ButtonItem
+                 title="3"
+                 value="3"
+                 isSelected={currentTabQuartos === "3"}
+               />
+ 
+               <ButtonItem
+                 title="4"
+                 value="4"
+                 isSelected={currentTabQuartos === "4"}
+               />
+             </Tabs.List>
+           </Tabs.Root>
+         </div>
+ 
+         <div>
+           <span className="text-gray-500 text-sm">Vagas na garagem</span>
+ 
+           <Tabs.Root value={currentTabVagas} onValueChange={setCurrentTabVagas}>
+             <Tabs.List>
+               <ButtonItem
+                 title="1"
+                 value="1"
+                 isSelected={currentTabVagas === "1"}
+               />
+ 
+               <ButtonItem
+                 title="2"
+                 value="2"
+                 isSelected={currentTabVagas === "2"}
+               />
+ 
+               <ButtonItem
+                 title="3"
+                 value="3"
+                 isSelected={currentTabVagas === "3"}
+               />
+ 
+               <ButtonItem
+                 title="4"
+                 value="4"
+                 isSelected={currentTabVagas === "4"}
+               />
+             </Tabs.List>
+           </Tabs.Root>
+         </div>
+ 
+         <div className="mt-2">
+           <span className="text-gray-500 text-sm">Total a Pagar</span>
+           <div className="flex items-center gap-3">
+             <Input.Root>
+               <Input.Control placeholder="R$ 00,00" />
+             </Input.Root>
+ 
+             <button
+               type="submit"
+               className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
+             >
+               Consultar
+             </button>
+           </div>
+         </div>
+       </div>
+ 
+      )}
 
-          <Tabs.Root
-            value={currentTabBanheiro}
-            onValueChange={setCurrentTabBanheiro}
-          >
-            <Tabs.List>
-              <ButtonItem
-                title="1"
-                value="1"
-                isSelected={currentTabBanheiro === "1"}
-              />
-
-              <ButtonItem
-                title="2"
-                value="2"
-                isSelected={currentTabBanheiro === "2"}
-              />
-
-              <ButtonItem
-                title="3"
-                value="3"
-                isSelected={currentTabBanheiro === "3"}
-              />
-
-              <ButtonItem
-                title="4"
-                value="4"
-                isSelected={currentTabBanheiro === "4"}
-              />
-            </Tabs.List>
-          </Tabs.Root>
-        </div>
-
-        <div>
-          <span className="text-gray-500 text-sm">Quartos</span>
-
-          <Tabs.Root
-            value={currentTabQuartos}
-            onValueChange={setCurrentTabQuartos}
-          >
-            <Tabs.List>
-              <ButtonItem
-                title="1"
-                value="1"
-                isSelected={currentTabQuartos === "1"}
-              />
-
-              <ButtonItem
-                title="2"
-                value="2"
-                isSelected={currentTabQuartos === "2"}
-              />
-
-              <ButtonItem
-                title="3"
-                value="3"
-                isSelected={currentTabQuartos === "3"}
-              />
-
-              <ButtonItem
-                title="4"
-                value="4"
-                isSelected={currentTabQuartos === "4"}
-              />
-            </Tabs.List>
-          </Tabs.Root>
-        </div>
-
-        <div>
-          <span className="text-gray-500 text-sm">Vagas na garagem</span>
-
-          <Tabs.Root value={currentTabVagas} onValueChange={setCurrentTabVagas}>
-            <Tabs.List>
-              <ButtonItem
-                title="1"
-                value="1"
-                isSelected={currentTabVagas === "1"}
-              />
-
-              <ButtonItem
-                title="2"
-                value="2"
-                isSelected={currentTabVagas === "2"}
-              />
-
-              <ButtonItem
-                title="3"
-                value="3"
-                isSelected={currentTabVagas === "3"}
-              />
-
-              <ButtonItem
-                title="4"
-                value="4"
-                isSelected={currentTabVagas === "4"}
-              />
-            </Tabs.List>
-          </Tabs.Root>
-        </div>
-
-        <div className="mt-2">
-          <span className="text-gray-500 text-sm">Total a Pagar</span>
-          <div className="flex items-center gap-3">
-            <Input.Root>
-              <Input.Control placeholder="R$ 00,00" />
-            </Input.Root>
-
-            <button
-              type="submit"
-              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-            >
-              Consultar
-            </button>
-          </div>
-        </div>
-      </div>
-
+     
       {loadingCasa ? (
         <Spinner />
       ) : (
