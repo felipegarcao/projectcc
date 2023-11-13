@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { customStyles } from "../../Requests/screens/util";
 import { Tenants } from "../../../../@types/tenants";
-import { tenantsResource } from "../../../../services/resources/user";
+import { tenantsDisponivelResource } from "../../../../services/resources/user";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { alugarSchema } from "./validation";
@@ -26,7 +26,7 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
   }, []);
 
   async function carregarDados() {
-    await tenantsResource().then((result) => {
+    await tenantsDisponivelResource().then((result) => {
       setTenants(result?.user);
     });
   }

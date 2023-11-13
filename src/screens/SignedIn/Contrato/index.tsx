@@ -20,6 +20,7 @@ import { contratoSchema } from "./validation";
 import { handleSubmittedTypes } from "./types";
 import { Spinner } from "../../../components/Spinner";
 import { toast } from "react-toastify";
+import { useUser } from "../../../hooks/useUser";
 
 export function Contrato() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
@@ -29,6 +30,10 @@ export function Contrato() {
   useEffect(() => {
     carregarDados();
   }, []);
+  
+  const {user} = useUser()
+
+  const admin = user;
 
   async function carregarDados() {
     try {
@@ -73,11 +78,15 @@ export function Contrato() {
 
 
 
-    generatePdf({
-      inquilino: user,
-      imovel: house,
-      contrato: data,
-    });
+    if (house) {
+      generatePdf({
+        inquilino: user,
+        imovel: house,
+        contrato: data,
+        admin_id: admin?.id
+      });
+    }
+  
 
 
     reset()

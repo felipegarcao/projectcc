@@ -14,8 +14,11 @@ export function Acesso() {
 
   async function handleAcceptUser(id: string) {
     await acceptedUserResource(id);
-   
   }
+
+  
+
+
 
   return (
     <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">

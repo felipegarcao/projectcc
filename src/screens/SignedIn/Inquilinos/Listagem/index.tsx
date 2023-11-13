@@ -14,10 +14,11 @@ export function ListagemInquilinos() {
   const [tenantsOff, setTenantsOff] = useState<Tenants[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingOff, setLoadingOff] = useState(true);
+ 
 
 
-  const {newRequest} = useContext(applicationContext)
 
+  const { newRequest } = useContext(applicationContext);
 
   useEffect(() => {
     tenantsResource().then((result) => {
@@ -48,7 +49,6 @@ export function ListagemInquilinos() {
               <thead>
                 <tr>
                   <th className="pl-3">Nome</th>
-                  <th className="pl-3">CPF</th>
                   <th className="pl-3">Email</th>
                   <th className="pl-3">Telefone</th>
                   <th className="pl-3"></th>
@@ -57,8 +57,7 @@ export function ListagemInquilinos() {
               <tbody>
                 {tenants?.map((tenant) => (
                   <UserItem
-                  status_user={tenant.status_user}
-                    cpf={tenant.cpf}
+                    status_user={tenant.status_user}
                     name={tenant.name}
                     email={tenant.email}
                     phone={tenant.phone}
@@ -153,7 +152,6 @@ export function ListagemInquilinos() {
               />
             ))}
           </div>
-
 
           <nav>
             <ul className="flex justify-center -space-x-px text-sm">

@@ -12,6 +12,17 @@ export const tenantsResource = async () => {
   }
 };
 
+export const tenantsDisponivelResource = async () => {
+  try {
+    const { data } = await api.get("/user/tenants/disponivel");
+
+    return data;
+  } catch (e: any) {
+    toast.error(e.response.data.message);
+  }
+};
+
+
 export const tenantsOffResource = async () => {
   try {
     const { data } = await api.get("/user/tenant/off");

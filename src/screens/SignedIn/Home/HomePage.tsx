@@ -115,7 +115,7 @@ export function HomePage() {
         Casas Disponíveis
       </h1>
 
-      {user?.is_admin === 1 && (
+     
          <div className="p-4 border rounded-md mt-3 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
          <div>
            <span className="text-gray-500 text-sm">Banheiros</span>
@@ -236,7 +236,7 @@ export function HomePage() {
          </div>
        </div>
  
-      )}
+    
 
      
       {loadingCasa ? (

@@ -47,11 +47,7 @@ export function SettingsTabs() {
                   isSelected={currentTab === "tab5"}
                 />
 
-                <TabItem
-                  value="tab9"
-                  title="Contrato/Listar"
-                  isSelected={currentTab === "tab9"}
-                />
+              
 
                 <TabItem
                   value="tab6"
@@ -66,6 +62,12 @@ export function SettingsTabs() {
                 />
               </>
             )}
+
+<TabItem
+                  value="tab9"
+                  title="Meus Contratos"
+                  isSelected={currentTab === "tab9"}
+                />
 
             <TabItem
               value="tab2"

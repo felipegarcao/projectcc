@@ -12,12 +12,14 @@ interface generatePdfProps {
   inquilino: Tenants;
   imovel: DetailsHouse;
   contrato: handleSubmittedTypes;
+  admin_id: any
 }
 
 export async function generatePdf({
   inquilino,
   imovel,
   contrato,
+  admin_id
 }: generatePdfProps) {
   const currencyFormatted = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -207,6 +209,7 @@ export async function generatePdf({
         observacao: contrato.observacao,
         uri_contrato: base64,
         valor_aluguel: contrato.valor_aluguel,
+        admin_id
       })
     
 

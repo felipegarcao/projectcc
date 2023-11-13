@@ -10,4 +10,5 @@ export interface Contrato {
   user_id: string;
   uri_contrato: any;
   name?: string;
+  admin_id: string;
 }

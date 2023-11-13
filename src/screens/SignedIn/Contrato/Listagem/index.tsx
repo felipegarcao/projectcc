@@ -1,14 +1,21 @@
 import { Download, FileText } from "lucide-react";
-import { listContratos } from "../../../../services/resources/contrato";
+import { listContratos, listContratosUserLogged } from "../../../../services/resources/contrato";
 import { useEffect, useState } from "react";
 import { Contrato } from "../../../../@types/contrato";
-import { saveAs } from "file-saver";
+import { useUser } from "../../../../hooks/useUser";
 
 export function ListagemContrato() {
   const [contratos, setContratos] = useState<Contrato[]>([]);
 
+  const {user} = useUser()
+
   async function carregarDados() {
-    listContratos().then((x) => setContratos(x.contrato));
+
+    if (user?.is_admin) {
+     await listContratos().then((x) => setContratos(x?.contrato));
+    } else {
+      await listContratosUserLogged(user?.id).then((x) => setContratos(x?.contrato))
+    }
   }
 
   useEffect(() => {
@@ -27,6 +34,12 @@ export function ListagemContrato() {
           <div className="flex items-center gap-2">
             <FileText className="text-red-500" />
             <span>Documento {Math.ceil(Math.random())}</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span>Data Inicio: {item.data_vigencia}</span>
+            <span>-</span>
+            <span>Data Fim: {item.data_vencimento}</span>
           </div>
 
           <div className="flex items-center gap-12">
