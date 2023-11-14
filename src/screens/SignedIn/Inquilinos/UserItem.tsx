@@ -6,6 +6,8 @@ import { Tenants } from "../../../@types/tenants";
 import {
   disableTenantsResouce,
   editProfileResource,
+  editarUsuarioResource,
+  restaurarSenhaResouce,
   tenantsIdResource,
 } from "../../../services/resources/user";
 import { useContext, useEffect, useState } from "react";
@@ -57,18 +59,26 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
   });
 
   async function onSubmit(data: handleUpdatedSubmittedTypes) {
-      await editProfileResource({
+    await editarUsuarioResource({
+      id,
+      params: {
         email: data.email,
-        estado_civil: data.estado_civil  ? data.estado_civil : '',
+        estado_civil: data.estado_civil ? data.estado_civil : "",
         cpf: data.cpf,
         idUser: id,
         name: data.name,
-        new_password: data.new_password ? data.new_password : '',
-        password: data.password ? data.password : '',
-        phone: data.phone ? data.phone : '',
-        profissao: data.profissao ? data.profissao: '',
-        rg: data.rg
-      })
+        phone: data.phone ? data.phone : "",
+        profissao: data.profissao ? data.profissao : "",
+        rg: data.rg,
+        data_nascimento: data.data_nascimento,
+        observacao: data.observacao
+      },
+    });
+
+    setTimeout(() => {
+      setModalIsOpen(false);
+      setNewRequest(Math.random());
+    }, 2000);
   }
 
   return (
@@ -86,29 +96,32 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
         <td className="p-3">
           <div className="flex justify-end">
             {status_user === "off" ? (
-              <button className="flex items-center gap-2 mx-1 text-sm bg-green-700 text-white rounded-md p-2">
+              <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2">
                 <Trash2 size={16} />
                 Histórico
               </button>
             ) : (
               <>
                 <button
-                  className="flex items-center gap-2 mx-1 text-sm bg-violet-700 text-white rounded-md p-2"
+                  className="flex items-center gap-2 mx-1 text-xs bg-violet-700 text-white rounded-md p-2"
                   onClick={() => handleOpenModal(id)}
                 >
-                  <Edit size={16} />
                   Editar
                 </button>
                 <button
-                  className="flex items-center gap-2 mx-1 text-sm bg-red-700 text-white rounded-md p-2"
+                  className="flex items-center gap-2 mx-1 text-xs bg-red-700 text-white rounded-md p-2"
                   onClick={() => disabledUser(id)}
                 >
-                  <Trash2 size={16} />
                   Deletar
                 </button>
-                <button className="flex items-center gap-2 mx-1 text-sm bg-green-700 text-white rounded-md p-2">
-                  <Trash2 size={16} />
+                <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2">
                   Histórico
+                </button>
+                <button
+                  className="flex items-center gap-2 mx-1 text-xs bg-violet-700 text-white rounded-md p-2"
+                  onClick={() => restaurarSenhaResouce(id)}
+                >
+                  Resturar Senha
                 </button>
               </>
             )}
@@ -237,9 +250,6 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
             </div>
           </div>
 
-
-      
-
           <Controller
             name="observacao"
             control={control}
@@ -247,14 +257,14 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
               <textarea
                 rows={8}
                 {...field}
-                className="mt-4 block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
+                className="mt-4 block p-2.5 w-full text-xs text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
               ></textarea>
             )}
           />
 
           <button
             type="submit"
-            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 w-full mt-3"
+            className="rounded-lg bg-violet-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-violet-700 w-full mt-3"
             // disabled={!isValid}
           >
             Salvar Edição

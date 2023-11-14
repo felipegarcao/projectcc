@@ -214,7 +214,6 @@ export async function generatePdf({
     
 
 
-    // pdfMake.createPdf(dd).open()
 
   });
 

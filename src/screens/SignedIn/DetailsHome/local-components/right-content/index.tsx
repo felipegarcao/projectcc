@@ -7,8 +7,9 @@ import { useParams } from "react-router-dom";
 import { solicitarVisitaResource } from "../../../../../services/resources/user";
 import { Props } from "./types";
 import { useUser } from "../../../../../hooks/useUser";
+import { WhatsAppButton } from "./WhatsAppButton";
 
-export function RightContent({ preco }: Props) {
+export function RightContent({ preco, message }: Props) {
   const [requestVisit, setRequestVisit] = useState(false);
 
   const dias = [
@@ -44,6 +45,9 @@ export function RightContent({ preco }: Props) {
     reset();
     setRequestVisit(false);
   };
+
+
+ 
 
   return (
     <div className="flex flex-col gap-4">
@@ -164,14 +168,7 @@ export function RightContent({ preco }: Props) {
             />
           </div>
 
-          <a
-            target="_blank"
-            href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es "
-            className="bg-green-400 p-3 text-white rounded-md text-center"
-            rel="noreferrer"
-          >
-            Contato por WhatsApp
-          </a>
+          <WhatsAppButton message={message} />
           <button
             className="border-2 border-yellow-500 text-yellow-500 p-3 rounded-md"
             onClick={() => setRequestVisit(true)}

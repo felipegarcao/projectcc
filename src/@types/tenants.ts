@@ -11,6 +11,7 @@ export interface Tenants {
   phone?: string;
   observation?: string;
   is_admin?: number;
+  data_nascimento?: string;
 }
 
 

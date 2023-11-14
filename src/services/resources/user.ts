@@ -45,10 +45,12 @@ export const tenantsPendingResource = async () => {
 
 export const editProfileResource = async (params: ParamsEditProfile) => {
   try {
-    await api.put(`/user/editar-perfil/${params.idUser}`, {
+  const {data} =  await api.put(`/user/editar-perfil/${params.idUser}`, {
       ...params,
     });
+
     toast.success("Perfil alterado com sucesso !");
+    return data;
   } catch (error: any) {
     toast.error(error.response.data.message);
   }
@@ -124,3 +126,29 @@ export const disableTenantsResouce = async (id: string) => {
     toast.error(e.response.data.message);
   }
 };
+
+
+export const restaurarSenhaResouce = async (id: string) => {
+  try {
+
+    await api.put(`/user/restaurar-senha/${id}`)
+
+    toast.info("Senha restaurado com sucesso !");
+
+
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+  }
+}
+
+export const editarUsuarioResource = async ({id, params}: {id: any, params: any}) => {
+  try {
+    await api.put(`/user/editar-usuario/${id}`, {
+      ...params
+    })
+
+    toast.info('Usuario editado com sucesso !')
+  }  catch (e: any) {
+    toast.error(e.response.data.message)
+  }
+}

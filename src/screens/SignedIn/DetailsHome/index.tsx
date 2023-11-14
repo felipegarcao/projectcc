@@ -11,8 +11,8 @@ import { useResponsive } from "../../../hooks/useResponsive";
 
 export function DetailsHome() {
   const { id } = useParams();
-  const [data, setData] = useState({} as DetailsHouse)
-  const screenType = useResponsive()
+  const [data, setData] = useState({} as DetailsHouse);
+  const screenType = useResponsive();
 
   useEffect(() => {
     carregarDados();
@@ -24,6 +24,10 @@ export function DetailsHome() {
     }
   }
 
+
+  const message = `Ola gostaria de falar sobre, Casa com ${data.dormitorios} Quartos e ${data.suites} banheiro para
+  Alugar, ${data.tamanho} m² por R$ ${data.preco}/Mês, de indentificação ${data.id}`
+
   return (
     <div>
       <Carousel
@@ -32,7 +36,7 @@ export function DetailsHome() {
         emulateTouch={true}
         showStatus={false}
         centerMode={true}
-        centerSlidePercentage={screenType === 'Desktop' ? 33.3 : 100}
+        centerSlidePercentage={screenType === "Desktop" ? 33.3 : 100}
       >
         <div>
           <img
@@ -68,9 +72,12 @@ export function DetailsHome() {
       <div className="grid md:grid-cols-[1fr_300px] grid-cols-1  gap-6 ">
         <div>
           <h2>
-            Casa com {data.dormitorios} Quartos e {data.suites} banheiro para Alugar, {data.tamanho} m² por R$ {data.preco}/Mês
+            Casa com {data.dormitorios} Quartos e {data.suites} banheiro para
+            Alugar, {data.tamanho} m² por R$ {data.preco}/Mês
           </h2>
-          <span>{data.bairro},  {data.cidade} - {data.estado}</span>
+          <span>
+            {data.bairro}, {data.cidade} - {data.estado}
+          </span>
           <div className="grid md:grid-cols-4 grid-cols-2 gap-4 my-4">
             <div className="flex items-center gap-4">
               <Copy />
@@ -111,20 +118,15 @@ export function DetailsHome() {
           <p className="text-sm text-gray-700 leading-relaxed mt-3 text-justify">
             {data.observacao}
           </p>
-
-          
-
-       
         </div>
 
-        <RightContent preco={data.preco} />
-
+        <RightContent preco={data.preco} message={message} />
       </div>
-        <Similares />
+      <Similares />
 
-        <a href="/" className="text-center mt-4 text-violet-500 block">
-            Ver mais casas disponiveis
-          </a>
+      <a href="/" className="text-center mt-4 text-violet-500 block">
+        Ver mais casas disponiveis
+      </a>
     </div>
   );
 }

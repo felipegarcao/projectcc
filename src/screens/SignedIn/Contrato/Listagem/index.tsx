@@ -1,5 +1,8 @@
 import { Download, FileText } from "lucide-react";
-import { listContratos, listContratosUserLogged } from "../../../../services/resources/contrato";
+import {
+  listContratos,
+  listContratosUserLogged,
+} from "../../../../services/resources/contrato";
 import { useEffect, useState } from "react";
 import { Contrato } from "../../../../@types/contrato";
 import { useUser } from "../../../../hooks/useUser";
@@ -7,17 +10,20 @@ import { useUser } from "../../../../hooks/useUser";
 export function ListagemContrato() {
   const [contratos, setContratos] = useState<Contrato[]>([]);
 
-  const {user} = useUser()
+  const { user } = useUser();
 
   async function carregarDados() {
-
     if (user?.is_admin) {
-     await listContratos().then((x) => setContratos(x?.contrato));
+      await listContratos().then((x) => setContratos(x?.contrato));
     } else {
-      await listContratosUserLogged(user?.id).then((x) => setContratos(x?.contrato))
+      await listContratosUserLogged(user?.id).then((x) =>
+        setContratos(x?.contrato)
+      );
     }
   }
 
+ 
+  
   useEffect(() => {
     carregarDados();
   }, []);
@@ -49,7 +55,7 @@ export function ListagemContrato() {
               </button>
               <span>{item.name}</span>
             </div>
-            <button className="bg-violet-500 p-1 rounded-lg text-white">
+            <button className="bg-violet-500 p-1 rounded-lg text-white" >
               <Download />
             </button>
           </div>

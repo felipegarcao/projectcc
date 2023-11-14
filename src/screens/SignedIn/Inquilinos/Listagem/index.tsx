@@ -44,7 +44,7 @@ export function ListagemInquilinos() {
         <Spinner />
       ) : (
         <>
-          <div className="p-2 shadow-md rounded-md hidden lg:block">
+          <div className="p-2 shadow-md rounded-md hidden md:block">
             <table className="w-full text-left border-separate">
               <thead>
                 <tr>
@@ -69,7 +69,7 @@ export function ListagemInquilinos() {
             </table>
           </div>
 
-          <div className="sm:flex sm:justify-center sm:items-center md:grid md:justify-between md:grid-cols-2  lg:hidden">
+          <div className="sm:flex sm:justify-center sm:items-center  md:justify-between md:grid-cols-2  md:hidden">
             {tenants?.map((_) => (
               <CardUsers
                 avatarUrl={_.avatarUrl}
@@ -113,7 +113,7 @@ export function ListagemInquilinos() {
         <Spinner />
       ) : (
         <>
-          <div className="p-2 shadow-md rounded-md hidden lg:block">
+          <div className="p-2 shadow-md rounded-md hidden md:block">
             <table className="w-full text-left border-separate">
               <thead>
                 <tr>
@@ -140,7 +140,7 @@ export function ListagemInquilinos() {
             </table>
           </div>
 
-          <div className="sm:flex sm:justify-center sm:items-center md:grid md:justify-between md:grid-cols-2  lg:hidden">
+          <div className="sm:flex sm:justify-center sm:items-center md:grid md:justify-between md:grid-cols-2  md:hidden">
             {tenantsOff?.map((_) => (
               <CardUsers
                 avatarUrl={_.avatarUrl}

@@ -31,6 +31,7 @@ export function MyProfile() {
       setValue("profissao", user.profissao);
       setValue("name", user.name);
       setValue("estado_civil", user.estado_civil ? user.estado_civil : "");
+      setValue('data_nascimento', user.data_nascimento ? user.data_nascimento : '')
     }
   }, []);
 
@@ -39,7 +40,11 @@ export function MyProfile() {
       ...data,
       idUser: user?.id
     })
-      .then((x: any) =>  localStorage.setItem("user", JSON.stringify(x.user)))
+      .then((x: any) => {
+        localStorage.removeItem('user')
+        localStorage.setItem("user", JSON.stringify(x.user))
+  
+      })
       .catch((err) => console.log(err));
   }
 
