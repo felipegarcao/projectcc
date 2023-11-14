@@ -13,5 +13,6 @@ export const EditProfileSchema = z.object({
   phone: z.string().optional(),
   password: z.string().optional(),
   new_password: z.string().optional(),
-  data_nascimento: z.string().optional()
+  data_nascimento: z.string().optional(),
+  observacao: z.string().optional()
 });

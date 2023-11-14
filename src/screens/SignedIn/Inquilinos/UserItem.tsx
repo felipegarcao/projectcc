@@ -3,14 +3,25 @@ import Modal from "react-modal";
 import { Edit, Trash2 } from "lucide-react";
 import { Avatar } from "../../../components/Avatar";
 import { Tenants } from "../../../@types/tenants";
-import { disableTenantsResouce, tenantsIdResource } from "../../../services/resources/user";
-import { useContext, useState } from "react";
+import {
+  disableTenantsResouce,
+  editProfileResource,
+  tenantsIdResource,
+} from "../../../services/resources/user";
+import { useContext, useEffect, useState } from "react";
 import { applicationContext } from "../../../context/ApplicationContext";
 import { customStyles } from "../MyHouse/util";
 import * as Input from "../../../components/Input";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { handleUpdatedSubmittedTypes } from "./types";
+import { EditProfileSchema } from "../MyProfile/validation";
 
 export function UserItem({ name, email, phone, status_user, id }: Tenants) {
   const { setNewRequest } = useContext(applicationContext);
+  const [dadosEdit, setDadosEdit] = useState({} as handleUpdatedSubmittedTypes);
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const disabledUser = async (id: string) => {
     disableTenantsResouce(id);
@@ -18,19 +29,48 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
     setNewRequest(Math.random());
   };
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  useEffect(() => {
+    setValue("cpf", dadosEdit.cpf);
+    setValue("data_nascimento", dadosEdit.data_nascimento);
+    setValue("email", dadosEdit.email);
+    setValue("name", dadosEdit.name);
+    setValue("estado_civil", dadosEdit.estado_civil);
+    setValue("profissao", dadosEdit.profissao);
+    setValue("rg", dadosEdit.rg);
+    setValue("observacao", dadosEdit.observacao);
+    setValue("phone", dadosEdit.phone);
+  }, [modalIsOpen]);
 
   async function handleOpenModal(id: any) {
-
-    await tenantsIdResource(id).then((x) => console.log(x))
-
+    await tenantsIdResource(id).then((x) => setDadosEdit(x.user));
 
     setModalIsOpen(true);
   }
 
-  function onSubmit() {
-    
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    setValue,
+  } = useForm<handleUpdatedSubmittedTypes>({
+    resolver: zodResolver(EditProfileSchema),
+  });
+
+  async function onSubmit(data: handleUpdatedSubmittedTypes) {
+      await editProfileResource({
+        email: data.email,
+        estado_civil: data.estado_civil  ? data.estado_civil : '',
+        cpf: data.cpf,
+        idUser: id,
+        name: data.name,
+        new_password: data.new_password ? data.new_password : '',
+        password: data.password ? data.password : '',
+        phone: data.phone ? data.phone : '',
+        profissao: data.profissao ? data.profissao: '',
+        rg: data.rg
+      })
   }
+
   return (
     <>
       <tr>
@@ -54,7 +94,7 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
               <>
                 <button
                   className="flex items-center gap-2 mx-1 text-sm bg-violet-700 text-white rounded-md p-2"
-                  onClick={() => handleOpenModal(2)}
+                  onClick={() => handleOpenModal(id)}
                 >
                   <Edit size={16} />
                   Editar
@@ -81,84 +121,144 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
         style={customStyles}
         onRequestClose={() => setModalIsOpen(false)}
       >
-        <form>
-        <h1 className="text-xl font-medium text-zinc-900 my-5">
-           Editar Usuario
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1 className="text-xl font-medium text-zinc-900 my-5">
+            Editar Usuario
           </h1>
           <div className="grid md:grid-cols-2  grid-cols-1 gap-3">
-            <div>
+            <label>
               <span>Nome:</span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
-            </div>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+            </label>
 
-            <div>
+            <label>
               <span>Email</span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
-            </div>
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
+            </label>
           </div>
-
 
           <div className="grid md:grid-cols-2  grid-cols-1 gap-3">
             <div>
               <span>CPF:</span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="cpf"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
 
             <div>
               <span>RG</span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="rg"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
-
 
           <div className="grid md:grid-cols-2  grid-cols-1 gap-3">
             <div>
               <span>Telefone:</span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
 
             <div>
               <span>Profissao: </span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="profissao"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
-          
           <div className="grid md:grid-cols-2  grid-cols-1 gap-3">
             <div>
               <span>Estado Civil:</span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="estado_civil"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
 
             <div>
               <span>Data Nascimento: </span>
-              <Input.Root>
-                <Input.Control />
-              </Input.Root>
+              <Controller
+                name="data_nascimento"
+                control={control}
+                render={({ field }) => (
+                  <Input.Root>
+                    <Input.Control {...field} />
+                  </Input.Root>
+                )}
+              />
             </div>
           </div>
 
-          <textarea
+
+      
+
+          <Controller
+            name="observacao"
+            control={control}
+            render={({ field }) => (
+              <textarea
                 rows={8}
+                {...field}
                 className="mt-4 block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
               ></textarea>
+            )}
+          />
 
-
-
+          <button
+            type="submit"
+            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 w-full mt-3"
+            // disabled={!isValid}
+          >
+            Salvar Edição
+          </button>
         </form>
       </Modal>
     </>

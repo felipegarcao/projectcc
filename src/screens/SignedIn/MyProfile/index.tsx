@@ -9,7 +9,6 @@ import { handleSubmittedTypes } from "./types";
 import { editProfileResource } from "../../../services/resources/user";
 import { useEffect } from "react";
 import { useUser } from "../../../hooks/useUser";
-import { toast } from "react-toastify";
 
 export function MyProfile() {
   const {
@@ -36,7 +35,10 @@ export function MyProfile() {
   }, []);
 
   async function onSubmit(data: any) {
-    await editProfileResource(data)
+    await editProfileResource({
+      ...data,
+      idUser: user?.id
+    })
       .then((x: any) =>  localStorage.setItem("user", JSON.stringify(x.user)))
       .catch((err) => console.log(err));
   }

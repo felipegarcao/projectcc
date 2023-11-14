@@ -45,7 +45,7 @@ export const tenantsPendingResource = async () => {
 
 export const editProfileResource = async (params: ParamsEditProfile) => {
   try {
-    await api.put("/user/editar-perfil", {
+    await api.put(`/user/editar-perfil/${params.idUser}`, {
       ...params,
     });
     toast.success("Perfil alterado com sucesso !");
