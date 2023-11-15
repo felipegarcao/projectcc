@@ -4,8 +4,8 @@ import { Select } from "../../../../components/Form/Select";
 import { SelectItem } from "../../../../components/Form/Select/SelectItem";
 import { converterNumeroParaData } from "../../../../utils/converterNumeroParaData";
 import { useLocation } from "react-router-dom";
-import {  listIdMyHouseUser } from "../../../../services/resources/properties";
-import { PlusCircle } from "lucide-react";
+import { listIdMyHouseUser } from "../../../../services/resources/properties";
+import { Loader2, PlusCircle } from "lucide-react";
 import Modal from "react-modal";
 import * as Input from "../../../../components/Input";
 import { customStyles } from "./util";
@@ -14,16 +14,14 @@ import { BoxPagamento } from "./BoxPagamento";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterPagamentoSchema } from "./validation";
-import { Tenants } from "../../../../@types/tenants";
-import { tenantsResource } from "../../../../services/resources/user";
 import { toast } from "react-toastify";
-import { Spinner } from "../../../../components/Spinner";
 import {
   countValorFaltante,
   createPagamento,
   listPagamentos,
 } from "../../../../services/resources/pagamentos";
 import { useUser } from "../../../../hooks/useUser";
+import { Button } from "../../../../components/Button";
 
 interface MonthData {
   month: number;
@@ -48,10 +46,9 @@ export function Historico() {
   const [dados, setDados] = useState({} as any);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [months, setMonths] = useState<MonthData[]>([]);
-  const [tenants, setTenants] = useState<Tenants[]>([]);
-  const [loading, setLoading] = useState(true);
   const [pagamentos, setPagamentos] = useState<PagamentosProps[]>([]);
   const [count, setCount] = useState({} as Count);
+  const [newRequest, setNewRequest] = useState(0)
 
   const location = useLocation();
 
@@ -66,17 +63,14 @@ export function Historico() {
 
         listPagamentos(location.state.idCasa).then((result) => setPagamentos(result));
         countValorFaltante(location.state.idUser).then((result) => setCount(result));
-   
+
         setDados(x);
       });
 
-      await tenantsResource().then((result) => {
-        setTenants(result?.user);
-      });
+   
     } catch (error: any) {
       toast.error(error.message);
     } finally {
-      setLoading(false);
     }
   }
 
@@ -102,8 +96,7 @@ export function Historico() {
   const {
     handleSubmit,
     control,
-    reset,
-    formState: { errors },
+    formState: { isSubmitting },
   } = useForm({
     resolver: zodResolver(RegisterPagamentoSchema),
     defaultValues: {
@@ -118,7 +111,7 @@ export function Historico() {
     carregarDados();
 
     generateMonths();
-  }, []);
+  }, [newRequest]);
 
   const onSubmit = async (data: any) => {
     await createPagamento({
@@ -131,6 +124,8 @@ export function Historico() {
     setTimeout(() => {
       setIsOpen(false);
     }, 2000);
+
+    setNewRequest(Math.random())
   };
 
   return (
@@ -171,12 +166,12 @@ export function Historico() {
               </div>
             </div>
 
-           
+
           </div>
         </div>
         <div className="shadow-md p-3 flex items-center flex-col justify-evenly">
           <h3 className="text-2xl font-mono">Total a Pagar</h3>
-          <p className="text-3xl font-mono">R$ {count.total ? count.total  : 0}</p>
+          <p className="text-3xl font-mono">R$ {count.total ? count.total : 0}</p>
           <a
             target="_blank"
             href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es "
@@ -190,14 +185,22 @@ export function Historico() {
 
       <div className="flex items-center justify-between">
         <h2 className="my-10 text-2xl  text-violet-600">Histórico</h2>
+
+
         {user?.is_admin === 1 && (
-          <button
-            onClick={openModal}
-            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3"
-          >
-            <PlusCircle /> <span>Registrar Pagamento</span>
-          </button>
+          <Button variant="primary" type="submit" className="mt-2 flex items-center gap-3" onClick={openModal}>
+            {isSubmitting ? <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin  text-white" />
+            </div> : (
+              <>
+                <PlusCircle /> <span>Registrar Pagamento</span>
+              </>
+            )}
+          </Button>
         )}
+
+
+
       </div>
 
       <div>
@@ -211,6 +214,7 @@ export function Historico() {
               status={item.status}
               user_name={item.name}
               variant={item.status}
+              className="grid grid-cols-3"
             />
           ))}
         </div>
@@ -307,11 +311,15 @@ export function Historico() {
             </div>
           </div>
 
-         
 
-          <button className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700  flex items-center gap-3 mt-3 w-full justify-center">
-            Salvar
-          </button>
+          <Button variant="primary" type="submit" className="mt-2 w-full">
+            {isSubmitting ? <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin  text-white" />
+            </div> : 'Salvar Edição'}
+          </Button>
+
+
+
         </form>
       </Modal>
     </>

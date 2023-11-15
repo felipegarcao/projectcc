@@ -1,4 +1,4 @@
-import { Key, User2Icon, UserCircle } from "lucide-react";
+import { Eye, EyeOff, Key, Loader2, User2Icon, UserCircle, Lock } from "lucide-react";
 import * as Input from "../../../components/Input";
 import { Select } from "../../../components/Form/Select";
 import { useForm, Controller } from "react-hook-form";
@@ -7,20 +7,26 @@ import { EditProfileSchema } from "./validation";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { handleSubmittedTypes } from "./types";
 import { editProfileResource } from "../../../services/resources/user";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../../../hooks/useUser";
+import { Button } from "../../../components/Button";
 
 export function MyProfile() {
+
+
+  const [visibleSenhaAtual, setVisibleSenhaAtual] = useState(false)
+  const [visibleSenhaNova, setVisibleSenhaNova] = useState(false)
+
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(EditProfileSchema),
   });
 
-  const { user, setUser } = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     if (user) {
@@ -43,7 +49,7 @@ export function MyProfile() {
       .then((x: any) => {
         localStorage.removeItem('user')
         localStorage.setItem("user", JSON.stringify(x.user))
-  
+
       })
       .catch((err) => console.log(err));
   }
@@ -62,12 +68,11 @@ export function MyProfile() {
               alt=""
               className="h-32 w-32 lg:w-full lg:h-full"
             />
-            <button
-              className="bg-violet-500 p-2 rounded-md text-white"
-              type="button"
-            >
+
+            <Button variant="primary">
               Remover
-            </button>
+            </Button>
+
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <label
@@ -233,9 +238,27 @@ export function MyProfile() {
               name="password"
               control={control}
               render={({ field }) => (
+
                 <Input.Root>
-                  <Input.Control {...field} type="password" />
+                  <Input.Prefix>
+                    <Lock className="h-5 w-5 text-zinc-500" />
+                  </Input.Prefix>
+                  <Input.Control
+                    id="password"
+                    type={visibleSenhaAtual ? "text" : "password"}
+                    {...field}
+                  />
+                  <Input.Prefix
+                    onClick={() => setVisibleSenhaAtual(!visibleSenhaAtual)}
+                  >
+                    {visibleSenhaAtual ? (
+                      <Eye className="h-5 w-5 text-zinc-500" />
+                    ) : (
+                      <EyeOff className="h-5 w-5 text-zinc-500" />
+                    )}
+                  </Input.Prefix>
                 </Input.Root>
+
               )}
             />
             <span className="text-red-600 text-sm ml-2">
@@ -249,7 +272,23 @@ export function MyProfile() {
               control={control}
               render={({ field }) => (
                 <Input.Root>
-                  <Input.Control {...field} type="password" />
+                  <Input.Prefix>
+                    <Lock className="h-5 w-5 text-zinc-500" />
+                  </Input.Prefix>
+                  <Input.Control
+                    id="password"
+                    type={visibleSenhaNova ? "text" : "password"}
+                    {...field}
+                  />
+                  <Input.Prefix
+                    onClick={() => setVisibleSenhaNova(!visibleSenhaNova)}
+                  >
+                    {visibleSenhaNova ? (
+                      <Eye className="h-5 w-5 text-zinc-500" />
+                    ) : (
+                      <EyeOff className="h-5 w-5 text-zinc-500" />
+                    )}
+                  </Input.Prefix>
                 </Input.Root>
               )}
             />
@@ -259,12 +298,11 @@ export function MyProfile() {
           </label>
         </section>
         <footer className="flex justify-end mt-3">
-          <button
-            className="bg-violet-500 p-2 rounded-md text-white"
-            type="submit"
-          >
-            Salvar
-          </button>
+          <Button variant="primary" type="submit">
+            {isSubmitting ? <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin  text-white" />
+            </div> : 'Salvar'}
+          </Button>
         </footer>
       </div>
     </form>

@@ -16,6 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { handleSubmittedTypes } from "../Imoveis/types";
 import { useUser } from "../../../hooks/useUser";
+import { Button } from "../../../components/Button";
+import { Loader2 } from "lucide-react";
 
 Modal.setAppElement("#root");
 
@@ -33,7 +35,7 @@ export function MyHouse() {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { isSubmitting },
     setValue,
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(imoveilSchema),
@@ -85,7 +87,7 @@ export function MyHouse() {
 
 
   const onSubmit = async (data: any) => {
-    await editMyHouse(1, {
+    await editMyHouse(id, {
       ...data,
       casa_id: id,
     }).then(() => {
@@ -148,36 +150,35 @@ export function MyHouse() {
                   </p>
                   <div>
 
-                    <button
-                      className="text-violet-500 p-2 hover:bg-violet-200 rounded-lg"
-                      onClick={() =>
-                        navigate(`/historico`, {
-                          state: {
-                            idCasa: item.IdCasa,
-                            idUser: item.user_id
-                          }
-                        })
-                      }
-                    >
+
+                    <Button variant="outlined" onClick={() =>
+                      navigate(`/historico`, {
+                        state: {
+                          idCasa: item.IdCasa,
+                          idUser: item.user_id
+                        }
+                      })
+                    }>
                       Detalhes
-                    </button>
+                    </Button>
+
+
+
 
                     {user?.is_admin === 1 && (
                       <>
 
-                        <button
-                          className="text-white p-2 bg-violet-500 rounded-lg mx-4"
-                          onClick={() => openModal(item.IdCasa)}
-                        >
+                        <Button variant="primary" onClick={() => openModal(item.IdCasa)} className="mx-4">
                           Editar
-                        </button>
+                        </Button>
 
 
-                        { item.status === 'off' && (
-                        <button 
-                        className="bg-red-500 p-2 text-white rounded-lg"
-                        onClick={() => desalugar(item.IdCasa)}
-                        >Desalugar</button>
+
+
+                        {item.status === 'off' && (
+                          <Button variant="danger" onClick={() => desalugar(item.IdCasa)}>
+                            Desalugar
+                          </Button>
 
                         )
 
@@ -406,12 +407,13 @@ export function MyHouse() {
             )}
           />
 
-          <button
-            type="submit"
-            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700 mt-3 w-full"
-          >
-            Salvar
-          </button>
+          <Button variant="primary" className="mt-3 w-full" type="submit">
+            {isSubmitting ? <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin  text-white" />
+            </div> : 'Salvar'}
+          </Button>
+
+
         </form>
       </Modal>
     </>

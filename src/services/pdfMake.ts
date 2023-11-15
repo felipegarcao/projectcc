@@ -211,13 +211,10 @@ export async function generatePdf({
         valor_aluguel: contrato.valor_aluguel,
         admin_id
       })
-    
-
-
-
   });
 
+  pdfMake.createPdf(dd).open()
 
 
-  console.log(imovel, contrato, base64);
+
 }

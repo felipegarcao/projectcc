@@ -1,9 +1,10 @@
 import { LogOut } from 'lucide-react'
 import { useUser } from '../../hooks/useUser'
+import { Button } from '../Button'
 
 export function Profile() {
 
-  const {user, logout} = useUser()
+  const { user, logout } = useUser()
 
   return (
     <div className="grid grid-cols-profile items-center gap-3">
@@ -20,9 +21,9 @@ export function Profile() {
           {user?.email}
         </span>
       </div>
-      <button type="button" className="ml-auto rounded-md p-2 hover:bg-zinc-50" onClick={logout}>
+      <Button type="button" className="ml-auto rounded-md p-2 hover:bg-zinc-50" onClick={logout}>
         <LogOut className="h-5 w-5 text-zinc-500" />
-      </button>
+      </Button>
     </div>
   )
 }

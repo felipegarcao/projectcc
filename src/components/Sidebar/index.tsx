@@ -5,6 +5,7 @@ import { MainNavigation } from "./MainNavigation";
 import { Profile } from "./Profile";
 import { Menu, Search } from "lucide-react";
 import * as Collapsibile from "@radix-ui/react-collapsible";
+import { Button } from "../Button";
 
 export function Sidebar() {
   return (
@@ -12,9 +13,9 @@ export function Sidebar() {
       <div className="flex items-center justify-between">
         <Logo />
         <Collapsibile.Trigger asChild className="lg:hidden">
-          <button>
+          <Button>
             <Menu className="h-6 w-6" />
-          </button>
+          </Button>
         </Collapsibile.Trigger>
       </div>
 

@@ -15,6 +15,8 @@ import * as FileInput from "../../../components/Form/FileInput";
 import { handleSubmittedTypes } from "./types";
 import { imoveilSchema } from "./validation";
 import { useUser } from "../../../hooks/useUser";
+import { Button } from "../../../components/Button";
+import { Loader2 } from "lucide-react";
 
 export function Imoveis() {
   const [ufs, setUfs] = useState<Ufs[]>([]);
@@ -343,19 +345,16 @@ export function Imoveis() {
         </div>
 
         <div className="flex items-center justify-end gap-2 pt-5">
-          <button
-            type="button"
-            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50"
-          >
-            Cancelar
-          </button>
 
-          <button
-            type="submit"
-            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-          >
-            Salvar
-          </button>
+
+
+          <Button variant="primary" type="submit">
+            {isSubmitting ? <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin  text-white" />
+            </div> : 'Salvar'}
+          </Button>
+
+
         </div>
       </form>
     </div>

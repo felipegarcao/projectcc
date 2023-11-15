@@ -9,6 +9,7 @@ import { customStyles } from "./util";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisitaSchema } from "./validation";
+import { Button } from "../../../../components/Button";
 
 export function Visita() {
   const [visitas, setVisitas] = useState<Listagem>({} as Listagem);
@@ -75,21 +76,20 @@ export function Visita() {
               </p>
             </section>
 
-            <div className="grid grid-cols-2 gap-2 border-t">
-              <button
-                className="bg-red-500 rounded-md p-2 text-white mt-3"
-                onClick={() =>
-                  openModal({
-                    id: item.id,
-                    tipo: "recusar",
-                  })
-                }
-              >
+            <div className="grid grid-cols-2 gap-2 border-t pt-3">
+              <Button variant="danger" onClick={() =>
+                openModal({
+                  id: item.id,
+                  tipo: "recusar",
+                })
+              }>
                 Recusar
-              </button>
+              </Button>
 
-              <button
-                className="bg-violet-500 p-2 rounded-md text-white mt-3"
+
+              <Button
+                variant="primary"
+
                 onClick={() =>
                   openModal({
                     id: item.id,
@@ -98,7 +98,7 @@ export function Visita() {
                 }
               >
                 Aceitar
-              </button>
+              </Button>
             </div>
           </div>
         ))}
@@ -114,10 +114,10 @@ export function Visita() {
         {visitas?.listagem?.accepted?.map((item, index) => (
           <div className="shadow p-3" key={index}>
             <section className="flex flex-col text-sm gap-1">
-              <h2>Luis Felipe Garção Silva</h2>
+              <h2>{item.nome}</h2>
 
-              <span>Telefone: 18997943842</span>
-              <span>Email: felipe-mara2003@hotmail.com</span>
+              <span>Telefone: {item.telefone}</span>
+              <span>Email: {item.email}</span>
 
               <p>
                 <strong>Motivo: </strong>
@@ -140,10 +140,10 @@ export function Visita() {
         {visitas?.listagem?.denied?.map((item, index) => (
           <div className="shadow p-3" key={index}>
             <section className="flex flex-col text-sm gap-1">
-              <h2>Luis Felipe Garção Silva</h2>
+              <h2>{item.nome}</h2>
 
-              <span>Telefone: 18997943842</span>
-              <span>Email: felipe-mara2003@hotmail.com</span>
+              <span>Telefone: {item.telefone}</span>
+              <span>Email: {item.email}</span>
 
               <p>
                 <strong>Motivo: </strong>
@@ -166,10 +166,10 @@ export function Visita() {
         {visitas?.listagem?.done?.map((item, index) => (
           <div className="shadow p-3" key={index}>
             <section className="flex flex-col text-sm gap-1">
-              <h2>Luis Felipe Garção Silva</h2>
+              <h2>{item.nome}</h2>
 
-              <span>Telefone: 18997943842</span>
-              <span>Email: felipe-mara2003@hotmail.com</span>
+              <span>Telefone: {item.telefone}</span>
+              <span>Email: {item.email}</span>
 
               <p>
                 <strong>Motivo: </strong>
@@ -197,8 +197,8 @@ export function Visita() {
             {...register("observacao")}
             className="border my-2 rounded-md resize-none p-3 text-xs w-full"
             rows={8}
-           
-         
+
+
           ></textarea>
 
           <button className="w-full rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700">

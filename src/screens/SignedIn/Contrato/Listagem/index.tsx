@@ -32,6 +32,10 @@ export function ListagemContrato() {
     <div className="border p-3 rounded mt-5">
       <h1>Contratos</h1>
 
+      {
+        contratos.length === 0 && <span className="mt-4 text-violet-600">Nenhum contrato disponivel</span>
+      }
+
       {contratos?.map((item, index) => (
         <div
           className="shadow-md p-3 rounded-md my-4 flex flex-col md:flex-row md:items-center gap-5 md:gap-0 justify-between"

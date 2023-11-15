@@ -1,5 +1,5 @@
 import * as Input from "../../../components/Input";
-import { Mail } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
@@ -14,9 +14,9 @@ import { DetailsHouse } from "../../../@types/Imoveis";
 import { listImoveis } from "../../../services/resources/properties";
 import { toast } from "react-toastify";
 import { Spinner } from "../../../components/Spinner";
+import { Button } from "../../../components/Button";
 
 export function Inquilinos() {
-  const [openList, setOpenList] = useState(false);
 
   const [imoveis, setImoveis] = useState<DetailsHouse[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ export function Inquilinos() {
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(inquilinosSchema),
     defaultValues: {
@@ -312,19 +312,14 @@ export function Inquilinos() {
           </div>
 
           <div className="flex items-center justify-end gap-2 pt-5">
-            <button
-              type="button"
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50"
-            >
-              Cancelar
-            </button>
 
-            <button
-              type="submit"
-              className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-            >
-              Salvar
-            </button>
+            <Button variant="primary" type="submit">
+              {isSubmitting ? <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div> : 'Salvar'}
+            </Button>
+
+
           </div>
         </form>
       </div>

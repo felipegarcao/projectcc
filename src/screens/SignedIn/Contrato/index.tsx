@@ -21,6 +21,9 @@ import { handleSubmittedTypes } from "./types";
 import { Spinner } from "../../../components/Spinner";
 import { toast } from "react-toastify";
 import { useUser } from "../../../hooks/useUser";
+import { Button } from "../../../components/Button";
+import { Loader2 } from "lucide-react";
+import moment from "moment";
 
 export function Contrato() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
@@ -30,8 +33,8 @@ export function Contrato() {
   useEffect(() => {
     carregarDados();
   }, []);
-  
-  const {user} = useUser()
+
+  const { user } = useUser()
 
   const admin = user;
 
@@ -55,7 +58,9 @@ export function Contrato() {
     handleSubmit,
     control,
     reset,
-    formState: { errors, isSubmitting, isValid },
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(contratoSchema),
     defaultValues: {
@@ -71,12 +76,23 @@ export function Contrato() {
     },
   });
 
+  function adicionarMeses(data: any, meses: any) {
+
+
+      // Utilizar Moment.js para manipulação de datas
+      const dataMoment = moment(data, 'DD/MM/YYYY').add(meses, 'months');
+
+      // Formatando a nova data como string (dd/mm/yyyy)
+      const novaData = dataMoment.format('DD/MM/YYYY');
+
+      setValue('data_vencimento', novaData)
+
+
+  }
+
   async function onSubmit(data: handleSubmittedTypes) {
-    const {user} = await tenantsIdResource(data.user_id);
-    const {house} = await listIdImoveis(data.casa_id);
-
-
-
+    const { user } = await tenantsIdResource(data.user_id);
+    const { house } = await listIdImoveis(data.casa_id);
 
     if (house) {
       generatePdf({
@@ -86,11 +102,10 @@ export function Contrato() {
         admin_id: admin?.id
       });
     }
-  
-
 
     reset()
   }
+
 
   return (
     <div className="space-y-7">
@@ -136,7 +151,6 @@ export function Contrato() {
             )}
 
             <span className="text-red-600 text-sm ml-2">
-              {" "}
               {errors?.casa_id?.message}
             </span>
           </div>
@@ -176,7 +190,6 @@ export function Contrato() {
             )}
 
             <span className="text-red-600 text-sm ml-2">
-              {" "}
               {errors?.user_id?.message}
             </span>
           </div>
@@ -196,7 +209,7 @@ export function Contrato() {
                 name="data_vigencia"
                 render={({ field }) => (
                   <Input.Root>
-                    <Input.Control {...field} />
+                    <Input.Control {...field} type="date" />
                   </Input.Root>
                 )}
               />
@@ -249,7 +262,7 @@ export function Contrato() {
                 control={control}
                 render={({ field }) => (
                   <Input.Root>
-                    <Input.Control {...field} />
+                    <Input.Control {...field} disabled  />
                   </Input.Root>
                 )}
               />
@@ -297,7 +310,10 @@ export function Contrato() {
               </div>
 
               <span className="text-red-600 text-sm ml-2">
-                {errors?.valor_aluguel?.message} - {errors?.juros_atraso?.message}
+                {
+                  errors ? (<span>{errors?.valor_aluguel?.message} - {errors?.juros_atraso?.message}</span>) : ''
+                }
+
               </span>
             </div>
           </div>
@@ -325,18 +341,18 @@ export function Contrato() {
           <button
             type="button"
             className="rounded-lg border border-violet-700 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm hover:bg-violet-700 hover:text-white"
-            // onClick={() => generatePdf()}
+          // onClick={() => generatePdf()}
           >
             Preview
           </button>
 
-          <button
-            type="submit"
-            className="rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
-            // disabled={!isValid}
-          >
-            Salvar
-          </button>
+          <Button variant="primary" type="submit">
+            {isSubmitting ? <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin  text-white" />
+            </div> : 'Salvar'}
+          </Button>
+
+
         </div>
       </form>
     </div>

@@ -33,7 +33,7 @@ export function BoxPagamento({
     <div {...props} className={div({ variant, className })}>
       <span>{nome_mes}</span>
       <span>{user_name}</span>
-      <span>{status}</span>
+      <span className="ml-auto">{status}</span>
     </div>
   );
 }

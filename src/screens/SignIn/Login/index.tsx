@@ -1,6 +1,6 @@
 import * as Input from "../../../components/Input";
 import * as Tabs from "@radix-ui/react-tabs";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useContext, useState } from "react";
 import { Logo } from "../../../components/Sidebar/Logo";
 import { TabItem } from "../../../components/SettingsTabs/TabItem";
@@ -10,16 +10,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "./validation";
 import { handleSubmittedTypes } from "./types";
 import { applicationContext } from "../../../context/ApplicationContext";
+import { Button } from "../../../components/Button";
 
 export function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [currentTab, setCurrentTab] = useState("tab1");
-  const {login} = useContext(applicationContext)
+  const { login } = useContext(applicationContext)
 
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { isSubmitting },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -113,9 +114,13 @@ export function Login() {
               />
             </label>
 
-            <button className="bg-violet-600 p-2 rounded text-white" type="submit">
-              Entrar
-            </button>
+            <Button variant="primary" type="submit">
+              {isSubmitting ? <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div> : 'Entrar'}
+            </Button>
+
+
           </form>
         </Tabs.Content>
         <Tabs.Content value="tab2">

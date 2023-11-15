@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Loader2, Trash2 } from "lucide-react";
 import { Avatar } from "../../../components/Avatar";
 import { Tenants } from "../../../@types/tenants";
 import {
@@ -18,6 +18,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { handleUpdatedSubmittedTypes } from "./types";
 import { EditProfileSchema } from "../MyProfile/validation";
+import { Button } from "../../../components/Button";
 
 export function UserItem({ name, email, phone, status_user, id }: Tenants) {
   const { setNewRequest } = useContext(applicationContext);
@@ -52,7 +53,7 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { isSubmitting },
     setValue,
   } = useForm<handleUpdatedSubmittedTypes>({
     resolver: zodResolver(EditProfileSchema),
@@ -262,13 +263,15 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
             )}
           />
 
-          <button
-            type="submit"
-            className="rounded-lg bg-violet-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-violet-700 w-full mt-3"
-            // disabled={!isValid}
-          >
-            Salvar Edição
-          </button>
+
+          <Button variant="primary" type="submit" className="mt-2 w-full">
+            {isSubmitting ? <div className="flex justify-center items-center">
+              <Loader2 className="animate-spin  text-white" />
+            </div> : 'Salvar Edição'}
+          </Button>
+
+
+
         </form>
       </Modal>
     </>

@@ -2,8 +2,8 @@ import {z} from 'zod'
 
 
 export const RegisterPagamentoSchema = z.object({
-  nome_mes: z.string(),
-  status: z.string(),
+  nome_mes: z.string().min(2),
+  status: z.string().min(2),
   ano: z.string(),
   valor_faltante: z.string().optional(),
 })
