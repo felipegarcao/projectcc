@@ -2,15 +2,15 @@ import * as Input from "../../../components/Input";
 
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Tenants } from "../../../@types/tenants";
 import {
   tenantsIdResource,
   tenantsResource,
 } from "../../../services/resources/user";
 import {
+  listCasasAlugadas,
   listIdImoveis,
-  listImoveis,
 } from "../../../services/resources/properties";
 import { generatePdf } from "../../../services/pdfMake";
 import { useForm, Controller } from "react-hook-form";
@@ -34,6 +34,9 @@ export function Contrato() {
     carregarDados();
   }, []);
 
+ 
+
+
   const { user } = useUser()
 
   const admin = user;
@@ -44,7 +47,7 @@ export function Contrato() {
         setTenants(result?.user);
       });
 
-      await listImoveis().then((result) => {
+      await listCasasAlugadas().then((result) => {
         setImoveis(result?.casa);
       });
     } catch (error: any) {
@@ -60,7 +63,7 @@ export function Contrato() {
     reset,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, dirtyFields },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(contratoSchema),
     defaultValues: {
@@ -76,19 +79,9 @@ export function Contrato() {
     },
   });
 
-  function adicionarMeses(data: any, meses: any) {
 
 
-      // Utilizar Moment.js para manipulação de datas
-      const dataMoment = moment(data, 'DD/MM/YYYY').add(meses, 'months');
 
-      // Formatando a nova data como string (dd/mm/yyyy)
-      const novaData = dataMoment.format('DD/MM/YYYY');
-
-      setValue('data_vencimento', novaData)
-
-
-  }
 
   async function onSubmit(data: handleSubmittedTypes) {
     const { user } = await tenantsIdResource(data.user_id);
@@ -104,7 +97,34 @@ export function Contrato() {
     }
 
     reset()
-  }
+  } 
+
+  const verify = setInterval(() => {
+    return Math.random()
+  }, 2000)
+
+
+    useEffect(() => {
+       // Utilizar Moment.js para manipulação de datas
+     const dataMoment = moment(watch('data_vigencia')).add(watch('duracao_meses'), 'M').format('DD/MM/YYYY');
+
+     // Formatando a nova data como string (dd/mm/yyyy)
+
+
+     if (dataMoment === 'Data inválida') {
+     setValue('data_vencimento', '')
+
+     } else {
+     setValue('data_vencimento', dataMoment)
+
+     }
+
+    
+
+
+    //  console.log(novaData)
+    }, [verify])
+ 
 
 
   return (

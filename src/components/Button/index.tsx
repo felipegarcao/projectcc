@@ -11,7 +11,8 @@ const button = tv({
         variant: {
             primary: 'bg-violet-600 hover:bg-violet-700 text-white',
             danger: 'bg-red-500 text-white',
-            outlined: 'bg-transparent border border-violet-700 text-violet-600'
+            outlined: 'bg-transparent border border-violet-700 text-violet-600',
+            success: 'bg-green-500 text-white'
         }
     }
 })

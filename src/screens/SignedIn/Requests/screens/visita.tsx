@@ -125,9 +125,14 @@ export function Visita() {
               </p>
             </section>
 
-            <button className="bg-green-500 p-2 rounded-md text-white mt-3 w-full">
+            <Button variant="success" className="w-full"   onClick={() =>
+                  openModal({
+                    id: item.id,
+                    tipo: "finalizar",
+                  })
+                }>
               Finalizar
-            </button>
+            </Button>
           </div>
         ))}
       </div>

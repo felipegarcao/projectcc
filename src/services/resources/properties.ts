@@ -37,6 +37,19 @@ export const listImoveis = async () => {
   }
 };
 
+
+export const listCasasAlugadas = async () => {
+  try {
+    const { data } = await api.get("/house/alugadas");
+
+    return data;
+  } catch (e: any) {
+    toast.error(e.response.data.message)
+
+  }
+}
+
+
 export const houseDisponiveis = async ({
   banheiro,
   dormitorios,
@@ -153,6 +166,7 @@ export const listSimilaresImoveis = async (id: string) => {
     console.log(e);
   }
 }; 
+
 
 
 
