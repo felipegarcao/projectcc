@@ -44,19 +44,29 @@ export function MainNavigation() {
       )}
 
 
-      <NavItem
-        title="Minhas casas"
-        icon={LucideHome}
-        active={currentTab === 'tab10'}
-        tab="tab10"
-      />
-
+      
       <NavItem
         title="Perfil"
         icon={User}
         active={currentTab === "tab2"}
         tab="tab2"
       />
+
+<NavItem
+        title="Minhas casas"
+        icon={LucideHome}
+        active={currentTab === 'tab10'}
+        tab="tab10"
+      />
+
+
+<NavItem
+        title="Meus Contratos"
+        icon={LucideHome}
+        active={currentTab === 'tab9'}
+        tab="tab9"
+      />
+
 
     </nav>
   );

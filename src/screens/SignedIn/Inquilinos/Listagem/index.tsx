@@ -8,6 +8,7 @@ import {
   tenantsResource,
 } from "../../../../services/resources/user";
 import { applicationContext } from "../../../../context/ApplicationContext";
+import { useNavigate } from "react-router-dom";
 
 export function ListagemInquilinos() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
@@ -15,6 +16,8 @@ export function ListagemInquilinos() {
   const [loading, setLoading] = useState(true);
   const [loadingOff, setLoadingOff] = useState(true);
  
+
+
 
 
 
@@ -63,6 +66,8 @@ export function ListagemInquilinos() {
                     phone={tenant.phone}
                     key={tenant.id}
                     id={tenant.id}
+                    // @ts-ignore
+                    casa_id={tenant.casa_id}
                   />
                 ))}
               </tbody>
@@ -134,6 +139,7 @@ export function ListagemInquilinos() {
                     phone={tenant.phone}
                     key={tenant.id}
                     id={tenant.id}
+                    
                   />
                 ))}
               </tbody>

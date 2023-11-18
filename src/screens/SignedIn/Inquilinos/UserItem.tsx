@@ -19,8 +19,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { handleUpdatedSubmittedTypes } from "./types";
 import { EditProfileSchema } from "../MyProfile/validation";
 import { Button } from "../../../components/Button";
+import { useNavigate } from "react-router-dom";
 
-export function UserItem({ name, email, phone, status_user, id }: Tenants) {
+
+interface Props extends Tenants {
+  casa_id?: number;
+}
+
+export function UserItem({ name, email, phone, status_user, id, casa_id }: Props) {
   const { setNewRequest } = useContext(applicationContext);
   const [dadosEdit, setDadosEdit] = useState({} as handleUpdatedSubmittedTypes);
 
@@ -31,6 +37,8 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
 
     setNewRequest(Math.random());
   };
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     setValue("cpf", dadosEdit.cpf);
@@ -97,7 +105,13 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
         <td className="p-3">
           <div className="flex justify-end">
             {status_user === "off" ? (
-              <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2">
+              <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2" onClick={() => navigate('/historico', {
+                  state: {
+                    idCasa: null,
+                    idUser: id,
+                    status: 'off'
+                  }
+              })}>
                 <Trash2 size={16} />
                 Histórico
               </button>
@@ -115,7 +129,13 @@ export function UserItem({ name, email, phone, status_user, id }: Tenants) {
                 >
                   Deletar
                 </button>
-                <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2">
+                <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2" onClick={() => navigate(`/historico`, {
+                  state: {
+                    idCasa: casa_id,
+                    idUser: id,
+                    status: 'on'
+                  }
+                })}>
                   Histórico
                 </button>
                 <button

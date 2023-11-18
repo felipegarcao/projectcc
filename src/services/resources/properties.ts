@@ -178,6 +178,8 @@ export const desalugarHouse = async (id: any)  => {
 
     await api.put(`/house/desalugar/${id}`)
 
+    toast.info('Casa Desalugada com sucesso.')
+
   } catch (e: any) {
     toast.error(e.response.data.message)
   }

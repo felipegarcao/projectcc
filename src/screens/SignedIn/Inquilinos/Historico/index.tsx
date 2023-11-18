@@ -19,9 +19,11 @@ import {
   countValorFaltante,
   createPagamento,
   listPagamentos,
+  listPagamentosUser
 } from "../../../../services/resources/pagamentos";
 import { useUser } from "../../../../hooks/useUser";
 import { Button } from "../../../../components/Button";
+import { tenantsIdResource } from "../../../../services/resources/user";
 
 interface MonthData {
   month: number;
@@ -56,16 +58,29 @@ export function Historico() {
 
   async function carregarDados() {
     try {
-      await listIdMyHouseUser({
-        idCasa: location.state.idCasa,
-        idUser: location.state.idUser
-      }).then((x) => {
 
-        listPagamentos(location.state.idCasa).then((result) => setPagamentos(result));
-        countValorFaltante(location.state.idUser).then((result) => setCount(result));
+      if (location.state.status) {
+       
+        await listPagamentosUser(location.state.idUser).then((result) => setPagamentos(result))
 
-        setDados(x);
-      });
+        await tenantsIdResource(location.state.idUser).then((result) => setDados(result?.user))
+
+
+      } else  {
+
+        await listIdMyHouseUser({
+          idCasa: location.state.idCasa,
+          idUser: location.state.idUser
+        }).then((x) => {
+  
+          listPagamentos(location.state.idCasa).then((result) => setPagamentos(result));
+          countValorFaltante(location.state.idUser).then((result) => setCount(result));
+  
+          setDados(x);
+        });
+
+      }
+      
 
    
     } catch (error: any) {

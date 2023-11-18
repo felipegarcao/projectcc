@@ -33,6 +33,17 @@ export async function listPagamentos(id: string) {
   }
 }
 
+export async function listPagamentosUser(id: string)  {
+  try {
+    const { data } = await api.get(`/pagamento/${id}/user`);
+
+    return data;
+  } catch (err: any) {
+    toast.error(err.response.data.message)
+
+  }
+}
+
 export async function countValorFaltante(id: string) {
   try {
     const { data } = await api.get(`/pagamento/${id}/valor_faltante`);

@@ -28,6 +28,7 @@ export function MyHouse() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [dadosEdit, setDadosEdit] = useState({} as handleSubmittedTypes);
   const [id, setId] = useState(0);
+  const [newRequest, setNewRequest] = useState(0);
   const [houses, setHouses] = useState<any[]>([]);
 
   const { user } = useUser();
@@ -83,7 +84,7 @@ export function MyHouse() {
     setValue("vagas_garagem", dadosEdit.vagas_garagem);
 
     carregarDados();
-  }, [modalIsOpen]);
+  }, [modalIsOpen, newRequest]);
 
 
   const onSubmit = async (data: any) => {
@@ -101,6 +102,8 @@ export function MyHouse() {
 
   async function desalugar(idCasa: any) {
     await desalugarHouse(idCasa)
+    setNewRequest(Math.random())
+    
   }
 
 
