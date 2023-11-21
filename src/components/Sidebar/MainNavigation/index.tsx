@@ -1,5 +1,14 @@
 import { NavItem } from "./NavItem";
-import { Users, HomeIcon, FileCog, User, Home,LucideHome } from "lucide-react";
+import {
+  Users,
+  FileCog,
+  User,
+  Home,
+  BookKey,
+  Warehouse,
+  GitBranchPlusIcon,
+  Newspaper,
+} from "lucide-react";
 import { useUser } from "../../../hooks/useUser";
 
 export function MainNavigation() {
@@ -24,7 +33,7 @@ export function MainNavigation() {
           />
           <NavItem
             title="Imoveis"
-            icon={HomeIcon}
+            icon={Newspaper}
             active={currentTab === "tab6"}
             tab="tab6"
           />
@@ -36,15 +45,13 @@ export function MainNavigation() {
           />
           <NavItem
             title="Solicitações"
-            icon={FileCog}
+            icon={GitBranchPlusIcon}
             active={currentTab === "tab7"}
             tab="tab7"
           />
         </>
       )}
 
-
-      
       <NavItem
         title="Perfil"
         icon={User}
@@ -52,22 +59,19 @@ export function MainNavigation() {
         tab="tab2"
       />
 
-<NavItem
+      <NavItem
         title="Minhas casas"
-        icon={LucideHome}
-        active={currentTab === 'tab10'}
+        icon={Warehouse}
+        active={currentTab === "tab10"}
         tab="tab10"
       />
 
-
-<NavItem
+      <NavItem
         title="Meus Contratos"
-        icon={LucideHome}
-        active={currentTab === 'tab9'}
+        icon={BookKey}
+        active={currentTab === "tab9"}
         tab="tab9"
       />
-
-
     </nav>
   );
 }

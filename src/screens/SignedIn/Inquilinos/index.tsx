@@ -17,7 +17,6 @@ import { Spinner } from "../../../components/Spinner";
 import { Button } from "../../../components/Button";
 
 export function Inquilinos() {
-
   const [imoveis, setImoveis] = useState<DetailsHouse[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -76,16 +75,13 @@ export function Inquilinos() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="grid lg:grid-cols-form gap-3 ">
+            <label htmlFor="name" className="text-sm font-medium text-zinc-700">
+              Selecionar Imovel
+            </label>
             {loading ? (
               <Spinner />
             ) : (
               <>
-                <label
-                  htmlFor="name"
-                  className="text-sm font-medium text-zinc-700"
-                >
-                  Selecionar Imovel
-                </label>
                 <Controller
                   name="casa_id"
                   control={control}
@@ -312,14 +308,15 @@ export function Inquilinos() {
           </div>
 
           <div className="flex items-center justify-end gap-2 pt-5">
-
             <Button variant="primary" type="submit">
-              {isSubmitting ? <div className="flex justify-center items-center">
-                <Loader2 className="animate-spin  text-white" />
-              </div> : 'Salvar'}
+              {isSubmitting ? (
+                <div className="flex justify-center items-center">
+                  <Loader2 className="animate-spin  text-white" />
+                </div>
+              ) : (
+                "Salvar"
+              )}
             </Button>
-
-
           </div>
         </form>
       </div>
