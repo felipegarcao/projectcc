@@ -152,3 +152,16 @@ export const editarUsuarioResource = async ({id, params}: {id: any, params: any}
     toast.error(e.response.data.message)
   }
 }
+
+
+export const recusarUsuario = async ({id, params} : {id: any, params: any}) => {
+  try {
+    await api.put(`/user/denied/${id}`, {
+      ...params
+    })
+
+    toast.info('Usuario editado com sucesso !')
+  }  catch (e: any) {
+    toast.error(e.response.data.message)
+  }
+}

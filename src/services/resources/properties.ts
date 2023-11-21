@@ -197,6 +197,4 @@ export const desalugarHouse = async (id: any)  => {
   } catch (e: any) {
     toast.error(e.response.data.message)
   }
-
-
 }
