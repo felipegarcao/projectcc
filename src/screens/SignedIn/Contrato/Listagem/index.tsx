@@ -38,12 +38,12 @@ export function ListagemContrato() {
 
       {contratos?.map((item, index) => (
         <div
-          className="shadow-md p-3 rounded-md my-4 flex flex-col md:flex-row md:items-center gap-5 md:gap-0 justify-between"
+          className="shadow-md p-3 rounded-md my-4 flex flex-col md:grid md:items-center md:grid-cols-[200px_1fr_1fr] gap-5 md:gap-0 justify-between"
           key={index}
         >
           <div className="flex items-center gap-2">
             <FileText className="text-red-500" />
-            <span>Documento {Math.ceil(Math.random())}</span>
+            <span>Documento </span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -52,7 +52,7 @@ export function ListagemContrato() {
             <span>Data Fim: {item.data_vencimento}</span>
           </div>
 
-          <div className="flex items-center gap-12">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <button className="bg-violet-500 text-white p-2 rounded-full flex items-center justify-center text-xs">
                 LF

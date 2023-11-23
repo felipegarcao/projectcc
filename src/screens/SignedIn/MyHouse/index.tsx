@@ -5,6 +5,7 @@ import { customStyles } from "./util";
 
 import * as Input from "../../../components/Input";
 import {
+  alugarHouse,
   desalugarHouse,
   editMyHouse,
   listIdMyHouseAdmin,
@@ -18,18 +19,26 @@ import { handleSubmittedTypes } from "../Imoveis/types";
 import { useUser } from "../../../hooks/useUser";
 import { Button } from "../../../components/Button";
 import { Loader2 } from "lucide-react";
+import { alugarSchema } from "../Imoveis/Disponiveis/validation";
+import { Select } from "../../../components/Form/Select";
+import { SelectItem } from "../../../components/Form/Select/SelectItem";
+import { tenantsDisponivelResource } from "../../../services/resources/user";
+import { Tenants } from "../../../@types/tenants";
 
 Modal.setAppElement("#root");
-
 
 export function MyHouse() {
   const navigate = useNavigate();
 
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpenAlugar, setIsOpenAlugar] = useState(false);
   const [dadosEdit, setDadosEdit] = useState({} as handleSubmittedTypes);
   const [id, setId] = useState(0);
   const [newRequest, setNewRequest] = useState(0);
   const [houses, setHouses] = useState<any[]>([]);
+  const [tenants, setTenants] = useState<Tenants[]>([]);
+  const [idCasinha, setIdCasinha] = useState(0)
+
 
   const { user } = useUser();
 
@@ -42,10 +51,18 @@ export function MyHouse() {
     resolver: zodResolver(imoveilSchema),
   });
 
+  const {
+    handleSubmit: handleSubmit2,
+    control: control2,
+    formState: { isSubmitting: isSubmitting2 },
+  } = useForm({
+    resolver: zodResolver(alugarSchema)
+  })
+
   async function openModal(id: number) {
     await listIdMyHouseAdmin({
       idCasa: id,
-      idUser: user?.id
+      idUser: user?.id,
     }).then((x) => {
       setDadosEdit(x);
       setIsOpen(true);
@@ -53,16 +70,23 @@ export function MyHouse() {
     setId(id);
   }
 
+
+  
+
+
+
+
   function closeModal() {
     setIsOpen(false);
+    setIsOpenAlugar(false);
   }
 
-
-
   async function carregarDados() {
-
     if (user?.is_admin === 1) {
       await listMyHouseAdmin(user?.id).then((x) => setHouses(x));
+      await tenantsDisponivelResource().then((result) => {
+        setTenants(result?.user);
+      });
     } else {
       await listMyHouseUser(user?.id).then((x) => setHouses(x));
     }
@@ -86,7 +110,6 @@ export function MyHouse() {
     carregarDados();
   }, [modalIsOpen, newRequest]);
 
-
   const onSubmit = async (data: any) => {
     await editMyHouse(id, {
       ...data,
@@ -98,16 +121,30 @@ export function MyHouse() {
     });
   };
 
+  function openModaAlugar(id: any) {
+    setIsOpenAlugar(true)
+    setIdCasinha(id)
+  }
 
+  const onSubmitAlugar = async (data: any) => {
+    await alugarHouse({
+      ...data,
+      casa_id: idCasinha
+    });
 
-  async function desalugar(idCasa: any) {
-    await desalugarHouse(idCasa)
     setNewRequest(Math.random())
-    
+    setIsOpenAlugar(false)
   }
 
 
 
+
+  
+
+  async function desalugar(idCasa: any) {
+    await desalugarHouse(idCasa);
+    setNewRequest(Math.random());
+  }
 
   return (
     <>
@@ -152,41 +189,47 @@ export function MyHouse() {
                     <strong>R$ {item.preco}</strong> /mês
                   </p>
                   <div>
-
-
-                    <Button variant="outlined" onClick={() =>
-                      navigate(`/historico`, {
-                        state: {
-                          idCasa: item.IdCasa,
-                          idUser: item.user_id
-                        }
-                      })
-                    }>
+                    <Button
+                      variant="outlined"
+                      onClick={() =>
+                        navigate(`/historico`, {
+                          state: {
+                            idCasa: item.IdCasa,
+                            idUser: item.user_id,
+                          },
+                        })
+                      }
+                    >
                       Detalhes
                     </Button>
 
-
-
-
                     {user?.is_admin === 1 && (
                       <>
-
-                        <Button variant="primary" onClick={() => openModal(item.IdCasa)} className="mx-4">
+                        <Button
+                          variant="primary"
+                          onClick={() => openModal(item.IdCasa)}
+                          className="mx-4"
+                        >
                           Editar
                         </Button>
 
+                        {item.status === "on" && (
+                          <Button
+                            variant="success"
+                            onClick={() => openModaAlugar(item.IdCasa)}
+                          >
+                            Alugar
+                          </Button>
+                        )}
 
-
-
-                        {item.status === 'off' && (
-                          <Button variant="danger" onClick={() => desalugar(item.IdCasa)}>
+                        {item.status === "off" && (
+                          <Button
+                            variant="danger"
+                            onClick={() => desalugar(item.IdCasa)}
+                          >
                             Desalugar
                           </Button>
-
-                        )
-
-                        }
-
+                        )}
                       </>
                     )}
                   </div>
@@ -411,10 +454,56 @@ export function MyHouse() {
           />
 
           <Button variant="primary" className="mt-3 w-full" type="submit">
-            {isSubmitting ? <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin  text-white" />
-            </div> : 'Salvar'}
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div>
+            ) : (
+              "Salvar"
+            )}
           </Button>
+        </form>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenAlugar}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <form onSubmit={handleSubmit2((data) => onSubmitAlugar(data))}>
+          <h1 className="text-xl font-medium text-zinc-900 my-5">
+            Alugar Casa Para:{" "}
+          </h1>
+
+
+          <Controller
+            name="user_id"
+            control={control2}
+            render={({ field }) => (
+              <Select
+                placeholder="Selecione o Inquilino"
+                onValueChange={field.onChange}
+                {...field}
+              >
+                {tenants?.map((tenant) => (
+                  <SelectItem
+                    key={tenant.id}
+                    value={String(tenant.id)}
+                    text={tenant.name + " -  " + tenant.cpf}
+                  />
+                ))}
+              </Select>
+            )}
+          />
+
+<button
+            type="submit"
+            className="w-full  mt-5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
+            // disabled={!isValid}
+          >
+            Realizar Alugamento
+          </button>
 
 
         </form>
