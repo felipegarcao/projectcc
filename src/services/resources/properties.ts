@@ -186,11 +186,13 @@ export const alugarHouse = async (params: any) => {
 }
 
 
-export const desalugarHouse = async (id: any)  => {
+export const desalugarHouse = async ({id, motivo_desalugue}: {id: any, motivo_desalugue: string})  => {
 
   try {
 
-    await api.put(`/house/desalugar/${id}`)
+    await api.put(`/house/desalugar/${id}`, {
+      motivo_desalugue
+    })
 
     toast.info('Casa Desalugada com sucesso.')
 

@@ -62,6 +62,12 @@ export function HomePage() {
     }
   }
 
+  function clearFilters() {
+    setCurrentTabBanheiro('0')
+    setCurrentTabQuartos('0')
+    setCurrentTabVagas('0')
+  }
+
   return (
     <>
       {user?.is_admin === 1 && <TimeLine />}
@@ -231,6 +237,9 @@ export function HomePage() {
 
             <Button variant="primary" type="submit">
               Consultar
+            </Button>
+            <Button variant="outlined" type="button" onClick={clearFilters}>
+              Limpar
             </Button>
           </div>
         </div>

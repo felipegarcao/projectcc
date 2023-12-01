@@ -5,6 +5,7 @@ import { DetailsHouse } from "../@types/Imoveis";
 import { handleSubmittedTypes } from "../screens/SignedIn/Contrato/types";
 import { api } from "./api";
 import { createContrato } from "./resources/contrato";
+import moment from "moment";
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
@@ -33,7 +34,7 @@ export async function generatePdf({
         text: "CONTRATO DE ALUGUEL RESIDENCIAL",
         style: "header",
       },
-      `Entre Contrato de aluguel Residencial (doravante referido como 'Contrato') é celebrado neste dia ${contrato.data_vigencia}, entre:\n\n`,
+      `Entre Contrato de aluguel Residencial é celebrado neste dia ${contrato.data_vigencia}, entre:\n\n`,
       {
         text: "Locador:",
         style: "subheader",
@@ -72,7 +73,7 @@ export async function generatePdf({
         style: "defaultTextBold",
       },
       {
-        text: `O período de locação terá início em ${contrato.data_vigencia} e terá uma duração de ${contrato.duracao_meses} meses, encerrando-se em ${contrato.data_vencimento}.\n\n`,
+        text: `O período de locação terá início em ${moment(contrato.data_vigencia).format('DD/MM/YYYY')} e terá uma duração de ${contrato.duracao_meses} meses, encerrando-se em ${contrato.data_vencimento}.\n\n`,
         style: "defaultText",
       },
 
@@ -83,7 +84,7 @@ export async function generatePdf({
         style: "defaultTextBold",
       },
       {
-        text: `O valor do aluguel mensal será de ${currencyFormatted}, devido até o dia ${contrato.data_vencimento} de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de depósito bancário, Pix e outros.\n\n`,
+        text: `O valor do aluguel mensal será de R$ ${contrato.valor_aluguel},00. Devido até o dia ${contrato.data_vencimento} de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de depósito bancário, Pix e outros.\n\n`,
         style: "defaultText",
       },
 
@@ -94,7 +95,7 @@ export async function generatePdf({
         style: "defaultTextBold",
       },
       {
-        text: `O Locatário concorda em fornecer um depósito de segurança no valor de ${currencyFormatted} no momento da assinatura deste contrato. Esse depósito será mantido pelo Locador como garantia contra danos ao imóvel ou inadimplência no pagamento do aluguel.\n\n`,
+        text: `O Locatário concorda em fornecer um depósito de segurança no valor de R$ 200,00 no momento da assinatura deste contrato. Esse depósito será mantido pelo Locador como garantia contra danos ao imóvel ou inadimplência no pagamento do aluguel.\n\n`,
         style: "defaultText",
       },
 
@@ -127,7 +128,7 @@ export async function generatePdf({
         style: "defaultTextBold",
       },
       {
-        text: "Caso o Locatário deseje encerrar este contrato antes do prazo acordado, ele deverá notificar o Locador com pelo menos [número de dias] dias de antecedência. O Locador pode rescindir o contrato mediante aviso prévio de [número de dias] dias.\n\n",
+        text: "Caso o Locatário deseje encerrar este contrato antes do prazo acordado, ele deverá notificar o Locador com pelo menos 15 dias de antecedência. O Locador pode rescindir o contrato mediante aviso prévio de 10 dias.\n\n",
         style: "defaultText",
       },
 
@@ -140,11 +141,10 @@ export async function generatePdf({
       {
         ul: [
           "Animais de estimação: Permitido",
-          "Sublocação: [Política de sublocação, se aplicável]",
         ],
       },
       {
-        text: "As partes concordam com os termos e condições deste Contrato de Aluguel Residencial e assinam este documento neste dia [data de assinatura].\n\n",
+        text: `As partes concordam com os termos e condições deste Contrato de Aluguel Residencial e assinam este documento neste dia ${moment(contrato.data_vigencia).format('DD/MM/YYYY')} .\n\n`,
       },
 
       {
@@ -188,8 +188,11 @@ export async function generatePdf({
       },
       defaultText: {
         fontSize: 12,
+   
       },
+      
     },
+
   };
 
   let base64;

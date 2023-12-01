@@ -11,3 +11,4 @@ export const customStyles = {
     overflow: window.innerWidth > 1200 ? 'hidden' : 'scroll'
   },
 };
+

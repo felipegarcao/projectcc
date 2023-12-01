@@ -19,7 +19,7 @@ import { handleSubmittedTypes } from "../Imoveis/types";
 import { useUser } from "../../../hooks/useUser";
 import { Button } from "../../../components/Button";
 import { Loader2 } from "lucide-react";
-import { alugarSchema } from "../Imoveis/Disponiveis/validation";
+import { alugarSchema, desalugarSchema } from "../Imoveis/Disponiveis/validation";
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { tenantsDisponivelResource } from "../../../services/resources/user";
@@ -29,16 +29,16 @@ Modal.setAppElement("#root");
 
 export function MyHouse() {
   const navigate = useNavigate();
-
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsOpenAlugar, setIsOpenAlugar] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpenDesalugar, setModalIsOpenDesalugar] = useState(false);
+
   const [dadosEdit, setDadosEdit] = useState({} as handleSubmittedTypes);
   const [id, setId] = useState(0);
   const [newRequest, setNewRequest] = useState(0);
   const [houses, setHouses] = useState<any[]>([]);
   const [tenants, setTenants] = useState<Tenants[]>([]);
-  const [idCasinha, setIdCasinha] = useState(0)
-
+  const [idCasinha, setIdCasinha] = useState(0);
 
   const { user } = useUser();
 
@@ -56,7 +56,14 @@ export function MyHouse() {
     control: control2,
     formState: { isSubmitting: isSubmitting2 },
   } = useForm({
-    resolver: zodResolver(alugarSchema)
+    resolver: zodResolver(alugarSchema),
+  });
+
+  const {
+    handleSubmit: handleSubmit3,
+    control: control3,
+  } = useForm({
+    resolver: zodResolver(desalugarSchema)
   })
 
   async function openModal(id: number) {
@@ -70,15 +77,10 @@ export function MyHouse() {
     setId(id);
   }
 
-
-  
-
-
-
-
   function closeModal() {
     setIsOpen(false);
     setIsOpenAlugar(false);
+    setModalIsOpenDesalugar(false);
   }
 
   async function carregarDados() {
@@ -122,28 +124,32 @@ export function MyHouse() {
   };
 
   function openModaAlugar(id: any) {
-    setIsOpenAlugar(true)
+    setIsOpenAlugar(true);
+    setIdCasinha(id);
+  }
+
+  function openModalDesalugar(id: any) {
+    setModalIsOpenDesalugar(true)
     setIdCasinha(id)
   }
 
   const onSubmitAlugar = async (data: any) => {
     await alugarHouse({
       ...data,
-      casa_id: idCasinha
+      casa_id: idCasinha,
     });
 
-    setNewRequest(Math.random())
-    setIsOpenAlugar(false)
-  }
-
-
-
-
-  
-
-  async function desalugar(idCasa: any) {
-    await desalugarHouse(idCasa);
     setNewRequest(Math.random());
+    setIsOpenAlugar(false);
+  };
+
+  async function desalugar(data: any) {
+    await desalugarHouse({
+      id: idCasinha,
+      motivo_desalugue: data.motivo_desalugue
+    });
+    setNewRequest(Math.random());
+    setModalIsOpenDesalugar(false);
   }
 
   return (
@@ -225,7 +231,8 @@ export function MyHouse() {
                         {item.status === "off" && (
                           <Button
                             variant="danger"
-                            onClick={() => desalugar(item.IdCasa)}
+                            onClick={() => openModalDesalugar(item.IdCasa)}
+                            type="button"
                           >
                             Desalugar
                           </Button>
@@ -476,7 +483,6 @@ export function MyHouse() {
             Alugar Casa Para:{" "}
           </h1>
 
-
           <Controller
             name="user_id"
             control={control2}
@@ -497,15 +503,41 @@ export function MyHouse() {
             )}
           />
 
-<button
+          <button
             type="submit"
             className="w-full  mt-5 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
             // disabled={!isValid}
           >
             Realizar Alugamento
           </button>
+        </form>
+      </Modal>
+
+      <Modal
+        isOpen={modalIsOpenDesalugar}
+        onRequestClose={closeModal}
+        style={customStyles}
+      >
+        <form onSubmit={handleSubmit3((data) => desalugar(data))}>
+          <h1 className="text-xl font-medium text-zinc-900 my-5">
+            Informar motivo do Desalugue
+          </h1>
+
+          <Controller
+            control={control3}
+            name="motivo_desalugue"
+            render={({ field }) => (
+              <textarea
+                id="message"
+                rows={8}
+                {...field}
+                className="block p-2.5 mt-5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none mb-3"
+              ></textarea>
+            )}
+          />
 
 
+          <Button variant="primary" className="w-full">Salvar</Button>
         </form>
       </Modal>
     </>

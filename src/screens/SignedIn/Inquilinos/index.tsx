@@ -11,7 +11,7 @@ import { inquilinosSchema } from "./validation";
 import { RadioButtonGroup } from "../../../components/Form/RadioButton";
 import { RadioItem } from "../../../components/Form/RadioButton/RadioItem";
 import { DetailsHouse } from "../../../@types/Imoveis";
-import { listImoveis } from "../../../services/resources/properties";
+import { houseDisponiveis } from "../../../services/resources/properties";
 import { toast } from "react-toastify";
 import { Spinner } from "../../../components/Spinner";
 import { Button } from "../../../components/Button";
@@ -49,8 +49,12 @@ export function Inquilinos() {
 
   async function carregarDados() {
     try {
-      await listImoveis().then((result) => {
-        setImoveis(result?.casa);
+      await houseDisponiveis({
+        banheiro: '0',
+        dormitorios: '0',
+        vagas_garagem: '0'
+      }).then((result) => {
+        setImoveis(result?.houses);
       });
     } catch (error: any) {
       toast.error(error.message);

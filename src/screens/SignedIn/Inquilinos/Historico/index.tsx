@@ -19,7 +19,7 @@ import {
   countValorFaltante,
   createPagamento,
   listPagamentos,
-  listPagamentosUser
+  listPagamentosUser,
 } from "../../../../services/resources/pagamentos";
 import { useUser } from "../../../../hooks/useUser";
 import { Button } from "../../../../components/Button";
@@ -50,7 +50,7 @@ export function Historico() {
   const [months, setMonths] = useState<MonthData[]>([]);
   const [pagamentos, setPagamentos] = useState<PagamentosProps[]>([]);
   const [count, setCount] = useState({} as Count);
-  const [newRequest, setNewRequest] = useState(0)
+  const [newRequest, setNewRequest] = useState(0);
 
   const location = useLocation();
 
@@ -58,31 +58,40 @@ export function Historico() {
 
   async function carregarDados() {
     try {
-
       if (location.state.status) {
-       
-        await listPagamentosUser(location.state.idUser).then((result) => setPagamentos(result))
+        await listPagamentosUser(location.state.idUser).then((result) =>
+          setPagamentos(result)
+        );
 
-        await tenantsIdResource(location.state.idUser).then((result) => setDados(result?.user))
+        await tenantsIdResource(location.state.idUser).then((result) =>
+          setDados(result?.user)
+        );
+      } else if (!location.state.status && user?.is_admin === 0) {
+        await listPagamentosUser(location.state.idUser).then((result) =>
+        setPagamentos(result)
+      );
 
-
-      } else  {
-
+      await tenantsIdResource(location.state.idUser).then((result) =>
+        setDados(result?.user)
+      );
+      } 
+      
+      
+      else {
         await listIdMyHouseUser({
           idCasa: location.state.idCasa,
-          idUser: location.state.idUser
+          idUser: location.state.idUser,
         }).then((x) => {
-  
-          listPagamentos(location.state.idCasa).then((result) => setPagamentos(result));
-          countValorFaltante(location.state.idUser).then((result) => setCount(result));
-  
+          listPagamentos(location.state.idCasa).then((result) =>
+            setPagamentos(result)
+          );
+          countValorFaltante(location.state.idUser).then((result) =>
+            setCount(result)
+          );
+
           setDados(x);
         });
-
       }
-      
-
-   
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -118,7 +127,7 @@ export function Historico() {
       nome_mes: "",
       status: "",
       ano: moment().format("YYYY"),
-      valor_faltante: '0',
+      valor_faltante: "0",
     },
   });
 
@@ -133,14 +142,14 @@ export function Historico() {
       ...data,
       valor_faltante: Number(data.valor_faltante),
       casa_id: location.state.idCasa,
-      user_id: location.state.idUser
+      user_id: location.state.idUser,
     });
 
     setTimeout(() => {
       setIsOpen(false);
     }, 2000);
 
-    setNewRequest(Math.random())
+    setNewRequest(Math.random());
   };
 
   return (
@@ -180,13 +189,13 @@ export function Historico() {
                 <span className="text-sm text-gray-400">{dados.rg}</span>
               </div>
             </div>
-
-
           </div>
         </div>
         <div className="shadow-md p-3 flex items-center flex-col justify-evenly">
           <h3 className="text-2xl font-mono">Total a Pagar</h3>
-          <p className="text-3xl font-mono">R$ {count.total ? count.total : 0}</p>
+          <p className="text-3xl font-mono">
+            R$ {count.total ? count.total : 0}
+          </p>
           <a
             target="_blank"
             href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es "
@@ -201,21 +210,24 @@ export function Historico() {
       <div className="flex items-center justify-between">
         <h2 className="my-10 text-2xl  text-violet-600">Histórico</h2>
 
-
         {user?.is_admin === 1 && (
-          <Button variant="primary" type="submit" className="mt-2 flex items-center gap-3" onClick={openModal}>
-            {isSubmitting ? <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin  text-white" />
-            </div> : (
+          <Button
+            variant="primary"
+            type="submit"
+            className="mt-2 flex items-center gap-3"
+            onClick={openModal}
+          >
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div>
+            ) : (
               <>
                 <PlusCircle /> <span>Registrar Pagamento</span>
               </>
             )}
           </Button>
         )}
-
-
-
       </div>
 
       <div>
@@ -326,15 +338,15 @@ export function Historico() {
             </div>
           </div>
 
-
           <Button variant="primary" type="submit" className="mt-2 w-full">
-            {isSubmitting ? <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin  text-white" />
-            </div> : 'Salvar Edição'}
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div>
+            ) : (
+              "Salvar Edição"
+            )}
           </Button>
-
-
-
         </form>
       </Modal>
     </>

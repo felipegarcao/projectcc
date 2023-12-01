@@ -34,10 +34,7 @@ export function Contrato() {
     carregarDados();
   }, []);
 
- 
-
-
-  const { user } = useUser()
+  const { user } = useUser();
 
   const admin = user;
 
@@ -79,10 +76,6 @@ export function Contrato() {
     },
   });
 
-
-
-
-
   async function onSubmit(data: handleSubmittedTypes) {
     const { user } = await tenantsIdResource(data.user_id);
     const { house } = await listIdImoveis(data.casa_id);
@@ -92,40 +85,33 @@ export function Contrato() {
         inquilino: user,
         imovel: house,
         contrato: data,
-        admin_id: admin?.id
+        admin_id: admin?.id,
       });
     }
 
-    reset()
-  } 
+    reset();
+  }
 
   const verify = setInterval(() => {
-    return Math.random()
-  }, 2000)
+    return Math.random();
+  }, 2000);
 
+  useEffect(() => {
+    // Utilizar Moment.js para manipulação de datas
+    const dataMoment = moment(watch("data_vigencia"))
+      .add(watch("duracao_meses"), "M")
+      .format("DD/MM/YYYY");
 
-    useEffect(() => {
-       // Utilizar Moment.js para manipulação de datas
-     const dataMoment = moment(watch('data_vigencia')).add(watch('duracao_meses'), 'M').format('DD/MM/YYYY');
+    // Formatando a nova data como string (dd/mm/yyyy)
 
-     // Formatando a nova data como string (dd/mm/yyyy)
-
-
-     if (dataMoment === 'Data inválida') {
-     setValue('data_vencimento', '')
-
-     } else {
-     setValue('data_vencimento', dataMoment)
-
-     }
-
-    
-
+    if (dataMoment === "Data inválida") {
+      setValue("data_vencimento", "");
+    } else {
+      setValue("data_vencimento", dataMoment);
+    }
 
     //  console.log(novaData)
-    }, [verify])
- 
-
+  }, [verify]);
 
   return (
     <div className="space-y-7">
@@ -246,7 +232,8 @@ export function Contrato() {
             </div>
             <span className="text-red-600 text-sm ml-2">
               {" "}
-              {errors?.data_vigencia?.message} - {errors?.duracao_meses?.message}
+              {errors?.data_vigencia?.message} -{" "}
+              {errors?.duracao_meses?.message}
             </span>
           </div>
         </div>
@@ -282,7 +269,7 @@ export function Contrato() {
                 control={control}
                 render={({ field }) => (
                   <Input.Root>
-                    <Input.Control {...field} disabled  />
+                    <Input.Control {...field} disabled />
                   </Input.Root>
                 )}
               />
@@ -330,10 +317,14 @@ export function Contrato() {
               </div>
 
               <span className="text-red-600 text-sm ml-2">
-                {
-                  errors ? (<span>{errors?.valor_aluguel?.message} - {errors?.juros_atraso?.message}</span>) : ''
-                }
-
+                {errors ? (
+                  <span>
+                    {errors?.valor_aluguel?.message} -{" "}
+                    {errors?.juros_atraso?.message}
+                  </span>
+                ) : (
+                  ""
+                )}
               </span>
             </div>
           </div>
@@ -361,18 +352,20 @@ export function Contrato() {
           <button
             type="button"
             className="rounded-lg border border-violet-700 px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm hover:bg-violet-700 hover:text-white"
-          // onClick={() => generatePdf()}
+            // onClick={() => generatePdf()}
           >
             Preview
           </button>
 
           <Button variant="primary" type="submit">
-            {isSubmitting ? <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin  text-white" />
-            </div> : 'Salvar'}
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div>
+            ) : (
+              "Salvar"
+            )}
           </Button>
-
-
         </div>
       </form>
     </div>
