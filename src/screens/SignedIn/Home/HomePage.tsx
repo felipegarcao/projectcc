@@ -53,7 +53,7 @@ export function HomePage() {
       await houseDisponiveis({
         banheiro: currentTabBanheiro,
         dormitorios: currentTabQuartos,
-        vagas_garagem: currentTabVagas
+        vagas_garagem: currentTabVagas,
       }).then((x) => setHouses(x.houses));
     } catch (error: any) {
       toast.error(error.message);
@@ -63,9 +63,9 @@ export function HomePage() {
   }
 
   function clearFilters() {
-    setCurrentTabBanheiro('0')
-    setCurrentTabQuartos('0')
-    setCurrentTabVagas('0')
+    setCurrentTabBanheiro("0");
+    setCurrentTabQuartos("0");
+    setCurrentTabVagas("0");
   }
 
   return (
@@ -121,7 +121,6 @@ export function HomePage() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">
         Casas Disponíveis
       </h1>
-
 
       <div className="p-4 border rounded-md mt-3 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
         <div>
@@ -233,8 +232,6 @@ export function HomePage() {
               <Input.Control placeholder="R$ 00,00" />
             </Input.Root>
 
-
-
             <Button variant="primary" type="submit">
               Consultar
             </Button>
@@ -244,9 +241,6 @@ export function HomePage() {
           </div>
         </div>
       </div>
-
-
-
 
       {loadingCasa ? (
         <Spinner />

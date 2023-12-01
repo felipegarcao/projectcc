@@ -7,3 +7,8 @@ export const RegisterPagamentoSchema = z.object({
   ano: z.string(),
   valor_faltante: z.string().optional(),
 })
+
+
+export const editPagamentoSchema = z.object({
+  status: z.string().min(2),
+})

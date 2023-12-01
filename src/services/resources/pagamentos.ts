@@ -18,7 +18,7 @@ export async function createPagamento(data: PagamentoProps) {
 
     toast.success("Pagamento created successfully");
   } catch (err: any) {
-    toast.error(err.response.data.message)
+    toast.error(err.response.data.message);
   }
 }
 
@@ -28,19 +28,17 @@ export async function listPagamentos(id: string) {
 
     return data;
   } catch (err: any) {
-    toast.error(err.response.data.message)
-
+    toast.error(err.response.data.message);
   }
 }
 
-export async function listPagamentosUser(id: string)  {
+export async function listPagamentosUser(id: string) {
   try {
     const { data } = await api.get(`/pagamento/${id}/user`);
 
     return data;
   } catch (err: any) {
-    toast.error(err.response.data.message)
-
+    toast.error(err.response.data.message);
   }
 }
 
@@ -50,7 +48,18 @@ export async function countValorFaltante(id: string) {
 
     return data;
   } catch (err: any) {
-    toast.error(err.response.data.message)
+    toast.error(err.response.data.message);
+  }
+}
 
+export async function editPagamaneto(params: any) {
+  try {
+    await api.put("/pagamento/editar", {
+      ...params,
+    });
+
+    toast.success('Pagamento alterado com sucesso !')
+  } catch (err: any) {
+    toast.error(err.response.data.message);
   }
 }

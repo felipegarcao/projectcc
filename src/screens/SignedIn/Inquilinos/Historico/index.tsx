@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Avatar } from "../../../../components/Avatar";
 import { Select } from "../../../../components/Form/Select";
 import { SelectItem } from "../../../../components/Form/Select/SelectItem";
@@ -24,6 +24,7 @@ import {
 import { useUser } from "../../../../hooks/useUser";
 import { Button } from "../../../../components/Button";
 import { tenantsIdResource } from "../../../../services/resources/user";
+import { applicationContext } from "../../../../context/ApplicationContext";
 
 interface MonthData {
   month: number;
@@ -38,6 +39,7 @@ interface PagamentosProps {
   user_id: string;
   casa_id: number;
   name: string;
+  id_pagamento: number;
 }
 
 interface Count {
@@ -50,7 +52,8 @@ export function Historico() {
   const [months, setMonths] = useState<MonthData[]>([]);
   const [pagamentos, setPagamentos] = useState<PagamentosProps[]>([]);
   const [count, setCount] = useState({} as Count);
-  const [newRequest, setNewRequest] = useState(0);
+  
+  const {newRequest, setNewRequest} = useContext(applicationContext)
 
   const location = useLocation();
 
@@ -68,16 +71,13 @@ export function Historico() {
         );
       } else if (!location.state.status && user?.is_admin === 0) {
         await listPagamentosUser(location.state.idUser).then((result) =>
-        setPagamentos(result)
-      );
+          setPagamentos(result)
+        );
 
-      await tenantsIdResource(location.state.idUser).then((result) =>
-        setDados(result?.user)
-      );
-      } 
-      
-      
-      else {
+        await tenantsIdResource(location.state.idUser).then((result) =>
+          setDados(result?.user)
+        );
+      } else {
         await listIdMyHouseUser({
           idCasa: location.state.idCasa,
           idUser: location.state.idUser,
@@ -120,6 +120,7 @@ export function Historico() {
   const {
     handleSubmit,
     control,
+    watch,
     formState: { isSubmitting },
   } = useForm({
     resolver: zodResolver(RegisterPagamentoSchema),
@@ -130,6 +131,7 @@ export function Historico() {
       valor_faltante: "0",
     },
   });
+
 
   useEffect(() => {
     carregarDados();
@@ -238,6 +240,7 @@ export function Historico() {
             <BoxPagamento
               key={index}
               nome_mes={item.nome_mes}
+              id_pagamento={item.id_pagamento}
               status={item.status}
               user_name={item.name}
               variant={item.status}
@@ -253,7 +256,7 @@ export function Historico() {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 className="text-2xl font-mono mb-3">Regitrar Pagamento</h2>
+        <h2 className="text-2xl font-mono mb-3">Registrar Pagamento</h2>
 
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-3">
@@ -321,21 +324,22 @@ export function Historico() {
                 )}
               />
             </div>
-
-            <div>
-              <label className="text-sm font-medium text-zinc-700">
-                Valor Faltante
-              </label>
-              <Controller
-                name="valor_faltante"
-                control={control}
-                render={({ field }) => (
-                  <Input.Root>
-                    <Input.Control type="number" {...field} />
-                  </Input.Root>
-                )}
-              />
-            </div>
+            {watch("status") === "pago parceladamente" && (
+              <div>
+                <label className="text-sm font-medium text-zinc-700">
+                  Valor Faltante
+                </label>
+                <Controller
+                  name="valor_faltante"
+                  control={control}
+                  render={({ field }) => (
+                    <Input.Root>
+                      <Input.Control type="number" {...field} />
+                    </Input.Root>
+                  )}
+                />
+              </div>
+            )}
           </div>
 
           <Button variant="primary" type="submit" className="mt-2 w-full">
