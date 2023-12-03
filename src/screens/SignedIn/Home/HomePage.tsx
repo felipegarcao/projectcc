@@ -23,6 +23,7 @@ export function HomePage() {
   const [currentTabBanheiro, setCurrentTabBanheiro] = useState("0");
   const [currentTabQuartos, setCurrentTabQuartos] = useState("0");
   const [currentTabVagas, setCurrentTabVagas] = useState("0");
+  const [search, setSearch] = useState('')
 
   const { user } = useUser();
 
@@ -31,7 +32,7 @@ export function HomePage() {
       carregarQuantidade();
     }
     carregarCasasDisponiveis();
-  }, [currentTabBanheiro, currentTabQuartos, currentTabVagas]);
+  }, [currentTabBanheiro, currentTabQuartos, currentTabVagas, search]);
 
   async function carregarQuantidade() {
     setLoading(true);
@@ -54,6 +55,8 @@ export function HomePage() {
         banheiro: currentTabBanheiro,
         dormitorios: currentTabQuartos,
         vagas_garagem: currentTabVagas,
+        valor: search
+
       }).then((x) => setHouses(x.houses));
     } catch (error: any) {
       toast.error(error.message);
@@ -229,7 +232,7 @@ export function HomePage() {
           <span className="text-gray-500 text-sm">Total a Pagar</span>
           <div className="flex items-center gap-3">
             <Input.Root>
-              <Input.Control placeholder="R$ 00,00" />
+              <Input.Control placeholder="R$ 00,00" onChange={(e) => setSearch(e.target.value)} />
             </Input.Root>
 
             <Button variant="primary" type="submit">

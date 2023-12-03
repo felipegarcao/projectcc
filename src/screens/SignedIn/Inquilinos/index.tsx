@@ -52,7 +52,8 @@ export function Inquilinos() {
       await houseDisponiveis({
         banheiro: '0',
         dormitorios: '0',
-        vagas_garagem: '0'
+        vagas_garagem: '0',
+        valor: '0'
       }).then((result) => {
         setImoveis(result?.houses);
       });

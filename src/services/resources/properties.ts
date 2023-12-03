@@ -53,18 +53,21 @@ export const listCasasAlugadas = async () => {
 export const houseDisponiveis = async ({
   banheiro,
   dormitorios,
-  vagas_garagem
+  vagas_garagem,
+  valor
 }: {
   banheiro: string,
   dormitorios: string,
-  vagas_garagem: string
+  vagas_garagem: string,
+  valor: string
 }) => {
   try {
     const { data } = await api.get(`/house/disponiveis`, {
       params: {
         banheiro: banheiro == '0' ? '' : banheiro,
         dormitorios: dormitorios == '0' ? '': dormitorios,
-        vagas_garagem: vagas_garagem == '0' ? '' : vagas_garagem
+        vagas_garagem: vagas_garagem == '0' ? '' : vagas_garagem,
+        valor: valor == '0' ? '' : valor
       }
     });
 
