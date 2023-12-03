@@ -33,7 +33,7 @@ export function ListagemContrato() {
       <h1>Contratos</h1>
 
       {
-        contratos.length === 0 && <span className="mt-4 text-violet-600">Nenhum contrato disponivel</span>
+        contratos?.length === 0 && <span className="mt-4 text-violet-600">Nenhum contrato disponivel</span>
       }
 
       {contratos?.map((item, index) => (

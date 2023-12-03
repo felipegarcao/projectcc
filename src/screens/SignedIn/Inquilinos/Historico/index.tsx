@@ -61,6 +61,11 @@ export function Historico() {
 
   async function carregarDados() {
     try {
+
+      countValorFaltante(location.state.idUser).then((result) =>
+      setCount(result)
+    );
+
       if (location.state.status) {
         await listPagamentosUser(location.state.idUser).then((result) =>
           setPagamentos(result)
@@ -85,9 +90,7 @@ export function Historico() {
           listPagamentos(location.state.idCasa).then((result) =>
             setPagamentos(result)
           );
-          countValorFaltante(location.state.idUser).then((result) =>
-            setCount(result)
-          );
+         
 
           setDados(x);
         });

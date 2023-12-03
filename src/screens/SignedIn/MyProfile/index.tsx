@@ -39,7 +39,7 @@ export function MyProfile() {
       setValue("estado_civil", user.estado_civil ? user.estado_civil : "");
       setValue('data_nascimento', user.data_nascimento ? user.data_nascimento : '')
     }
-  }, []);
+  }, [user]);
 
   async function onSubmit(data: any) {
     await editProfileResource({
@@ -47,8 +47,9 @@ export function MyProfile() {
       idUser: user?.id
     })
       .then((x: any) => {
-        localStorage.removeItem('user')
+        // localStorage.removeItem('user')
         localStorage.setItem("user", JSON.stringify(x.user))
+
 
       })
       .catch((err) => console.log(err));

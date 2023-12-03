@@ -125,7 +125,6 @@ export function ListagemInquilinos() {
                   <th className="pl-3">Nome</th>
                   <th className="pl-3">CPF</th>
                   <th className="pl-3">Email</th>
-                  <th className="pl-3">Telefone</th>
                   <th className="pl-3"></th>
                 </tr>
               </thead>

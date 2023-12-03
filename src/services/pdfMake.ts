@@ -84,7 +84,7 @@ export async function generatePdf({
         style: "defaultTextBold",
       },
       {
-        text: `O valor do aluguel mensal será de R$ ${contrato.valor_aluguel},00. Devido até o dia ${contrato.data_vencimento} de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de depósito bancário, Pix e outros.\n\n`,
+        text: `O valor do aluguel mensal será de R$ ${contrato.valor_aluguel},00. Devido até o dia 10 de cada mês. O pagamento será efetuado pelo Locatário ao Locador através de depósito bancário, Pix e outros.\n\n`,
         style: "defaultText",
       },
 

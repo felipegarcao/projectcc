@@ -64,9 +64,11 @@ export function ApplicationContextProvider({
     navigate("/");
   };
 
+ const userStorage = localStorage.getItem("user");
+
   useEffect(() => {
     loadUserStorage();
-  }, [rehydrateLoading]);
+  }, [rehydrateLoading, userStorage]);
 
   async function loadUserStorage() {
     
@@ -78,6 +80,8 @@ export function ApplicationContextProvider({
       setUser(userParsed);
     }
   }
+
+ 
 
   return (
     <applicationContext.Provider
