@@ -69,7 +69,7 @@ export function ImoveisDisponiveis(item: CasasDisponiveisProps) {
               <div className="flex items-center gap-4">
                 <span>{item.tamanho} m²</span>
                 <span>{item.dormitorios} Quartos</span>
-                <span>2 Banheiro</span>
+                <span>{item.suites} Banheiro</span>
                 <span>{item.vagas_garagem} Vagas</span>
               </div>
 

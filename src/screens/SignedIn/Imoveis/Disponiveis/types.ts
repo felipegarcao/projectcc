@@ -7,4 +7,5 @@ export interface CasasDisponiveisProps {
   vagas_garagem?: string;
   preco?: string; 
   id: number;
+  suites?: string;
 }
