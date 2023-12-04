@@ -118,7 +118,7 @@ export const listagemVisita = async () => {
 
 export const disableTenantsResouce = async (id: string) => {
   try {
-    await api.post(`/user/desabilitar/${id}`);
+    await api.put(`/user/desabilitar/${id}`);
 
     toast.info("usuario desabilitado com sucesso !");
   } catch (e: any) {
