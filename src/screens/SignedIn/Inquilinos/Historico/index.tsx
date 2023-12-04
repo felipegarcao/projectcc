@@ -25,6 +25,7 @@ import { useUser } from "../../../../hooks/useUser";
 import { Button } from "../../../../components/Button";
 import { tenantsIdResource } from "../../../../services/resources/user";
 import { applicationContext } from "../../../../context/ApplicationContext";
+import { WhatsAppButton } from "../../DetailsHome/local-components/right-content/WhatsAppButton";
 
 interface MonthData {
   month: number;
@@ -160,11 +161,11 @@ export function Historico() {
   return (
     <>
       <div className=" grid xl:grid-cols-[1fr_300px] grid-cols-1 gap-5">
-        <div className="grid md:grid-cols-[150px_1fr] grid-cols-1 shadow-md rounded-md">
+        <div className="grid md:grid-cols-[200px_1fr] grid-cols-1 shadow-md rounded-md">
           <div className="flex flex-col justify-center items-center gap-4 border-r border-gray-200 p-6">
             <Avatar />
             <h2 className="text-gray-600 font-medium">{dados?.name}</h2>
-            <span className="text-sm text-gray-400">{dados?.profissao}</span>
+            <span className="text-sm text-gray-400 text-center">{dados?.profissao}</span>
           </div>
           <div className="p-6">
             <div>
@@ -201,14 +202,8 @@ export function Historico() {
           <p className="text-3xl font-mono">
             R$ {count.total ? count.total : 0}
           </p>
-          <a
-            target="_blank"
-            href="https://api.whatsapp.com/send?phone=5518997943842&text=Ol%C3%A1%2C%20vim%20do%20Service%20Silva%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es "
-            className="bg-green-400 p-3 text-white rounded-md text-center"
-            rel="noreferrer"
-          >
-            Contatar Suporte
-          </a>
+          <WhatsAppButton message='Olá estou precisando de auxilio, em relação ao imovel.' />
+    
         </div>
       </div>
 

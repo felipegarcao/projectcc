@@ -4,41 +4,80 @@ import { UserItem } from "../UserItem";
 import { Tenants } from "../../../../@types/tenants";
 import { CardUsers } from "../Historico/CardUsers";
 import {
+  tenantsDisponivelResource,
   tenantsOffResource,
   tenantsResource,
 } from "../../../../services/resources/user";
 import { applicationContext } from "../../../../context/ApplicationContext";
-import { useNavigate } from "react-router-dom";
 
 export function ListagemInquilinos() {
   const [tenants, setTenants] = useState<Tenants[]>([]);
+  const [user, setUser] = useState<Tenants[]>([]);
   const [tenantsOff, setTenantsOff] = useState<Tenants[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingOff, setLoadingOff] = useState(true);
- 
-
-
-
-
 
   const { newRequest } = useContext(applicationContext);
 
+  async function carregarDados() {
+    try {
+      tenantsResource().then((result) => {
+        setTenants(result.user);
+
+        setLoading(false);
+      });
+
+      tenantsOffResource().then((result) => {
+        setTenantsOff(result.user);
+
+        setLoadingOff(false);
+      });
+
+      tenantsDisponivelResource().then((result) => {
+        setUser(result?.user);
+      });
+    } catch (err: any) {
+    } finally {
+    }
+  }
+
   useEffect(() => {
-    tenantsResource().then((result) => {
-      setTenants(result.user);
-
-      setLoading(false);
-    });
-
-    tenantsOffResource().then((result) => {
-      setTenantsOff(result.user);
-
-      setLoadingOff(false);
-    });
+    carregarDados();
   }, [newRequest]);
 
   return (
     <div className="space-y-7">
+
+
+<h1 className="text-3xl font-medium text-zinc-900 mt-5">Usuarios</h1>
+
+<div className="p-2 shadow-md rounded-md hidden md:block">
+  <table className="w-full text-left border-separate">
+    <thead>
+      <tr>
+        <th className="pl-3">Nome</th>
+        <th className="pl-3">Email</th>
+        <th className="pl-3">Telefone</th>
+        <th className="pl-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {user?.map((tenant) => (
+        <UserItem
+          status_user={tenant.status_user}
+          name={tenant.name}
+          email={tenant.email}
+          phone={tenant.phone}
+          key={tenant.id}
+          id={tenant.id}
+          // @ts-ignore
+          casa_id={tenant.casa_id}
+        />
+      ))}
+    </tbody>
+  </table>
+</div>
+
       <h1 className="text-3xl font-medium text-zinc-900 mt-5">
         Listagem de Inquilino
       </h1>
@@ -111,7 +150,7 @@ export function ListagemInquilinos() {
       )}
 
       <h1 className="text-3xl font-medium text-zinc-900 mt-5">
-        Listagem de Inquilino (Desativados)
+        Listagem de Inquilino (Antigos)
       </h1>
 
       {loadingOff ? (
@@ -123,8 +162,8 @@ export function ListagemInquilinos() {
               <thead>
                 <tr>
                   <th className="pl-3">Nome</th>
-                  <th className="pl-3">CPF</th>
-                  <th className="pl-3">Email</th>
+                  <th className="pl-3">Emai</th>
+                  <th className="pl-3">Telefone</th>
                   <th className="pl-3"></th>
                 </tr>
               </thead>
@@ -138,7 +177,6 @@ export function ListagemInquilinos() {
                     phone={tenant.phone}
                     key={tenant.id}
                     id={tenant.id}
-                    
                   />
                 ))}
               </tbody>
@@ -180,6 +218,9 @@ export function ListagemInquilinos() {
           </nav>
         </>
       )}
+
+ 
+
     </div>
   );
 }

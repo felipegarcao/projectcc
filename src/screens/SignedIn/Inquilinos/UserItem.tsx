@@ -21,16 +21,22 @@ import { EditProfileSchema } from "../MyProfile/validation";
 import { Button } from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
 
-
 interface Props extends Tenants {
   casa_id?: number;
 }
 
-export function UserItem({ name, email, phone, status_user, id, casa_id }: Props) {
+export function UserItem({
+  name,
+  email,
+  phone,
+  status_user,
+  id,
+  casa_id,
+}: Props) {
   const { setNewRequest } = useContext(applicationContext);
   const [dadosEdit, setDadosEdit] = useState({} as handleUpdatedSubmittedTypes);
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
 
   const disabledUser = async (id: string) => {
     disableTenantsResouce(id);
@@ -38,7 +44,7 @@ export function UserItem({ name, email, phone, status_user, id, casa_id }: Props
     setNewRequest(Math.random());
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     setValue("cpf", dadosEdit.cpf);
@@ -80,7 +86,7 @@ export function UserItem({ name, email, phone, status_user, id, casa_id }: Props
         profissao: data.profissao ? data.profissao : "",
         rg: data.rg,
         data_nascimento: data.data_nascimento,
-        observacao: data.observacao
+        observacao: data.observacao,
       },
     });
 
@@ -105,13 +111,18 @@ export function UserItem({ name, email, phone, status_user, id, casa_id }: Props
         <td className="p-3">
           <div className="flex justify-end">
             {status_user === "off" ? (
-              <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2" onClick={() => navigate('/historico', {
-                  state: {
-                    idCasa: null,
-                    idUser: id,
-                    status: 'off'
-                  }
-              })}>
+              <button
+                className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2"
+                onClick={() =>
+                  navigate("/historico", {
+                    state: {
+                      idCasa: null,
+                      idUser: id,
+                      status: "off",
+                    },
+                  })
+                }
+              >
                 <Trash2 size={16} />
                 Histórico
               </button>
@@ -129,13 +140,18 @@ export function UserItem({ name, email, phone, status_user, id, casa_id }: Props
                 >
                   Deletar
                 </button>
-                <button className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2" onClick={() => navigate(`/historico`, {
-                  state: {
-                    idCasa: casa_id,
-                    idUser: id,
-                    status: 'on'
+                <button
+                  className="flex items-center gap-2 mx-1 text-xs bg-green-700 text-white rounded-md p-2"
+                  onClick={() =>
+                    navigate(`/historico`, {
+                      state: {
+                        idCasa: casa_id,
+                        idUser: id,
+                        status: "on",
+                      },
+                    })
                   }
-                })}>
+                >
                   Histórico
                 </button>
                 <button
@@ -283,15 +299,15 @@ export function UserItem({ name, email, phone, status_user, id, casa_id }: Props
             )}
           />
 
-
           <Button variant="primary" type="submit" className="mt-2 w-full">
-            {isSubmitting ? <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin  text-white" />
-            </div> : 'Salvar Edição'}
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div>
+            ) : (
+              "Salvar Edição"
+            )}
           </Button>
-
-
-
         </form>
       </Modal>
     </>

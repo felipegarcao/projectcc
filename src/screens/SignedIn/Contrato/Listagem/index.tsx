@@ -15,7 +15,8 @@ export function ListagemContrato() {
   const { user } = useUser();
 
 
-  function download(blob: string, fileName?: string) {
+  function download(blob: any, fileName?: string) {
+
     
     const a = document.createElement('a');
     a.href = blob;
