@@ -1,4 +1,12 @@
-import { Eye, EyeOff, Key, Loader2, User2Icon, UserCircle, Lock } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Key,
+  Loader2,
+  User2Icon,
+  UserCircle,
+  Lock,
+} from "lucide-react";
 import * as Input from "../../../components/Input";
 import { Select } from "../../../components/Form/Select";
 import { useForm, Controller } from "react-hook-form";
@@ -6,16 +14,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EditProfileSchema } from "./validation";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { handleSubmittedTypes } from "./types";
-import { editProfileResource } from "../../../services/resources/user";
+import {
+  editProfileResource,
+  tenantsIdResource,
+} from "../../../services/resources/user";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../hooks/useUser";
 import { Button } from "../../../components/Button";
+import { Tenants } from "../../../@types/tenants";
 
 export function MyProfile() {
-
-
-  const [visibleSenhaAtual, setVisibleSenhaAtual] = useState(false)
-  const [visibleSenhaNova, setVisibleSenhaNova] = useState(false)
+  const [visibleSenhaAtual, setVisibleSenhaAtual] = useState(false);
+  const [visibleSenhaNova, setVisibleSenhaNova] = useState(false);
+  const [userState, setUserState] = useState<Tenants>({} as Tenants);
 
   const {
     handleSubmit,
@@ -28,30 +39,43 @@ export function MyProfile() {
 
   const { user } = useUser();
 
+  async function carregarDados(params: any) {
+    try {
+      tenantsIdResource(params).then((result) => setUserState(result.user));
+    } catch (err: any) {
+    } finally {
+    }
+  }
+
   useEffect(() => {
     if (user) {
-      setValue("cpf", user.cpf ? user.cpf : "");
-      setValue("email", user.email ? user.email : "");
-      setValue("rg", user.rg ? user.rg : "");
-      setValue("phone", user.phone);
-      setValue("profissao", user.profissao);
-      setValue("name", user.name);
-      setValue("estado_civil", user.estado_civil ? user.estado_civil : "");
-      setValue('data_nascimento', user.data_nascimento ? user.data_nascimento : '')
+      setValue("cpf", userState.cpf ? userState.cpf : "");
+      setValue("email", userState.email ? userState.email : "");
+      setValue("rg", userState.rg ? userState.rg : "");
+      setValue("phone", userState.phone);
+      setValue("profissao", userState.profissao);
+      setValue("name", userState.name);
+      setValue(
+        "estado_civil",
+        userState.estado_civil ? userState.estado_civil : ""
+      );
+      setValue(
+        "data_nascimento",
+        userState.data_nascimento ? userState.data_nascimento : ""
+      );
     }
-  }, [user]);
+  }, [user, userState]);
+
+  useEffect(() => {
+    carregarDados(user?.id);
+  }, []);
 
   async function onSubmit(data: any) {
     await editProfileResource({
       ...data,
-      idUser: user?.id
+      idUser: user?.id,
     })
-      .then((x: any) => {
-        // localStorage.removeItem('user')
-        localStorage.setItem("user", JSON.stringify(x.user))
-
-
-      })
+      .then((x: any) => {})
       .catch((err) => console.log(err));
   }
 
@@ -70,10 +94,7 @@ export function MyProfile() {
               className="h-32 w-32 lg:w-full lg:h-full"
             />
 
-            <Button variant="primary">
-              Remover
-            </Button>
-
+            <Button variant="primary">Remover</Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <label
@@ -239,7 +260,6 @@ export function MyProfile() {
               name="password"
               control={control}
               render={({ field }) => (
-
                 <Input.Root>
                   <Input.Prefix>
                     <Lock className="h-5 w-5 text-zinc-500" />
@@ -259,7 +279,6 @@ export function MyProfile() {
                     )}
                   </Input.Prefix>
                 </Input.Root>
-
               )}
             />
             <span className="text-red-600 text-sm ml-2">
@@ -300,9 +319,13 @@ export function MyProfile() {
         </section>
         <footer className="flex justify-end mt-3">
           <Button variant="primary" type="submit">
-            {isSubmitting ? <div className="flex justify-center items-center">
-              <Loader2 className="animate-spin  text-white" />
-            </div> : 'Salvar'}
+            {isSubmitting ? (
+              <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div>
+            ) : (
+              "Salvar"
+            )}
           </Button>
         </footer>
       </div>

@@ -22,7 +22,6 @@ export const tenantsDisponivelResource = async () => {
   }
 };
 
-
 export const tenantsOffResource = async () => {
   try {
     const { data } = await api.get("/user/tenant/off");
@@ -45,7 +44,7 @@ export const tenantsPendingResource = async () => {
 
 export const editProfileResource = async (params: ParamsEditProfile) => {
   try {
-  const {data} =  await api.put(`/user/editar-perfil/${params.idUser}`, {
+    const { data } = await api.put(`/user/editar-perfil/${params.idUser}`, {
       ...params,
     });
 
@@ -127,41 +126,48 @@ export const disableTenantsResouce = async (id: string) => {
   }
 };
 
-
 export const restaurarSenhaResouce = async (id: string) => {
   try {
-
-    await api.put(`/user/restaurar-senha/${id}`)
+    await api.put(`/user/restaurar-senha/${id}`);
 
     toast.info("Senha restaurado com sucesso !");
-
-
   } catch (e: any) {
-    toast.error(e.response.data.message)
+    toast.error(e.response.data.message);
   }
-}
+};
 
-export const editarUsuarioResource = async ({id, params}: {id: any, params: any}) => {
+export const editarUsuarioResource = async ({
+  id,
+  params,
+}: {
+  id: any;
+  params: any;
+}) => {
   try {
     await api.put(`/user/editar-usuario/${id}`, {
-      ...params
-    })
+      ...params,
+    });
 
-    toast.info('Usuario editado com sucesso !')
-  }  catch (e: any) {
-    toast.error(e.response.data.message)
+    toast.info("Usuario editado com sucesso !");
+  } catch (e: any) {
+    toast.error(e.response.data.message);
   }
-}
+};
 
-
-export const recusarUsuario = async ({id, params} : {id: any, params: any}) => {
+export const recusarUsuario = async ({
+  id,
+  params,
+}: {
+  id: any;
+  params: any;
+}) => {
   try {
     await api.put(`/user/denied/${id}`, {
-      ...params
-    })
+      ...params,
+    });
 
-    toast.info('Usuario editado com sucesso !')
-  }  catch (e: any) {
-    toast.error(e.response.data.message)
+    toast.info("Usuario editado com sucesso !");
+  } catch (e: any) {
+    toast.error(e.response.data.message);
   }
-}
+};
