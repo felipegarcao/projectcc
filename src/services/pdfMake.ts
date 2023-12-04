@@ -13,14 +13,14 @@ interface generatePdfProps {
   inquilino: Tenants;
   imovel: DetailsHouse;
   contrato: handleSubmittedTypes;
-  admin_id: any
+  admin_id: any;
 }
 
 export async function generatePdf({
   inquilino,
   imovel,
   contrato,
-  admin_id
+  admin_id,
 }: generatePdfProps) {
   const currencyFormatted = new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -73,7 +73,11 @@ export async function generatePdf({
         style: "defaultTextBold",
       },
       {
-        text: `O período de locação terá início em ${moment(contrato.data_vigencia).format('DD/MM/YYYY')} e terá uma duração de ${contrato.duracao_meses} meses, encerrando-se em ${contrato.data_vencimento}.\n\n`,
+        text: `O período de locação terá início em ${moment(
+          contrato.data_vigencia
+        ).format("DD/MM/YYYY")} e terá uma duração de ${
+          contrato.duracao_meses
+        } meses, encerrando-se em ${contrato.data_vencimento}.\n\n`,
         style: "defaultText",
       },
 
@@ -139,12 +143,12 @@ export async function generatePdf({
         style: "defaultTextBold",
       },
       {
-        ul: [
-          "Animais de estimação: Permitido",
-        ],
+        ul: ["Animais de estimação: Permitido"],
       },
       {
-        text: `As partes concordam com os termos e condições deste Contrato de Aluguel Residencial e assinam este documento neste dia ${moment(contrato.data_vigencia).format('DD/MM/YYYY')} .\n\n`,
+        text: `As partes concordam com os termos e condições deste Contrato de Aluguel Residencial e assinam este documento neste dia ${moment(
+          contrato.data_vigencia
+        ).format("DD/MM/YYYY")} .\n\n`,
       },
 
       {
@@ -188,36 +192,32 @@ export async function generatePdf({
       },
       defaultText: {
         fontSize: 12,
-   
       },
-      
     },
-
   };
 
   let base64;
+  let pdfUrl;
 
-  pdfMake.createPdf(dd).getBase64(async (data) => {
+  pdfMake.createPdf(dd).getBlob(async (data) => {
     base64 = `data:application/pdf;base64, ${data}`;
+    pdfUrl = URL.createObjectURL(data);
 
-  
-      await createContrato({
-        casa_id: imovel.id,
-        user_id: inquilino.id,
-        data_vencimento: contrato.data_vencimento,
-        data_vigencia: contrato.data_vigencia,
-        duracao_meses: contrato.duracao_meses,
-        finalidade: contrato.finalidade,
-        juros_atraso: contrato.juros_atraso,
-        observacao: contrato.observacao,
-        uri_contrato: base64,
-        valor_aluguel: contrato.valor_aluguel,
-        admin_id
-      })
+    await createContrato({
+      casa_id: imovel.id,
+      user_id: inquilino.id,
+      data_vencimento: contrato.data_vencimento,
+      data_vigencia: contrato.data_vigencia,
+      duracao_meses: contrato.duracao_meses,
+      finalidade: contrato.finalidade,
+      juros_atraso: contrato.juros_atraso,
+      observacao: contrato.observacao,
+      uri_contrato: base64,
+      valor_aluguel: contrato.valor_aluguel,
+      admin_id,
+      blob: pdfUrl,
+    });
   });
 
-  pdfMake.createPdf(dd).open()
-
-
-
+  pdfMake.createPdf(dd).open();
 }

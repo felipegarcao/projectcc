@@ -40,7 +40,7 @@ export function Similares() {
           >
             <img
               className="w-full h-[200px]"
-              src="https://img.freepik.com/fotos-gratis/uma-casa-azul-com-um-telhado-azul-e-um-fundo-do-ceu_1340-25953.jpg?size=626&ext=jpg&ga=GA1.1.386372595.1698019200&semt=ais"
+              src="https://www.construyehogar.com/wp-content/uploads/2014/12/Fachada-de-casa-de-dos-plantas-y-tres-dormitorios-560x389.jpg"
               alt="Sunset in the mountains"
             />
             <div className="px-6 py-4">

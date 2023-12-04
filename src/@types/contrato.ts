@@ -11,4 +11,5 @@ export interface Contrato {
   uri_contrato: any;
   name?: string;
   admin_id: string;
+  blob: string;
 }

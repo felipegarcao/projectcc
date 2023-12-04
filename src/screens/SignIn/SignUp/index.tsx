@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Mail, Lock, Phone, Users, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Phone, Users, User, Loader2 } from "lucide-react";
 import * as Input from "../../../components/Input";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "./validation";
 import { handleSubmittedTypes } from "./types";
 import { registerUserResource } from "../../../services/resources/auth/login";
+import { Button } from "../../../components/Button";
 
 export function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -15,7 +16,7 @@ export function SignUp() {
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<handleSubmittedTypes>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -220,9 +221,12 @@ export function SignUp() {
         </span>
       </label>
 
-      <button className="bg-violet-600 p-2 rounded text-white" type="submit">
-        Cadastrar
-      </button>
+      <Button variant="primary" type="submit">
+              {isSubmitting ? <div className="flex justify-center items-center">
+                <Loader2 className="animate-spin  text-white" />
+              </div> : 'Cadastrar'}
+            </Button>
+
     </form>
   );
 }

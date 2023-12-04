@@ -19,7 +19,10 @@ import { handleSubmittedTypes } from "../Imoveis/types";
 import { useUser } from "../../../hooks/useUser";
 import { Button } from "../../../components/Button";
 import { Loader2 } from "lucide-react";
-import { alugarSchema, desalugarSchema } from "../Imoveis/Disponiveis/validation";
+import {
+  alugarSchema,
+  desalugarSchema,
+} from "../Imoveis/Disponiveis/validation";
 import { Select } from "../../../components/Form/Select";
 import { SelectItem } from "../../../components/Form/Select/SelectItem";
 import { tenantsDisponivelResource } from "../../../services/resources/user";
@@ -32,6 +35,7 @@ export function MyHouse() {
   const [modalIsOpenAlugar, setIsOpenAlugar] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsOpenDesalugar, setModalIsOpenDesalugar] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [dadosEdit, setDadosEdit] = useState({} as handleSubmittedTypes);
   const [id, setId] = useState(0);
@@ -59,12 +63,9 @@ export function MyHouse() {
     resolver: zodResolver(alugarSchema),
   });
 
-  const {
-    handleSubmit: handleSubmit3,
-    control: control3,
-  } = useForm({
-    resolver: zodResolver(desalugarSchema)
-  })
+  const { handleSubmit: handleSubmit3, control: control3 } = useForm({
+    resolver: zodResolver(desalugarSchema),
+  });
 
   async function openModal(id: number) {
     await listIdMyHouseAdmin({
@@ -84,13 +85,19 @@ export function MyHouse() {
   }
 
   async function carregarDados() {
-    if (user?.is_admin === 1) {
-      await listMyHouseAdmin(user?.id).then((x) => setHouses(x));
-      await tenantsDisponivelResource().then((result) => {
-        setTenants(result?.user);
-      });
-    } else {
-      await listMyHouseUser(user?.id).then((x) => setHouses(x));
+    setLoading(true);
+    try {
+      if (user?.is_admin === 1) {
+        await listMyHouseAdmin(user?.id).then((x) => setHouses(x));
+        await tenantsDisponivelResource().then((result) => {
+          setTenants(result?.user);
+        });
+      } else {
+        await listMyHouseUser(user?.id).then((x) => setHouses(x));
+      }
+    } catch (err: any) {
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -129,8 +136,8 @@ export function MyHouse() {
   }
 
   function openModalDesalugar(id: any) {
-    setModalIsOpenDesalugar(true)
-    setIdCasinha(id)
+    setModalIsOpenDesalugar(true);
+    setIdCasinha(id);
   }
 
   const onSubmitAlugar = async (data: any) => {
@@ -146,7 +153,7 @@ export function MyHouse() {
   async function desalugar(data: any) {
     await desalugarHouse({
       id: idCasinha,
-      motivo_desalugue: data.motivo_desalugue
+      motivo_desalugue: data.motivo_desalugue,
     });
     setNewRequest(Math.random());
     setModalIsOpenDesalugar(false);
@@ -154,98 +161,104 @@ export function MyHouse() {
 
   return (
     <>
-      {houses?.map((item, key) => (
-        <div className="mt-5 grid grid-cols-1 gap-6" key={key}>
-          <div className="border border-gray-200 rounded-lg shadow">
-            <div className="grid lg:grid-cols-[360px_1fr] md:grid-cols-[250px_1fr] grid-cols-1">
-              <img
-                className=" h-[240px] w-full"
-                src="https://www.plantapronta.com.br/projetos/161/01.jpg"
-                alt=""
-              />
+      {loading ? (
+        <h1>Carregando dados...</h1>
+      ) : (
+        <>
+          {houses?.map((item, key) => (
+            <div className="mt-5 grid grid-cols-1 gap-6" key={key}>
+              <div className="border border-gray-200 rounded-lg shadow">
+                <div className="grid lg:grid-cols-[360px_1fr] md:grid-cols-[250px_1fr] grid-cols-1">
+                  <img
+                    className=" h-[240px] w-full"
+                    src="https://www.plantapronta.com.br/projetos/161/01.jpg"
+                    alt=""
+                  />
 
-              <div className="p-4 w-full flex flex-col justify-between">
-                <header>
-                  <span className="text-xs">
-                    {item.bairro}, {item.cidade} - {item.estado}
-                  </span>
-                  <h2 className="font-semibold text-lg">
-                    Casa com {item.dormitorios} Quartos Para Aluguel,{" "}
-                    {item.tamanho}m²
-                  </h2>
-                </header>
+                  <div className="p-4 w-full flex flex-col justify-between">
+                    <header>
+                      <span className="text-xs">
+                        {item.bairro}, {item.cidade} - {item.estado}
+                      </span>
+                      <h2 className="font-semibold text-lg">
+                        Casa com {item.dormitorios} Quartos Para Aluguel,{" "}
+                        {item.tamanho}m²
+                      </h2>
+                    </header>
 
-                <section>
-                  <div className="flex items-center gap-4">
-                    <span>{item.tamanho} m²</span>
-                    <span>{item.dormitorios} Quartos</span>
-                    <span>{item.suites} Banheiro</span>
-                    <span>{item.vagas_garagem} Vagas</span>
-                  </div>
+                    <section>
+                      <div className="flex items-center gap-4">
+                        <span>{item.tamanho} m²</span>
+                        <span>{item.dormitorios} Quartos</span>
+                        <span>{item.suites} Banheiro</span>
+                        <span>{item.vagas_garagem} Vagas</span>
+                      </div>
 
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="p-2  text-xs rounded-lg bg-gray-200">
-                      Garagem
-                    </span>
-                  </div>
-                </section>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className="p-2  text-xs rounded-lg bg-gray-200">
+                          Garagem
+                        </span>
+                      </div>
+                    </section>
 
-                <footer className="flex items-center justify-between">
-                  <p>
-                    <strong>R$ {item.preco}</strong> /mês
-                  </p>
-                  <div>
-                    <Button
-                      variant="outlined"
-                      onClick={() =>
-                        navigate(`/historico`, {
-                          state: {
-                            idCasa: item.IdCasa,
-                            idUser: item.user_id,
-                          },
-                        })
-                      }
-                    >
-                      Detalhes
-                    </Button>
-
-                    {user?.is_admin === 1 && (
-                      <>
+                    <footer className="flex items-center justify-between">
+                      <p>
+                        <strong>R$ {item.preco}</strong> /mês
+                      </p>
+                      <div>
                         <Button
-                          variant="primary"
-                          onClick={() => openModal(item.IdCasa)}
-                          className="mx-4"
+                          variant="outlined"
+                          onClick={() =>
+                            navigate(`/historico`, {
+                              state: {
+                                idCasa: item.IdCasa,
+                                idUser: item.user_id,
+                              },
+                            })
+                          }
                         >
-                          Editar
+                          Detalhes
                         </Button>
 
-                        {item.status === "on" && (
-                          <Button
-                            variant="success"
-                            onClick={() => openModaAlugar(item.IdCasa)}
-                          >
-                            Alugar
-                          </Button>
-                        )}
+                        {user?.is_admin === 1 && (
+                          <>
+                            <Button
+                              variant="primary"
+                              onClick={() => openModal(item.IdCasa)}
+                              className="mx-4"
+                            >
+                              Editar
+                            </Button>
 
-                        {item.status === "off" && (
-                          <Button
-                            variant="danger"
-                            onClick={() => openModalDesalugar(item.IdCasa)}
-                            type="button"
-                          >
-                            Desalugar
-                          </Button>
+                            {item.status === "on" && (
+                              <Button
+                                variant="success"
+                                onClick={() => openModaAlugar(item.IdCasa)}
+                              >
+                                Alugar
+                              </Button>
+                            )}
+
+                            {item.status === "off" && (
+                              <Button
+                                variant="danger"
+                                onClick={() => openModalDesalugar(item.IdCasa)}
+                                type="button"
+                              >
+                                Desalugar
+                              </Button>
+                            )}
+                          </>
                         )}
-                      </>
-                    )}
+                      </div>
+                    </footer>
                   </div>
-                </footer>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      ))}
+          ))}
+        </>
+      )}
 
       <Modal
         isOpen={modalIsOpen}
@@ -536,8 +549,9 @@ export function MyHouse() {
             )}
           />
 
-
-          <Button variant="primary" className="w-full">Salvar</Button>
+          <Button variant="primary" className="w-full">
+            Salvar
+          </Button>
         </form>
       </Modal>
     </>

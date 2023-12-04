@@ -21,8 +21,7 @@ export const createHouse = async (data: House) => {
     });
     toast.success("Casa cadastrada com sucesso !");
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
 };
 
@@ -32,11 +31,9 @@ export const listImoveis = async () => {
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
 };
-
 
 export const listCasasAlugadas = async () => {
   try {
@@ -44,39 +41,36 @@ export const listCasasAlugadas = async () => {
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}
-
+};
 
 export const houseDisponiveis = async ({
   banheiro,
   dormitorios,
   vagas_garagem,
-  valor
+  valor,
 }: {
-  banheiro: string,
-  dormitorios: string,
-  vagas_garagem: string,
-  valor: string
+  banheiro: string;
+  dormitorios: string;
+  vagas_garagem: string;
+  valor: string;
 }) => {
   try {
     const { data } = await api.get(`/house/disponiveis`, {
       params: {
-        banheiro: banheiro == '0' ? '' : banheiro,
-        dormitorios: dormitorios == '0' ? '': dormitorios,
-        vagas_garagem: vagas_garagem == '0' ? '' : vagas_garagem,
-        valor: valor == '0' ? '' : valor
-      }
+        banheiro: banheiro == "0" ? "" : banheiro,
+        dormitorios: dormitorios == "0" ? "" : dormitorios,
+        vagas_garagem: vagas_garagem == "0" ? "" : vagas_garagem,
+        valor: valor == "0" ? "" : valor,
+      },
     });
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}
+};
 
 export const listIdImoveis = async (id: string | number) => {
   try {
@@ -84,10 +78,9 @@ export const listIdImoveis = async (id: string | number) => {
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}; 
+};
 
 export const listMyHouseAdmin = async (id: any) => {
   try {
@@ -95,10 +88,9 @@ export const listMyHouseAdmin = async (id: any) => {
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}; 
+};
 
 export const listMyHouseUser = async (id: any) => {
   try {
@@ -106,59 +98,57 @@ export const listMyHouseUser = async (id: any) => {
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}; 
-
+};
 
 export const listIdMyHouseAdmin = async ({
   idUser,
-  idCasa
-}: {idUser: any, idCasa: number}) => {
+  idCasa,
+}: {
+  idUser: any;
+  idCasa: number;
+}) => {
   try {
-    const { data } = await api.get(`/user/my-house/${idUser}/edit/${idCasa}/admin`);
+    const { data } = await api.get(
+      `/user/my-house/${idUser}/edit/${idCasa}/admin`
+    );
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}; 
-
+};
 
 export const listIdMyHouseUser = async ({
   idUser,
-  idCasa
-}: {idUser: any, idCasa: number}) => {
+  idCasa,
+}: {
+  idUser: any;
+  idCasa: number;
+}) => {
   try {
-    const { data } = await api.get(`/user/my-house/${idUser}/edit/${idCasa}/user`);
+    const { data } = await api.get(
+      `/user/my-house/${idUser}/edit/${idCasa}/user`
+    );
 
     return data;
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}; 
-
-
-
+};
 
 export const editMyHouse = async (id: string | number, data: any) => {
   try {
     await api.put(`/house/editar/${id}`, {
-      ...data
+      ...data,
     });
 
- toast.success('Dados alterados com sucesso !')
-
-    
+    toast.success("Dados alterados com sucesso !");
   } catch (e: any) {
-    toast.error(e.response.data.message)
-
+    toast.error(e.response.data.message);
   }
-}
-
+};
 
 export const listSimilaresImoveis = async (id: string) => {
   try {
@@ -168,38 +158,34 @@ export const listSimilaresImoveis = async (id: string) => {
   } catch (e: any) {
     console.log(e);
   }
-}; 
-
-
-
-
+};
 
 export const alugarHouse = async (params: any) => {
   try {
+    await api.put("/house/alugar", {
+      ...params,
+    });
 
-    await api.put('/house/alugar', {
-      ...params
-    })
-
-  toast.success('Casa alugada com sucesso !')
-    
+    toast.success("Casa alugada com sucesso !");
   } catch (e: any) {
-    toast.error(e.response.data.message)
+    toast.error(e.response.data.message);
   }
-}
+};
 
-
-export const desalugarHouse = async ({id, motivo_desalugue}: {id: any, motivo_desalugue: string})  => {
-
+export const desalugarHouse = async ({
+  id,
+  motivo_desalugue,
+}: {
+  id: any;
+  motivo_desalugue: string;
+}) => {
   try {
-
     await api.put(`/house/desalugar/${id}`, {
-      motivo_desalugue
-    })
+      motivo_desalugue,
+    });
 
-    toast.info('Casa Desalugada com sucesso.')
-
+    toast.info("Casa Desalugada com sucesso.");
   } catch (e: any) {
-    toast.error(e.response.data.message)
+    toast.error(e.response.data.message);
   }
-}
+};

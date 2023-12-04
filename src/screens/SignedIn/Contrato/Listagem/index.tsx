@@ -6,19 +6,44 @@ import {
 import { useEffect, useState } from "react";
 import { Contrato } from "../../../../@types/contrato";
 import { useUser } from "../../../../hooks/useUser";
+import moment from 'moment'
 
 export function ListagemContrato() {
   const [contratos, setContratos] = useState<Contrato[]>([]);
+  const [loading, setLoading] = useState(false)
 
   const { user } = useUser();
 
+
+  function download(blob: string, fileName?: string) {
+    
+    const a = document.createElement('a');
+    a.href = blob;
+    a.download = fileName || 'contrato_download';
+
+    document.body.appendChild(a)
+
+    a.click();
+
+    document.body.removeChild(a)
+
+    URL.revokeObjectURL(blob)
+  }
+
   async function carregarDados() {
-    if (user?.is_admin) {
-      await listContratos().then((x) => setContratos(x?.contrato));
-    } else {
-      await listContratosUserLogged(user?.id).then((x) =>
-        setContratos(x?.contrato)
-      );
+    setLoading(true)
+    try {
+      if (user?.is_admin) {
+        await listContratos().then((x) => setContratos(x?.contrato));
+      } else {
+        await listContratosUserLogged(user?.id).then((x) =>
+          setContratos(x?.contrato)
+        );
+      }
+    } catch (err: any) {
+
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -31,8 +56,12 @@ export function ListagemContrato() {
   return (
     <div className="border p-3 rounded mt-5">
       <h1>Contratos</h1>
-
       {
+        loading ? (
+          <h1>Carregando dados...</h1>
+        ) : (
+          <>
+  {
         contratos?.length === 0 && <span className="mt-4 text-violet-600">Nenhum contrato disponivel</span>
       }
 
@@ -47,7 +76,7 @@ export function ListagemContrato() {
           </div>
 
           <div className="flex items-center gap-3">
-            <span>Data Inicio: {item.data_vigencia}</span>
+            <span>Data Inicio: {moment(item.data_vigencia).format('DD/MM/YYYY')}</span>
             <span>-</span>
             <span>Data Fim: {item.data_vencimento}</span>
           </div>
@@ -59,12 +88,17 @@ export function ListagemContrato() {
               </button>
               <span>{item.name}</span>
             </div>
-            <button className="bg-violet-500 p-1 rounded-lg text-white" >
+            <button className="bg-violet-500 p-1 rounded-lg text-white" onClick={() => download(item.blob)}>
               <Download />
             </button>
           </div>
         </div>
       ))}
+          </>
+        )
+      }
+
+      
     </div>
   );
 }

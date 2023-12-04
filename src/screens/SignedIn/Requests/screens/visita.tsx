@@ -14,6 +14,7 @@ import { Button } from "../../../../components/Button";
 export function Visita() {
   const [visitas, setVisitas] = useState<Listagem>({} as Listagem);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [tipo, setTipo] = useState("");
   const [id, setId] = useState(0);
@@ -21,7 +22,13 @@ export function Visita() {
   const [newRequest, setNewRequest] = useState(0);
 
   async function carregarDados() {
-    await listagemVisita().then((x) => setVisitas(x));
+    setLoading(true);
+    try {
+      await listagemVisita().then((x) => setVisitas(x));
+    } catch (err: any) {
+    } finally {
+      setLoading(false);
+    }
   }
 
   function openModal({ id, tipo }: { id: number; tipo: string }) {
@@ -49,7 +56,7 @@ export function Visita() {
       id,
     });
 
-    setModalIsOpen(false)
+    setModalIsOpen(false);
 
     setNewRequest(Math.random());
   };
@@ -59,134 +66,161 @@ export function Visita() {
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Pendentes</h1>
 
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
-        {visitas?.listagem?.pending?.length === 0 && (
-          <h2>Não ha Solicitação</h2>
+        {!loading ? (
+          <>
+            {visitas?.listagem?.pending?.length === 0 && (
+              <h2>Não ha Solicitação</h2>
+            )}
+            {visitas?.listagem?.pending?.map((item, index) => (
+              <div className="shadow p-3" key={index}>
+                <section className="flex flex-col text-sm gap-1">
+                  <h2>{item.nome}</h2>
+
+                  <span>Telefone: {item.telefone}</span>
+                  <span>Email: {item.email}</span>
+
+                  <p>
+                    <strong>Motivo: </strong>
+                    {item.motivo}
+                  </p>
+                </section>
+
+                <div className="grid grid-cols-2 gap-2 border-t pt-3">
+                  <Button
+                    variant="danger"
+                    onClick={() =>
+                      openModal({
+                        id: item.id,
+                        tipo: "recusar",
+                      })
+                    }
+                  >
+                    Recusar
+                  </Button>
+
+                  <Button
+                    variant="primary"
+                    onClick={() =>
+                      openModal({
+                        id: item.id,
+                        tipo: "aceitar",
+                      })
+                    }
+                  >
+                    Aceitar
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <h1>Carregando dados...</h1>
         )}
-        {visitas?.listagem?.pending?.map((item, index) => (
-          <div className="shadow p-3" key={index}>
-            <section className="flex flex-col text-sm gap-1">
-              <h2>{item.nome}</h2>
-
-              <span>Telefone: {item.telefone}</span>
-              <span>Email: {item.email}</span>
-
-              <p>
-                <strong>Motivo: </strong>
-                {item.motivo}
-              </p>
-            </section>
-
-            <div className="grid grid-cols-2 gap-2 border-t pt-3">
-              <Button variant="danger" onClick={() =>
-                openModal({
-                  id: item.id,
-                  tipo: "recusar",
-                })
-              }>
-                Recusar
-              </Button>
-
-
-              <Button
-                variant="primary"
-
-                onClick={() =>
-                  openModal({
-                    id: item.id,
-                    tipo: "aceitar",
-                  })
-                }
-              >
-                Aceitar
-              </Button>
-            </div>
-          </div>
-        ))}
       </div>
 
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Aceitas</h1>
+      {loading ? (
+        <h1>Carregando dados...</h1>
+      ) : (
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
+          {visitas?.listagem?.accepted?.length === 0 && (
+            <h2>Não ha Solicitação</h2>
+          )}
 
-      <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
-        {visitas?.listagem?.accepted?.length === 0 && (
-          <h2>Não ha Solicitação</h2>
-        )}
+          {visitas?.listagem?.accepted?.map((item, index) => (
+            <div className="shadow p-3" key={index}>
+              <section className="flex flex-col text-sm gap-1">
+                <h2>{item.nome}</h2>
 
-        {visitas?.listagem?.accepted?.map((item, index) => (
-          <div className="shadow p-3" key={index}>
-            <section className="flex flex-col text-sm gap-1">
-              <h2>{item.nome}</h2>
+                <span>Telefone: {item.telefone}</span>
+                <span>Email: {item.email}</span>
 
-              <span>Telefone: {item.telefone}</span>
-              <span>Email: {item.email}</span>
+                <p>
+                  <strong>Motivo: </strong>
+                  {item.observacao}
+                </p>
+              </section>
 
-              <p>
-                <strong>Motivo: </strong>
-                {item.observacao}
-              </p>
-            </section>
-
-            <Button variant="success" className="w-full"   onClick={() =>
+              <Button
+                variant="success"
+                className="w-full"
+                onClick={() =>
                   openModal({
                     id: item.id,
                     tipo: "finalizar",
                   })
-                }>
-              Finalizar
-            </Button>
-          </div>
-        ))}
-      </div>
+                }
+              >
+                Finalizar
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
 
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Recusas</h1>
+      {loading ? (
+        <h1>Carregando dados...</h1>
+      ) : (
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
+          {visitas?.listagem?.denied?.length === 0 && (
+            <h2>Não ha Solicitação</h2>
+          )}
 
-      <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
-        {visitas?.listagem?.denied?.length === 0 && <h2>Não ha Solicitação</h2>}
+          {visitas?.listagem?.denied?.map((item, index) => (
+            <div className="shadow p-3" key={index}>
+              <section className="flex flex-col text-sm gap-1">
+                <h2>{item.nome}</h2>
 
-        {visitas?.listagem?.denied?.map((item, index) => (
-          <div className="shadow p-3" key={index}>
-            <section className="flex flex-col text-sm gap-1">
-              <h2>{item.nome}</h2>
+                <span>Telefone: {item.telefone}</span>
+                <span>Email: {item.email}</span>
 
-              <span>Telefone: {item.telefone}</span>
-              <span>Email: {item.email}</span>
+                <p>
+                  <strong>Motivo: </strong>
+                  {item.observacao}
+                </p>
+              </section>
 
-              <p>
-                <strong>Motivo: </strong>
-                {item.observacao}
-              </p>
-            </section>
-
-            <button className="bg-red-500 p-2 rounded-md text-white mt-3 w-full">
-              Recusado
-            </button>
-          </div>
-        ))}
-      </div>
+              <button className="bg-red-500 p-2 rounded-md text-white mt-3 w-full">
+                Recusado
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       <h1 className="text-3xl font-medium text-zinc-900 mt-10">Finalizadas</h1>
 
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
-        {visitas?.listagem?.done?.length === 0 && <h2>Não ha Solicitação</h2>}
+        {loading ? (
+          <h1>Carregando dados...</h1>
+        ) : (
+          <div>
+            {visitas?.listagem?.done?.length === 0 && (
+              <h2>Não ha Solicitação</h2>
+            )}
 
-        {visitas?.listagem?.done?.map((item, index) => (
-          <div className="shadow p-3" key={index}>
-            <section className="flex flex-col text-sm gap-1">
-              <h2>{item.nome}</h2>
+            {visitas?.listagem?.done?.map((item, index) => (
+              <div className="shadow p-3" key={index}>
+                <section className="flex flex-col text-sm gap-1">
+                  <h2>{item.nome}</h2>
 
-              <span>Telefone: {item.telefone}</span>
-              <span>Email: {item.email}</span>
+                  <span>Telefone: {item.telefone}</span>
+                  <span>Email: {item.email}</span>
 
-              <p>
-                <strong>Motivo: </strong>
-                {item.observacao}
-              </p>
-            </section>
+                  <p>
+                    <strong>Motivo: </strong>
+                    {item.observacao}
+                  </p>
+                </section>
 
-            <button className="bg-gray-300 p-2 rounded-md text-white mt-3 w-full">
-              Finalizado
-            </button>
+                <button className="bg-gray-300 p-2 rounded-md text-white mt-3 w-full">
+                  Finalizado
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
 
       <Modal
@@ -202,8 +236,6 @@ export function Visita() {
             {...register("observacao")}
             className="border my-2 rounded-md resize-none p-3 text-xs w-full"
             rows={8}
-
-
           ></textarea>
 
           <button className="w-full rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700">
