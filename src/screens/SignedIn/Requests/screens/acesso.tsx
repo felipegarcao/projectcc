@@ -10,97 +10,77 @@ import { customStyles } from "./util";
 import { Button } from "../../../../components/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import {z} from 'zod'
 
 export function Acesso() {
   const [pending, setPending] = useState<Tenants[]>([]);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [idteste, setIdteste] = useState(0);
-  const [newRequest, setNewRequest] = useState(0);
-  const [loading, setLoading] = useState(false);
-
-  async function carregarDados() {
-    setLoading(true);
-    try {
-      await tenantsPendingResource().then((x) => {
-        setPending(x.usersPending);
-      });
-
-    } catch (err: any) {
-    } finally {
-      setLoading(false);
-    }
-  }
+  const [idteste, setIdteste] = useState(0)
 
   useEffect(() => {
-    carregarDados();
-  }, [newRequest]);
+    tenantsPendingResource().then((x) => setPending(x.usersPending));
+  }, []);
 
   async function handleAcceptUser(id: string) {
     await acceptedUserResource(id);
-    setNewRequest(Math.random());
   }
 
   const handleModal = (id: any) => {
     setIsOpen(true);
-    setIdteste(id);
+    setIdteste(id)
   };
 
   const a = z.object({
-    mensagem_recusa: z.string(),
-  });
+    mensagem_recusa: z.string()
+  })
+
+  
 
   const { register, handleSubmit } = useForm({
     resolver: zodResolver(a),
   });
 
+
+
   async function onSubmit(data: any) {
     await recusarUsuario({
       params: {
-        ...data,
+        ...data
       },
-      id: idteste,
-    });
-
-    setNewRequest(Math.random());
+      id: idteste
+    })
   }
 
   return (
     <>
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-4 mt-5">
-        {!loading ? (
-          <div>
-            {pending?.map((user) => (
-              <div className="shadow p-3">
-                <section className="flex flex-col text-sm">
-                  <h2>{user.name}</h2>
-                  <span>CPF: {user.cpf}</span>
-                  <span>RG: {user.rg}</span>
-                  <span>Telefone: {user.phone}</span>
-                  <span>Email: {user.email}</span>
-                </section>
+        {pending?.map((user) => (
+          <div className="shadow p-3">
+            <section className="flex flex-col text-sm">
+              <h2>{user.name}</h2>
+              <span>CPF: {user.cpf}</span>
+              <span>RG: {user.rg}</span>
+              <span>Telefone: {user.phone}</span>
+              <span>Email: {user.email}</span>
+            </section>
 
-                <div className="grid grid-cols-2 gap-2 border-t">
-                  <button
-                    className="bg-red-500 rounded-md p-2 text-white mt-3"
-                    onClick={() => handleModal(user.id)}
-                  >
-                    Recusar
-                  </button>
+            <div className="grid grid-cols-2 gap-2 border-t">
+              <button
+                className="bg-red-500 rounded-md p-2 text-white mt-3"
+                onClick={() => handleModal(user.id)}
+              >
+                Recusar
+              </button>
 
-                  <button
-                    className="bg-violet-500 p-2 rounded-md text-white mt-3"
-                    onClick={() => handleAcceptUser(user.id)}
-                  >
-                    Aceitar
-                  </button>
-                </div>
-              </div>
-            ))}
+              <button
+                className="bg-violet-500 p-2 rounded-md text-white mt-3"
+                onClick={() => handleAcceptUser(user.id)}
+              >
+                Aceitar
+              </button>
+            </div>
           </div>
-        ) : (
-          <h1>Carregando Dados.....</h1>
-        )}
+        ))}
       </div>
       <Modal
         isOpen={modalIsOpen}
@@ -113,12 +93,10 @@ export function Acesso() {
           <textarea
             rows={8}
             className="block p-2.5 w-full text-sm text-gray-900 border-zinc-300 rounded-lg border shadow-sm mx-1 resize-none"
-            {...register("mensagem_recusa")}
+            {...register('mensagem_recusa')}
           ></textarea>
 
-          <Button variant="primary" className="w-full mt-2" type="submit">
-            Enviar
-          </Button>
+          <Button variant="primary" className="w-full mt-2" type="submit">Enviar</Button>
         </form>
       </Modal>
     </>

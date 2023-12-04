@@ -58,7 +58,9 @@ export const editProfileResource = async (params: ParamsEditProfile) => {
 export const acceptedUserResource = async (id: string) => {
   try {
     await api
-      .put(`/user/accept/${id}`)
+      .put(`/user/accept`, {
+        id
+      })
       .then((response) => toast.success(response.data.message));
   } catch (error: any) {
     toast.error(error.response.data.message);
